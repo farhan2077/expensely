@@ -1,0 +1,10 @@
+{
+  "extends": ["next", "eslint:recommended", "prettier"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-debugger": "error",
+    "no-duplicate-imports": "warn",
+    "no-unreachable": "warn",
+    "no-console": "warn"
+  }
+}
