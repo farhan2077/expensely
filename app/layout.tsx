@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
+import { Toaster } from "sonner";
+import { ViewTransitions } from "next-view-transitions";
 
 import { cn } from "@/lib/utils";
 import {
@@ -15,6 +17,7 @@ import "./globals.css";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -60,15 +63,18 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" dir="ltr">
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
-        )}
-      >
-        {children}
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="en" dir="ltr">
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            fontSans.variable
+          )}
+        >
+          <Toaster richColors position="top-center" />
+          {children}
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }

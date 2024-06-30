@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
-import { cn } from "@/lib/utils";
+/* eslint-disable no-console */
+
+import { cn, isEmpty, logRuntimeType } from "@/lib/utils";
 
 describe("-------------------- cn --------------------", () => {
   test("combines class names correctly", () => {
@@ -82,6 +84,65 @@ describe("-------------------- cn --------------------", () => {
     );
     expect(cn("hover:bg-blue-500", "hover:bg-red-500")).toBe(
       "hover:bg-red-500"
+    );
+  });
+});
+
+// -------------------- isEmpty --------------------
+describe("isEmpty function", () => {
+  test("should return true for empty values", () => {
+    expect(isEmpty(undefined)).toBe(true);
+    expect(isEmpty(null)).toBe(true);
+    expect(isEmpty("")).toBe(true);
+    expect(isEmpty({})).toBe(true);
+    expect(isEmpty([])).toBe(true);
+  });
+
+  test("should return false for non-empty values", () => {
+    expect(isEmpty("Hello")).toBe(false);
+    expect(isEmpty([1, 2, 3])).toBe(false);
+    expect(isEmpty({ key: "value" })).toBe(false);
+    expect(isEmpty(42)).toBe(false);
+    expect(isEmpty(true)).toBe(false);
+  });
+});
+
+describe("-------------------- logRuntimeType --------------------", () => {
+  let originalConsoleLog: typeof console.log;
+
+  beforeAll(() => {
+    // Save the original console.log
+    originalConsoleLog = console.log;
+  });
+
+  beforeEach(() => {
+    // Mock console.log before each test
+    console.log = jest.fn();
+  });
+
+  afterEach(() => {
+    // Restore the original console.log after each test
+    (console.log as jest.Mock).mockRestore();
+  });
+
+  afterAll(() => {
+    // Restore the original console.log
+    console.log = originalConsoleLog;
+  });
+
+  it("should log client message with green color", () => {
+    logRuntimeType("client");
+    expect(console.log).toHaveBeenCalledWith(
+      "%c----- CLIENT -----",
+      "color: lightgreen;"
+    );
+  });
+
+  it("should log server message with blue color", () => {
+    logRuntimeType("server");
+    expect(console.log).toHaveBeenCalledWith(
+      "\x1b[34m%s\x1b[0m",
+      "----- SERVER -----"
     );
   });
 });
