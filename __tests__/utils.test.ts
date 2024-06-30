@@ -1,7 +1,17 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-console */
 
-import { cn, isEmpty, logRuntimeType } from "@/lib/utils";
+import {
+  describe,
+  test,
+  expect,
+  beforeAll,
+  beforeEach,
+  afterEach,
+  afterAll,
+  vi,
+} from "vitest";
+
+import { cn, isEmpty, logRuntimeType } from "../lib/utils";
 
 describe("-------------------- cn --------------------", () => {
   test("combines class names correctly", () => {
@@ -117,12 +127,12 @@ describe("-------------------- logRuntimeType --------------------", () => {
 
   beforeEach(() => {
     // Mock console.log before each test
-    console.log = jest.fn();
+    console.log = vi.fn();
   });
 
   afterEach(() => {
     // Restore the original console.log after each test
-    (console.log as jest.Mock).mockRestore();
+    (console.log as ReturnType<typeof vi.fn>).mockRestore();
   });
 
   afterAll(() => {
@@ -130,7 +140,7 @@ describe("-------------------- logRuntimeType --------------------", () => {
     console.log = originalConsoleLog;
   });
 
-  it("should log client message with green color", () => {
+  test("should log client message with green color", () => {
     logRuntimeType("client");
     expect(console.log).toHaveBeenCalledWith(
       "%c----- CLIENT -----",
@@ -138,7 +148,7 @@ describe("-------------------- logRuntimeType --------------------", () => {
     );
   });
 
-  it("should log server message with blue color", () => {
+  test("should log server message with blue color", () => {
     logRuntimeType("server");
     expect(console.log).toHaveBeenCalledWith(
       "\x1b[34m%s\x1b[0m",
