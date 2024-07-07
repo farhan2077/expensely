@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* blue theme from https://ui.shadcn.com/themes */
+/* ! when css variables are updated, also update `BRAND_COLOR` in `static.ts` file */
+/* blue-ish theme from https://ui.shadcn.com/themes */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -57,4 +58,8 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+#nprogress .bar {
+  z-index: 99999 !important;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { User, Users } from "lucide-react";
 
 import { cn } from "@/libs/utils";

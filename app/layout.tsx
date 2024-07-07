@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import { Toaster } from "sonner";
-import { ViewTransitions } from "next-view-transitions";
+import ProgressbarProvider from "@/components/Progressbar";
 
 import { cn } from "@/libs/utils";
 import {
@@ -63,18 +63,18 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <ViewTransitions>
-      <html lang="en" dir="ltr">
-        <body
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable
-          )}
-        >
+    <html lang="en" dir="ltr">
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        <ProgressbarProvider>
           <Toaster richColors position="top-center" />
           {children}
-        </body>
-      </html>
-    </ViewTransitions>
+        </ProgressbarProvider>
+      </body>
+    </html>
   );
 }
