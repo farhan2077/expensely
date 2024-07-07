@@ -1,18 +1,15 @@
+"use server";
+
 import { cache } from "react";
 import { pbkdf2 } from "crypto";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { type Cookie } from "lucia";
 
 import { db } from "@/db";
-import { lucia } from "@/lib/auth";
+import { lucia } from "@/libs/auth";
 import { usersTable } from "@/db/schema/users";
-
-const ITERATIONS = 100000;
-
-export type UserResponse = {
-  success: boolean;
-  message: string;
-};
 
 type ValidUser = {
   id: string;
@@ -28,6 +25,8 @@ type ValidSession = {
 type ValidatedSessionType =
   | { user: ValidUser; session: ValidSession }
   | { user: null; session: null };
+
+const ITERATIONS = 100000;
 
 export async function hashPassword(plainTextPassword: string, salt: string) {
   return new Promise<string>((resolve, reject) => {
@@ -106,10 +105,53 @@ export const validateSession = cache(
   }
 );
 
-// async function demoAction(params: type) {
-//   "use server";
-//   const { user } = await validateSession();
-//   if (!user) {
-//     redirect("/login");
-//   }
-// }
+export async function signoutAction() {
+  const { session } = await validateSession();
+  if (!session) {
+    return {
+      success: false,
+      message: "Unauthorized",
+    };
+  }
+
+  await lucia.invalidateSession(session.id);
+
+  const sessionCookie: Cookie = lucia.createBlankSessionCookie();
+  cookies().set(
+    sessionCookie.name,
+    sessionCookie.value,
+    sessionCookie.attributes
+  );
+
+  return redirect("/sign-in");
+}
+
+export async function getUserInfo() {
+  const { user } = await validateSession();
+  if (!user) {
+    redirect("/sign-in");
+  }
+
+  const result = await db.query.usersTable.findFirst({
+    columns: {
+      id: true,
+      createdAt: true,
+      name: true,
+      email: true,
+    },
+    where: eq(usersTable.id, user.id),
+  });
+
+  if (!result) {
+    return {
+      success: false,
+      message: "User info not found",
+    };
+  }
+
+  return {
+    success: true,
+    message: "User info found",
+    data: result,
+  };
+}

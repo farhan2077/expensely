@@ -4,7 +4,7 @@ import { Inter as FontSans } from "next/font/google";
 import { Toaster } from "sonner";
 import { ViewTransitions } from "next-view-transitions";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/libs/utils";
 import {
   BASE_URL,
   SEO_TITLE,

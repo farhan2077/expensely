@@ -11,7 +11,7 @@ import {
   vi,
 } from "vitest";
 
-import { cn, isEmpty, logRuntimeType } from "../lib/utils";
+import { cn, isEmpty, logRuntimeType } from "../../libs/utils";
 
 describe("-------------------- cn --------------------", () => {
   test("combines class names correctly", () => {
@@ -98,8 +98,7 @@ describe("-------------------- cn --------------------", () => {
   });
 });
 
-// -------------------- isEmpty --------------------
-describe("isEmpty function", () => {
+describe("-------------------- isEmpty --------------------", () => {
   test("should return true for empty values", () => {
     expect(isEmpty(undefined)).toBe(true);
     expect(isEmpty(null)).toBe(true);

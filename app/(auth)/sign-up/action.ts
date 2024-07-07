@@ -5,12 +5,9 @@ import { cookies } from "next/headers";
 
 import { db } from "@/db";
 import { usersTable } from "@/db/schema/users";
-import { lucia } from "@/lib/auth";
-import {
-  hashPassword,
-  getUserByEmail,
-  type UserResponse,
-} from "@/app/actions/auth";
+import { lucia } from "@/libs/auth";
+import { hashPassword, getUserByEmail } from "@/app/actions/auth";
+import { Response } from "@/libs/types";
 
 export async function createUser(
   name: string,
@@ -37,13 +34,14 @@ export async function signupAction(
   name: string,
   email: string,
   password: string
-): Promise<UserResponse> {
+): Promise<Response> {
   try {
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
       return {
         success: false,
         message: "User already exists",
+        data: null,
       };
     }
 
@@ -52,6 +50,7 @@ export async function signupAction(
       return {
         success: false,
         message: "User could not be created",
+        data: null,
       };
     }
 
@@ -68,11 +67,13 @@ export async function signupAction(
     return {
       success: true,
       message: "User created successfully",
+      data: null,
     };
   } catch (error) {
     return {
       success: false,
       message: "User could not be created",
+      data: null,
     };
   }
 }

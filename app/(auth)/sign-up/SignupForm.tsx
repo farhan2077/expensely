@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { signupFormSchema } from "@/lib/validations/auth";
+import { signupFormSchema } from "@/libs/validations/auth";
 import { signupAction } from "@/app/(auth)/sign-up/action";
 import { toast } from "sonner";
 

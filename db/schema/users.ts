@@ -1,6 +1,8 @@
-import { sql, type InferSelectModel } from "drizzle-orm";
+import { sql, type InferSelectModel, relations } from "drizzle-orm";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
+
+import { usersGroupsTable } from "@/db/schema/users-groups";
 
 const usersTable = sqliteTable("users", {
   id: text("id")
@@ -15,7 +17,10 @@ const usersTable = sqliteTable("users", {
   ),
 });
 
+const usersRelations = relations(usersTable, ({ many }) => ({
+  usersGroupsTable: many(usersGroupsTable),
+}));
+
 type User = InferSelectModel<typeof usersTable>;
 
-export { usersTable };
-export type { User };
+export { usersTable, usersRelations, type User };

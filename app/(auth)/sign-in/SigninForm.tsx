@@ -19,8 +19,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { signinFormSchema } from "@/lib/validations/auth";
+import { signinFormSchema } from "@/libs/validations/auth";
 import { signinAction } from "@/app/(auth)/sign-in/actions";
+import { isEmpty } from "@/libs/utils";
+import { getUsersGroups } from "@/app/actions/group";
 
 export function SigninForm() {
   const router = useRouter();
@@ -37,22 +39,56 @@ export function SigninForm() {
 
   async function onSubmit(formValues: z.infer<typeof signinFormSchema>) {
     setIsLoading(true);
-    await signinAction(formValues.email, formValues.password)
-      .then((res) => {
-        if (res.success) {
-          toast.success(res.message);
-          router.push("/dashboard");
-          form.reset();
-        } else {
-          toast.warning(res.message);
-        }
-      })
-      .catch((e) => {
-        toast.error(e.message);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+
+    try {
+      const { success, message } = await signinAction(
+        formValues.email,
+        formValues.password
+      );
+
+      if (!success) {
+        toast.warning(message);
+        return;
+      }
+
+      toast.success(message);
+      form.reset();
+      await handleSuccessfulSignIn();
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleSuccessfulSignIn() {
+    try {
+      const { data: groups } = await getUsersGroups();
+
+      if (isEmpty(groups)) {
+        router.push("/welcome");
+        return;
+      }
+
+      const targetGroupId = getTargetGroupId(groups);
+      router.push(`/dashboard/${targetGroupId}`);
+    } catch (error) {
+      toast.error("Could not fetch room data");
+    }
+  }
+
+  function getTargetGroupId(groups: any[]) {
+    const ownedGroups = groups.filter(
+      (item) => item.userId === item.group.ownerId
+    );
+
+    return ownedGroups.length > 0 ? ownedGroups[0].groupId : groups[0].groupId;
+  }
+
+  function handleError(error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred";
+    toast.error(errorMessage);
   }
 
   return (
@@ -65,7 +101,13 @@ export function SigninForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="email@example.com" {...field} />
+                <Input
+                  autoFocus
+                  type="email"
+                  placeholder="email@example.com"
+                  autoComplete="email"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -76,9 +118,19 @@ export function SigninForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <div className="flex items-center justify-between">
+                <FormLabel>Password</FormLabel>
+                {/* <p className="text-sm leading-none underline">
+                  Forgot password?
+                </p> */}
+              </div>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <Input
+                  type="password"
+                  autoComplete="current-password"
+                  placeholder="••••••••"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

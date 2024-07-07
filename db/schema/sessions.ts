@@ -1,6 +1,7 @@
 import { type InferSelectModel } from "drizzle-orm";
-import { usersTable } from "@/db/schema/users";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+
+import { usersTable } from "@/db/schema";
 
 const sessionsTable = sqliteTable("sessions", {
   id: text("id").primaryKey().notNull(),
@@ -12,5 +13,4 @@ const sessionsTable = sqliteTable("sessions", {
 
 type Session = InferSelectModel<typeof sessionsTable>;
 
-export { sessionsTable };
-export type { Session };
+export { sessionsTable, type Session };

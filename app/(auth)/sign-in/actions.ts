@@ -2,13 +2,10 @@
 
 import { cookies } from "next/headers";
 
-import { lucia } from "@/lib/auth";
+import { lucia } from "@/libs/auth";
 import { User } from "@/db/schema/users";
-import {
-  hashPassword,
-  getUserByEmail,
-  type UserResponse,
-} from "@/app/actions/auth";
+import { hashPassword, getUserByEmail } from "@/app/actions/auth";
+import { Response } from "@/libs/types";
 
 export async function verifyPassword(user: User, password: string) {
   const salt = user.salt;
@@ -41,7 +38,7 @@ export async function signinUser(email: string, password: string) {
 export async function signinAction(
   email: string,
   password: string
-): Promise<UserResponse> {
+): Promise<Response> {
   try {
     const user = await signinUser(email, password);
 
@@ -49,6 +46,7 @@ export async function signinAction(
       return {
         success: false,
         message: "User could not log in",
+        data: null,
       };
     }
 
@@ -67,11 +65,13 @@ export async function signinAction(
     return {
       success: true,
       message: "User logged in",
+      data: user.id,
     };
   } catch (err) {
     return {
       success: false,
       message: "User could not log in",
+      data: null,
     };
   }
 }
