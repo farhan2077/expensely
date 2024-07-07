@@ -2,10 +2,11 @@ import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 
 import Header from "@/app/(protected)/dashboard/[id]/Header";
-import { getUserInfo, validateSession } from "@/app/actions/auth";
+import { validateSession } from "@/app/actions/auth";
 
 import { getUsersGroups } from "@/app/actions/group";
 import { isEmpty } from "@/libs/utils";
+import { getUserInfo } from "@/app/actions/user";
 
 export default async function Layout({
   children,

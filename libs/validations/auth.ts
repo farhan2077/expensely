@@ -43,4 +43,4 @@ const signinFormSchema = z.object({
   password: passwordSchema,
 });
 
-export { signupFormSchema, signinFormSchema };
+export { nameSchema, emailSchema, signupFormSchema, signinFormSchema };

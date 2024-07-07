@@ -125,33 +125,3 @@ export async function signoutAction() {
 
   return redirect("/sign-in");
 }
-
-export async function getUserInfo() {
-  const { user } = await validateSession();
-  if (!user) {
-    redirect("/sign-in");
-  }
-
-  const result = await db.query.usersTable.findFirst({
-    columns: {
-      id: true,
-      createdAt: true,
-      name: true,
-      email: true,
-    },
-    where: eq(usersTable.id, user.id),
-  });
-
-  if (!result) {
-    return {
-      success: false,
-      message: "User info not found",
-    };
-  }
-
-  return {
-    success: true,
-    message: "User info found",
-    data: result,
-  };
-}

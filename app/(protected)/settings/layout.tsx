@@ -18,7 +18,9 @@ export default function Layout({
         <div>
           <Sidebar />
         </div>
-        <div>{children}</div>
+        <div className="w-full">
+          <div className="max-w-2xl">{children}</div>
+        </div>
       </div>
     </>
   );
