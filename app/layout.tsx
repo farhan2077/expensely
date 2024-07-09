@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import { Toaster } from "sonner";
 import ProgressbarProvider from "@/components/Progressbar";
+import Script from "next/script";
 
 import { cn } from "@/libs/utils";
 import {
@@ -11,6 +12,7 @@ import {
   SEO_DESCRIPTION,
   SEO_KEYWORDS,
 } from "@/app/static";
+import env from "@/env";
 
 import "./globals.css";
 
@@ -64,6 +66,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" dir="ltr">
+      {process.env.NODE_ENV === "production" ? (
+        <Script
+          src="https://cloud.umami.is/script.js"
+          data-website-id={env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+          strategy="afterInteractive" // https://nextjs.org/docs/app/api-reference/components/script#afterinteractive
+        />
+      ) : null}
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
