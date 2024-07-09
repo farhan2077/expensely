@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import Header from "@/app/(protected)/dashboard/[id]/Header";
 import { validateSession } from "@/app/actions/auth";
@@ -28,6 +28,10 @@ export default async function Layout({
     }
   } catch {
     redirect("/welcome");
+  }
+
+  if (!usersGroupsData.success) {
+    notFound();
   }
 
   return (

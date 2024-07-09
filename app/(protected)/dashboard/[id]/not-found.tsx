@@ -1,14 +1,17 @@
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <h1 className="mb-4 text-3xl tracking-tight">Not Found 🥲</h1>
+    <main className="mt-20 flex flex-col items-center justify-center gap-2">
+      <p className="text-3xl">🥲</p>
+      <h2 className="text-xl font-semibold">404 Not Found</h2>
+      <p>Could not find the requested group</p>
       <Link
-        href="/"
-        className="font-medium text-primary underline underline-offset-4"
+        href="/welcome"
+        className="flex items-center gap-1 text-sm font-medium text-primary underline"
       >
-        Return Home
+        <ArrowLeft className="h-4 w-4" /> <span>Go back to dashboard</span>
       </Link>
     </main>
   );

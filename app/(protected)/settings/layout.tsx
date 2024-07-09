@@ -10,11 +10,9 @@ export default function Layout({
   return (
     <>
       <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
-      <p className="text-muted-foreground">
-        Manage your account settings and set e-mail preferences.
-      </p>
+      <p className="text-muted-foreground">Manage your account and groups</p>
       <hr className="my-4 text-muted-foreground" />
-      <div className="flex gap-6">
+      <div className="flex gap-8">
         <div>
           <Sidebar />
         </div>
