@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import { getUsersGroups } from "@/app/actions/group";
 import { validateSession } from "@/app/actions/auth";
-import GroupsTable from "@/app/(protected)/settings/group/details/GroupsTable";
+import GroupsTable from "@/app/(protected)/settings/group/details/_components/GroupsTable";
 
 export default async function Page() {
   const { user } = await validateSession();

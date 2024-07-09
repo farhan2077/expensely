@@ -1,8 +1,6 @@
-"use client";
-
 import { Suspense } from "react";
+
 import { ArrowRight } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 import { isEqual } from "@/libs/utils";
 import { Badge } from "@/components/ui/badge";
@@ -15,7 +13,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import GroupMembersCount from "@/app/(protected)/settings/group/details/GroupMembersCount";
+import GroupMembersCount from "@/app/(protected)/settings/group/details/_components/GroupMembersCount";
+import ClientSideTableRow from "@/app/(protected)/settings/group/details/_components/ClientTableRow";
 import { MAX_GROUP_LIMIT } from "@/app/static";
 
 export default function GroupsTable({
@@ -25,8 +24,6 @@ export default function GroupsTable({
   usersGroupsData: any;
   userId: string;
 }) {
-  const router = useRouter();
-
   const noOfGroupsToJoinLeft = MAX_GROUP_LIMIT - usersGroupsData.length;
   const almostNoMoreGroupsLeftToJoin =
     noOfGroupsToJoinLeft >= MAX_GROUP_LIMIT - 1;
@@ -47,16 +44,10 @@ export default function GroupsTable({
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>
+      <TableBody className="divide-y divide-muted">
         {usersGroupsData.map((grp: any) => {
           return (
-            <TableRow
-              key={grp.id}
-              onClick={() =>
-                router.push(`/settings/group/details/${grp.groupId}`)
-              }
-              className="cursor-pointer"
-            >
+            <ClientSideTableRow key={grp.id} groupId={grp.groupId}>
               <TableCell>
                 {grp.group.name}
                 {isEqual(grp.group.ownerId, userId) ? (
@@ -68,7 +59,7 @@ export default function GroupsTable({
               <TableCell>
                 <Suspense
                   fallback={
-                    <div className="h-5 w-5 animate-pulse rounded bg-gray-200"></div>
+                    <div className="h-5 w-6 animate-pulse rounded bg-gray-200"></div>
                   }
                 >
                   <GroupMembersCount groupId={grp.groupId} />
@@ -77,8 +68,7 @@ export default function GroupsTable({
               <TableCell className="w-10">
                 <ArrowRight className="h-4 w-4" />
               </TableCell>
-              <hr className="mx-4 rounded-full border-b border-muted last:hidden" />
-            </TableRow>
+            </ClientSideTableRow>
           );
         })}
       </TableBody>
