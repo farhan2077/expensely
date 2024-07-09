@@ -60,6 +60,15 @@
   }
 }
 
+/* top progress bar */
 #nprogress .bar {
   z-index: 99999 !important;
+}
+
+/* custom */
+.custom_spin_infinite {
+  transform: rotate(360);
+}
+.custom__animate-spin-infinite {
+  animation: spin 25s linear infinite;
 }

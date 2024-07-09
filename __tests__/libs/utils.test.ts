@@ -11,7 +11,7 @@ import {
   vi,
 } from "vitest";
 
-import { cn, isEmpty, logRuntimeType } from "../../libs/utils";
+import { cn, isEmpty, logRuntimeType, isEqual } from "../../libs/utils";
 
 describe("-------------------- cn --------------------", () => {
   test("combines class names correctly", () => {
@@ -153,5 +153,23 @@ describe("-------------------- logRuntimeType --------------------", () => {
       "\x1b[34m%s\x1b[0m",
       "----- SERVER -----"
     );
+  });
+});
+
+describe("-------------------- isEqual --------------------", () => {
+  test("return true both types and values are same", () => {
+    expect(isEqual("abcd", "abcd")).toBe(true);
+    expect(isEqual("5", "5")).toBe(true);
+    expect(isEqual(5, 5)).toBe(true);
+  });
+
+  test("return false when types or values are not same", () => {
+    expect(isEqual("abcd", "abcde")).toBe(false);
+    expect(isEqual("5", "6")).toBe(false);
+    // @ts-expect-error
+    expect(isEqual("5", 5)).toBe(false);
+    // @ts-expect-error
+    expect(isEqual("abcd", 5)).toBe(false);
+    expect(isEqual(5, 6)).toBe(false);
   });
 });

@@ -1,5 +1,8 @@
-export const BASE_URL = "https://expensely-alpha.vercel.app"; // dont't include `/` at the end
-export const SEO_TITLE = "Expensely";
-export const SEO_DESCRIPTION = "Manage shared expenses with Expensely";
-export const SEO_KEYWORDS = "expense management";
-export const BRAND_COLOR = "#2463EB"; // update it when css variables in `globals.css` file are updated
+export const BASE_URL: string = "https://expensely-alpha.vercel.app"; // dont't include `/` at the end
+
+export const SEO_TITLE: string = "Expensely";
+export const SEO_DESCRIPTION: string = "Manage shared expenses with Expensely";
+export const SEO_KEYWORDS: string = "expense management";
+
+export const BRAND_COLOR: string = "#2463EB"; // update it when css variables in `globals.css` file are updated
+export const MAX_GROUP_LIMIT: number = 5;

@@ -43,6 +43,10 @@ export default function GroupPicker({
     (item: UsersGroups) => item.groupId === params.id && item.userId === user.id
   );
 
+  if (!matchedGroupFromParam) {
+    return null; // Or a loading spinner
+  }
+
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>

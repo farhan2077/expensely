@@ -32,3 +32,7 @@ export function logRuntimeType(type: "client" | "server") {
     console.log("\x1b[34m%s\x1b[0m", "----- SERVER -----");
   }
 }
+
+export function isEqual<T extends string | number>(a: T, b: T): boolean {
+  return a === b;
+}

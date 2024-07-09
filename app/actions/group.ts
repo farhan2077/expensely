@@ -7,7 +7,6 @@ import { redirect } from "next/navigation";
 
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { NotFoundError } from "@/libs/errors/auth";
 import { Response } from "@/libs/types";
 
 export async function createGroupAction(
@@ -150,17 +149,38 @@ export async function getUsersGroups(): Promise<Response> {
 }
 
 export async function getGroupInfo(groupId: string): Promise<Response> {
-  const result = await db.query.groupsTable.findFirst({
+  const groupInfo = await db.query.groupsTable.findFirst({
     where: eq(groupsTable.id, groupId),
   });
 
-  if (!result) {
-    throw new NotFoundError();
+  const groupMembers = await db.query.usersGroupsTable.findMany({
+    where: eq(usersGroupsTable.groupId, groupId),
+    columns: {
+      id: true,
+    },
+    with: {
+      user: {
+        columns: {
+          id: true,
+          name: true,
+          email: true,
+          createdAt: true,
+        },
+      },
+    },
+  });
+
+  if (!groupInfo || !groupMembers) {
+    return {
+      success: false,
+      message: "Group details not found",
+      data: null,
+    };
   }
 
   return {
     success: true,
-    message: "Group info found",
-    data: result,
+    message: "Group details found",
+    data: { groupInfo, groupMembers },
   };
 }
