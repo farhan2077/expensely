@@ -1,33 +1,36 @@
 import { relations, type InferSelectModel } from "drizzle-orm";
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
 
 import { usersTable } from "@/db/schema/users";
 import { groupsTable } from "@/db/schema/groups";
 
-const usersGroupsTable = sqliteTable("users_groups", {
+const dailyActivitiesTable = sqliteTable("daily_activities", {
   id: text("id")
     .$defaultFn(() => createId())
     .primaryKey(),
+  date: text("date").notNull(),
   userId: text("user_id")
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),
   groupId: text("group_id")
     .notNull()
     .references(() => groupsTable.id, { onDelete: "cascade" }),
+  meal: integer("meal", { mode: "number" }).notNull(),
+  grocery: integer("grocery", { mode: "number" }).notNull(),
 });
 
-const usersGroupsRelations = relations(usersGroupsTable, ({ one }) => ({
+const dailyActivitiesRelations = relations(dailyActivitiesTable, ({ one }) => ({
   user: one(usersTable, {
-    fields: [usersGroupsTable.userId],
+    fields: [dailyActivitiesTable.userId],
     references: [usersTable.id],
   }),
   group: one(groupsTable, {
-    fields: [usersGroupsTable.groupId],
+    fields: [dailyActivitiesTable.groupId],
     references: [groupsTable.id],
   }),
 }));
 
-type UsersGroups = InferSelectModel<typeof usersGroupsTable>;
+type DailyGroupInfo = InferSelectModel<typeof dailyActivitiesTable>;
 
-export { usersGroupsTable, usersGroupsRelations, type UsersGroups };
+export { dailyActivitiesTable, dailyActivitiesRelations, type DailyGroupInfo };

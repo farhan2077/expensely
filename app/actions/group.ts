@@ -2,7 +2,8 @@
 
 import { validateSession } from "@/app/actions/auth";
 import { db } from "@/db";
-import { groupsTable, usersGroupsTable } from "@/db/schema";
+import { groupsTable } from "@/db/schema/groups";
+import { usersGroupsTable } from "@/db/schema/users-groups";
 import { redirect } from "next/navigation";
 
 import { and, eq } from "drizzle-orm";
@@ -165,6 +166,11 @@ export async function getGroupInfo(groupId: string): Promise<Response> {
           name: true,
           email: true,
           createdAt: true,
+        },
+      },
+      group: {
+        columns: {
+          id: true,
         },
       },
     },

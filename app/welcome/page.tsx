@@ -7,6 +7,9 @@ import CreateJoinGroupForm from "@/app/welcome/CreateJoinGroupForm";
 import {} from "@/app/(auth)/sign-in/actions";
 import { isEmpty } from "@/libs/utils";
 import { getUsersGroups } from "@/app/actions/group";
+import { getUserInfo } from "@/app/actions/user";
+import { Separator } from "@/components/ui/separator";
+import Logout from "@/app/welcome/LogoutButton";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -15,8 +18,9 @@ export const metadata: Metadata = {
 
 async function Page() {
   const { user } = await validateSession();
+  const userInfo = await getUserInfo();
 
-  if (!user) {
+  if (!user || !userInfo.success || !userInfo.data) {
     redirect("/sign-in");
   }
 
@@ -28,6 +32,19 @@ async function Page() {
 
   return (
     <main className="relative">
+      <div className="absolute right-7 top-6">
+        <div className="flex h-4 items-center space-x-3">
+          <p className="text-sm">
+            You are logged in using{" "}
+            <span className="font-medium">{userInfo.data.email}</span>
+          </p>
+          <Separator
+            orientation="vertical"
+            className="bg-muted-foreground/50"
+          />
+          <Logout />
+        </div>
+      </div>
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center">
           <div className="flex items-center">

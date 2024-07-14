@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getUsersGroups } from "@/app/actions/group";
 import { validateSession } from "@/app/actions/auth";
 import GroupsTable from "@/app/(protected)/settings/group/details/_components/GroupsTable";
+import CreateJoinGroupForm from "@/app/welcome/CreateJoinGroupForm";
 
 export default async function Page() {
   const { user } = await validateSession();
@@ -14,10 +15,19 @@ export default async function Page() {
 
   return (
     <>
-      <h2 className="text-lg font-medium">Group</h2>
-      <p className="text-sm text-muted-foreground">
-        See all groups you have created or joined
-      </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-medium">Group</h2>
+          <p className="text-sm text-muted-foreground">
+            See all groups you have created or joined
+          </p>
+        </div>
+        {usersGroupsData.data.length < 5 ? (
+          <div>
+            <CreateJoinGroupForm />
+          </div>
+        ) : null}
+      </div>
       <hr className="my-4 text-muted-foreground" />
       <GroupsTable usersGroupsData={usersGroupsData.data} userId={user.id} />
     </>

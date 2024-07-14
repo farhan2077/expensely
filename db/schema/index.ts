@@ -5,3 +5,7 @@ export {
   usersGroupsTable,
   usersGroupsRelations,
 } from "@/db/schema/users-groups";
+export {
+  dailyActivitiesTable,
+  dailyActivitiesRelations,
+} from "@/db/schema/daily-activities";

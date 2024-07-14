@@ -12,12 +12,12 @@ function CreateJoinGroupForm() {
 
   return (
     <div className="flex w-full items-center justify-center gap-4">
-      <Button variant="outline" onClick={() => setOpenCreateModal(true)}>
-        Create group
-      </Button>
+      <Button onClick={() => setOpenCreateModal(true)}>Create group</Button>
       <CreateGroup open={openCreateModal} setOpen={setOpenCreateModal} />
 
-      <Button onClick={() => setOpenJoinModal(true)}>Join group</Button>
+      <Button variant="outline" onClick={() => setOpenJoinModal(true)}>
+        Join group
+      </Button>
       <JoinGroup open={openJoinModal} setOpen={setOpenJoinModal} />
     </div>
   );
