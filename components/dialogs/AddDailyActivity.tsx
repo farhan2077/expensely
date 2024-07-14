@@ -87,19 +87,16 @@ export default function AddDailyActivity({
       groupId: groupMembers[index].group.id,
     }));
 
-    console.log(formValues);
-    console.log("formattedFormValues", formattedFormValues);
     setIsLoading(true);
 
     try {
       const res = await addDailyAcitivities(formattedFormValues);
       if (res.success) {
-        console.log(res.data);
         toast.success(res.message);
         form.reset();
         setOpen(false);
       } else {
-        toast.warning("NO");
+        toast.warning(res.message);
       }
     } catch (e: any) {
       toast.error(e.message);

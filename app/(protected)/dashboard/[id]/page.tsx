@@ -3,13 +3,17 @@ import { notFound } from "next/navigation";
 import { DollarSign, CookingPot, Utensils } from "lucide-react";
 
 import { getGroupInfo } from "@/app/actions/group";
-import { getDailyGroupActivities } from "@/app/actions/daily-activity";
-import InfoCard from "@/components/InfoCard";
+import {
+  getDailyGroupActivities,
+  type DailyGroupActivities,
+} from "@/app/actions/daily-activity";
 import {
   columns,
   type DailyActivity,
 } from "@/components/tables/daily-activities/columns";
 import AddDailyActivityButton from "@/app/(protected)/dashboard/[id]/AddDailyActivityButton";
+
+import InfoCard from "@/components/InfoCard";
 import { DataTable } from "@/components/tables/daily-activities/data-table";
 // import { PrettyJSONFormatter } from "@/libs/formatters";
 
@@ -28,7 +32,7 @@ function calculateTotals(data: DailyActivity[]): {
   let avgMealRate = 0;
 
   data.forEach((day) => {
-    day.rest.forEach((item: any) => {
+    day.rest.forEach((item) => {
       totalMeal += item.meal;
       totalGrocery += item.grocery;
     });
@@ -49,20 +53,8 @@ function sortDataByDate(data: DailyActivity[]): DailyActivity[] {
   );
 }
 
-type InputData = {
-  date: string;
-  id: string;
-  userId: string;
-  groupId: string;
-  meal: number;
-  grocery: number;
-  user: {
-    name: string;
-  };
-}[];
-
 function transformDailyActivitiesDataFormat(
-  dailyActivitiesData: InputData
+  dailyActivitiesData: DailyGroupActivities
 ): DailyActivity[] {
   const transformedData = dailyActivitiesData.reduce(
     (acc: DailyActivity[], curr) => {

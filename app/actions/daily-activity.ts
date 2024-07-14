@@ -7,7 +7,29 @@ import { revalidatePath } from "next/cache";
 import { Response } from "@/libs/types";
 import { dailyActivitiesTable } from "@/db/schema";
 
-export async function getDailyGroupActivities(groupId: string) {
+type DailyActivity = {
+  date: string;
+  groupId: string;
+  userId: string;
+  meal: number;
+  grocery: number;
+};
+
+export type DailyGroupActivities = {
+  date: string;
+  id: string;
+  userId: string;
+  groupId: string;
+  meal: number;
+  grocery: number;
+  user: {
+    name: string;
+  };
+}[];
+
+export async function getDailyGroupActivities(
+  groupId: string
+): Promise<Response<DailyGroupActivities>> {
   const result = await db.query.dailyActivitiesTable.findMany({
     where: eq(dailyActivitiesTable.groupId, groupId),
     with: {
@@ -23,7 +45,6 @@ export async function getDailyGroupActivities(groupId: string) {
     return {
       success: false,
       message: "Daily activities not found",
-      data: null,
     };
   }
 
@@ -34,19 +55,10 @@ export async function getDailyGroupActivities(groupId: string) {
   };
 }
 
-type DailyActivity = {
-  date: string;
-  groupId: string;
-  userId: string;
-  meal: number;
-  grocery: number;
-};
-
 export async function addDailyAcitivities(
   activities: DailyActivity[]
 ): Promise<Response> {
-  const today = new Date().toISOString().split("T")[0];
-
+  // const today = new Date().toISOString().split("T")[0];
   // const testActivities = [
   //   {
   //     date: today,
@@ -99,7 +111,6 @@ export async function addDailyAcitivities(
     return {
       success: true,
       message: "New data added to daily activities",
-      data: results,
     };
   } catch (error) {
     revalidatePath("/(protected)/dashboard/[id]", "layout");
