@@ -3,61 +3,33 @@ import { notFound } from "next/navigation";
 import { DollarSign, CookingPot, Utensils } from "lucide-react";
 
 import { getGroupInfo } from "@/app/actions/group";
+import { parse, format } from "date-fns";
 import {
   getDailyGroupActivities,
-  type DailyGroupActivities,
+  getDailyGroupActivitiesMonths,
+  type DailyGroupActivity,
 } from "@/app/actions/daily-activity";
 import {
   columns,
-  type DailyActivity,
+  type DailyActivityRow,
 } from "@/components/tables/daily-activities/columns";
 import AddDailyActivityButton from "@/app/(protected)/dashboard/[id]/AddDailyActivityButton";
 
 import InfoCard from "@/components/InfoCard";
 import { DataTable } from "@/components/tables/daily-activities/data-table";
-// import { PrettyJSONFormatter } from "@/libs/formatters";
+import MonthPicker from "@/app/(protected)/dashboard/[id]/MonthPicker";
 
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Welcome to your expensely dashboard",
 };
 
-function calculateTotals(data: DailyActivity[]): {
-  totalMeal: number;
-  totalGrocery: number;
-  avgMealRate: number;
-} {
-  let totalMeal = 0;
-  let totalGrocery = 0;
-  let avgMealRate = 0;
-
-  data.forEach((day) => {
-    day.rest.forEach((item) => {
-      totalMeal += item.meal;
-      totalGrocery += item.grocery;
-    });
-  });
-
-  if (totalMeal === 0) {
-    avgMealRate = 0;
-  } else {
-    avgMealRate = totalGrocery / totalMeal;
-  }
-
-  return { totalMeal, totalGrocery, avgMealRate };
-}
-
-function sortDataByDate(data: DailyActivity[]): DailyActivity[] {
-  return data.sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-  );
-}
-
-function transformDailyActivitiesDataFormat(
-  dailyActivitiesData: DailyGroupActivities
-): DailyActivity[] {
-  const transformedData = dailyActivitiesData.reduce(
-    (acc: DailyActivity[], curr) => {
+//* 1. Transform the data to be used in data table and month picker
+function transformData(
+  dailyGrpActivitiesData: DailyGroupActivity[]
+): DailyActivityRow[] {
+  const transformedData = dailyGrpActivitiesData.reduce(
+    (acc: DailyActivityRow[], curr) => {
       const existingGroup = acc.find((group) => group.date === curr.date);
 
       if (existingGroup) {
@@ -77,31 +49,119 @@ function transformDailyActivitiesDataFormat(
   return transformedData;
 }
 
-async function Page({ params }: { params: { id: string } }) {
+//* 2. Ascending or descending sort
+function sortByDate(
+  data: DailyActivityRow[],
+  type: "asc" | "desc"
+): DailyActivityRow[] {
+  // asc = 1 2 3 4 5
+  // desc = 5 4 3 2 1
+
+  if (type === "desc") {
+    return data.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+  }
+
+  // type === "asc"
+  return data.sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
+}
+
+//* 3.
+function calculateTotals(data: DailyActivityRow[]): {
+  totalMeal: number;
+  totalGrocery: number;
+  avgMealRate: number;
+} {
+  let totalMeal = 0;
+  let totalGrocery = 0;
+  let avgMealRate = 0;
+
+  data.forEach((day) => {
+    day.rest.forEach((item) => {
+      totalMeal += item.meal;
+      totalGrocery += item.grocery;
+    });
+  });
+
+  if (totalMeal === 0) {
+    avgMealRate = 0;
+  } else {
+    avgMealRate = Number((totalGrocery / totalMeal).toFixed(2));
+  }
+
+  return { totalMeal, totalGrocery, avgMealRate };
+}
+
+type UniqueMonthInput = {
+  date: string;
+};
+export type UniqueMonthOutput = {
+  month: string;
+};
+
+//* 4. From the sorted data, get the unique months only
+function extractUniqueMonths(data: UniqueMonthInput[]): UniqueMonthOutput[] {
+  const uniqueMonths = new Map<string, UniqueMonthOutput>();
+
+  data.forEach((item) => {
+    const date = parse(item.date, "MM/dd/yyyy", new Date());
+    const month = format(date, "MMMM yyyy");
+
+    if (!uniqueMonths.has(month)) {
+      uniqueMonths.set(month, { month });
+    }
+  });
+
+  return Array.from(uniqueMonths.values());
+}
+
+type PageProps = {
+  params: { id: string };
+  searchParams: { [key: string]: string | undefined };
+};
+
+async function Page({ params, searchParams }: PageProps) {
+  const fromSP = searchParams.from;
+  const toSP = searchParams.to;
+
   const groupId = params.id;
 
-  const result = await getGroupInfo(groupId);
-  const dailyActivities = await getDailyGroupActivities(groupId);
+  const groupInfo = await getGroupInfo(groupId);
+  const dailyGrpActivities = await getDailyGroupActivities(
+    groupId,
+    !fromSP ? "" : fromSP,
+    !toSP ? "" : toSP
+  );
 
-  if (!result.success || !dailyActivities.success || !dailyActivities.data) {
+  const dailyGrpActivitiesMonths = await getDailyGroupActivitiesMonths(groupId);
+
+  if (
+    !groupInfo.success ||
+    !dailyGrpActivities.success ||
+    !dailyGrpActivities.data ||
+    !dailyGrpActivitiesMonths.data
+  ) {
     notFound();
   }
 
-  const transformedDailyActivitiesData = transformDailyActivitiesDataFormat(
-    dailyActivities.data
-  );
+  // daily activities
+  const transformedActivities = transformData(dailyGrpActivities.data);
+  const sortedActivities = sortByDate(transformedActivities, "desc");
+  const totals = calculateTotals(transformedActivities);
 
-  const sortedFormattedDailyActivities = sortDataByDate(
-    transformedDailyActivitiesData
-  );
-
-  const totals = calculateTotals(transformedDailyActivitiesData);
+  // months
+  const transformedMonths = transformData(dailyGrpActivitiesMonths.data);
+  const sortedMonths = sortByDate(transformedMonths, "desc");
+  const months = extractUniqueMonths(sortedMonths);
 
   return (
     <main>
       <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
       <p className="text-muted-foreground">
-        Take a look at what&apos;s happening in {result.data.groupInfo.name}
+        Take a look at what&apos;s happening in {groupInfo.data.groupInfo.name}
       </p>
       <hr className="my-4 text-muted-foreground" />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-6">
@@ -125,12 +185,12 @@ async function Page({ params }: { params: { id: string } }) {
         />
       </div>
       <div className="my-4">
-        {/* <PrettyJSONFormatter data={sortedFormattedDailyActivities} /> */}
         <div className="flex items-center justify-end gap-4">
-          <AddDailyActivityButton groupMembers={result.data.groupMembers} />
+          <MonthPicker months={months} />
+          <AddDailyActivityButton groupMembers={groupInfo.data.groupMembers} />
         </div>
       </div>
-      <DataTable data={sortedFormattedDailyActivities} columns={columns} />
+      <DataTable data={sortedActivities} columns={columns} />
     </main>
   );
 }

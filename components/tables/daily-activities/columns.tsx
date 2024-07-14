@@ -2,29 +2,14 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import type { DailyGroupActivity } from "@/app/actions/daily-activity";
 
-// following types are used to define the shape of our data.
-// Zod schema can also be used here instead.
-type User = {
-  name: string;
-};
-
-type DetailedData = {
-  id: string;
+export type DailyActivityRow = {
   date: string;
-  userId: string;
-  groupId: string;
-  meal: number;
-  grocery: number;
-  user: User;
+  rest: DailyGroupActivity[];
 };
 
-export type DailyActivity = {
-  date: string;
-  rest: DetailedData[];
-};
-
-export const columns: ColumnDef<DailyActivity>[] = [
+export const columns: ColumnDef<DailyActivityRow>[] = [
   {
     accessorKey: "date",
     header: "Date",
@@ -39,7 +24,7 @@ export const columns: ColumnDef<DailyActivity>[] = [
     header: "Meals",
     accessorFn: (row) => row.rest,
     cell: ({ row }) => {
-      const users = row.original.rest as Array<DetailedData>;
+      const users = row.original.rest as Array<DailyGroupActivity>;
       const totalMealCount = users.reduce((sum, user) => sum + user.meal, 0);
 
       return (

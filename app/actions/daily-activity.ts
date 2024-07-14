@@ -2,10 +2,11 @@
 
 import { db } from "@/db";
 
-import { eq } from "drizzle-orm";
+import { and, eq, gte, lte } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Response } from "@/libs/types";
 import { dailyActivitiesTable } from "@/db/schema";
+import { startOfMonth, endOfMonth, format } from "date-fns";
 
 type DailyActivity = {
   date: string;
@@ -15,7 +16,7 @@ type DailyActivity = {
   grocery: number;
 };
 
-export type DailyGroupActivities = {
+export type DailyGroupActivity = {
   date: string;
   id: string;
   userId: string;
@@ -25,13 +26,54 @@ export type DailyGroupActivities = {
   user: {
     name: string;
   };
-}[];
+};
 
 export async function getDailyGroupActivities(
-  groupId: string
-): Promise<Response<DailyGroupActivities>> {
+  groupId: string,
+  fromDate: string | undefined,
+  toDate: string | undefined
+): Promise<Response<DailyGroupActivity[]>> {
+  const today = new Date();
+  const from = startOfMonth(today);
+  const to = endOfMonth(today);
+
+  const formattedFromDate = format(from, "P");
+  const formattedToDate = format(to, "P");
+
   const result = await db.query.dailyActivitiesTable.findMany({
-    where: eq(dailyActivitiesTable.groupId, groupId),
+    where: and(
+      eq(dailyActivitiesTable.groupId, groupId),
+      gte(dailyActivitiesTable.date, !fromDate ? formattedFromDate : fromDate),
+      lte(dailyActivitiesTable.date, !toDate ? formattedToDate : toDate)
+    ),
+    with: {
+      user: {
+        columns: {
+          name: true,
+        },
+      },
+    },
+  });
+
+  if (!result) {
+    return {
+      success: false,
+      message: "Daily activities not found",
+    };
+  }
+
+  return {
+    success: true,
+    message: "Daily activities found",
+    data: result,
+  };
+}
+
+export async function getDailyGroupActivitiesMonths(
+  groupId: string
+): Promise<Response<DailyGroupActivity[]>> {
+  const result = await db.query.dailyActivitiesTable.findMany({
+    where: and(eq(dailyActivitiesTable.groupId, groupId)),
     with: {
       user: {
         columns: {
