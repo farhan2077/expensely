@@ -2,7 +2,8 @@ CREATE TABLE `groups` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text(255) NOT NULL,
 	`code` integer NOT NULL,
-	`owner_id` text NOT NULL
+	`owner_id` text,
+	FOREIGN KEY (`owner_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `sessions` (
@@ -22,7 +23,7 @@ CREATE TABLE `users_groups` (
 --> statement-breakpoint
 CREATE TABLE `users` (
 	`id` text PRIMARY KEY NOT NULL,
-	`name` text(255),
+	`name` text(255) NOT NULL,
 	`email` text(255),
 	`hash` text(255),
 	`salt` text(255),

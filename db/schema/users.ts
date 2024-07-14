@@ -3,12 +3,13 @@ import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
 
 import { usersGroupsTable } from "@/db/schema/users-groups";
+import { dailyActivitiesTable } from "@/db/schema/daily-activities";
 
 const usersTable = sqliteTable("users", {
   id: text("id")
     .$defaultFn(() => createId())
     .primaryKey(),
-  name: text("name", { length: 255 }),
+  name: text("name", { length: 255 }).notNull(),
   email: text("email", { length: 255 }).unique(),
   hash: text("hash", { length: 255 }),
   salt: text("salt", { length: 255 }),
@@ -19,6 +20,7 @@ const usersTable = sqliteTable("users", {
 
 const usersRelations = relations(usersTable, ({ many }) => ({
   usersGroupsTable: many(usersGroupsTable),
+  dailyActivitiesTable: many(dailyActivitiesTable),
 }));
 
 type User = InferSelectModel<typeof usersTable>;
