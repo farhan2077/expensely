@@ -1,7 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { format, addDays } from "date-fns";
+import {
+  format,
+  startOfMonth,
+  isAfter,
+  isBefore,
+  endOfDay,
+  isSameDay,
+  startOfTomorrow,
+  subMonths,
+} from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import {
   Dialog,
@@ -40,13 +49,25 @@ export default function AddDailyActivity({
   open,
   setOpen,
   groupMembers,
+  disabledDates,
 }: {
   open: boolean;
   // eslint-disable-next-line no-unused-vars
   setOpen: (open: boolean) => void;
   groupMembers: any;
+  disabledDates: Array<string>;
 }) {
-  const thirtyDaysAgo = addDays(new Date(), -30);
+  const today = new Date();
+  const tomorrow = startOfTomorrow();
+  const startOfPreviousMonth = startOfMonth(subMonths(today, 1));
+
+  const isDateDisabled = (date: Date) => {
+    return (
+      isAfter(endOfDay(date), tomorrow) || // Disable days after today
+      isBefore(date, startOfPreviousMonth) || // Disable days before the start of the current month
+      disabledDates.some((disabledDate) => isSameDay(date, disabledDate)) // Disable specific dates
+    );
+  };
 
   const formDefaultValue = {
     date: new Date(),
@@ -113,7 +134,7 @@ export default function AddDailyActivity({
         className="max-w-lg overflow-hidden"
         aria-describedby={undefined} // this is needed to remove the `DialogDescription` entirely
       >
-        <ScrollArea className="max-h-[85vh]">
+        <ScrollArea className="bg- max-h-[85vh]">
           <DialogHeader className="mb-4">
             <DialogTitle>Add info</DialogTitle>
             {/* <DialogDescription>
@@ -164,10 +185,7 @@ export default function AddDailyActivity({
                               field.onChange(date);
                               setDaypickerOpen(false);
                             }}
-                            disabled={[
-                              { before: thirtyDaysAgo }, // Disable dates before thirtyDaysAgo
-                              { after: new Date() }, // Disable dates after today
-                            ]}
+                            disabled={isDateDisabled}
                           />
                         </PopoverContent>
                       </Popover>
@@ -201,6 +219,7 @@ export default function AddDailyActivity({
                             <FormLabel>Meal(s)</FormLabel>
                             <FormControl>
                               <Input
+                                className="placeholder:tracking-tight"
                                 type="number"
                                 inputMode="numeric" // display numeric keyboard on mobile
                                 placeholder="Meal count"
@@ -220,6 +239,7 @@ export default function AddDailyActivity({
                             <FormLabel>Groceries</FormLabel>
                             <FormControl>
                               <Input
+                                className="placeholder:tracking-tight"
                                 type="number"
                                 inputMode="numeric" // display numeric keyboard on mobile
                                 placeholder="Grocery expenses"

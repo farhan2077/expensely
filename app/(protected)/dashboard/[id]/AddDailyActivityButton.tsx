@@ -7,8 +7,10 @@ import AddDailyActivity from "@/components/dialogs/AddDailyActivity";
 
 export default function AddDailyActivityButton({
   groupMembers,
+  disabledDates,
 }: {
   groupMembers: any;
+  disabledDates: Array<string>;
 }) {
   const [openModal, setOpenModal] = useState(false);
 
@@ -26,6 +28,7 @@ export default function AddDailyActivityButton({
         open={openModal}
         setOpen={setOpenModal}
         groupMembers={groupMembers}
+        disabledDates={disabledDates}
       />
     </>
   );

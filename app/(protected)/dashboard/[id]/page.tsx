@@ -3,7 +3,14 @@ import { notFound } from "next/navigation";
 import { DollarSign, CookingPot, Utensils } from "lucide-react";
 
 import { getGroupInfo } from "@/app/actions/group";
-import { parse, format } from "date-fns";
+import {
+  parse,
+  format,
+  isWithinInterval,
+  subMonths,
+  startOfMonth,
+  endOfMonth,
+} from "date-fns";
 import {
   getDailyGroupActivities,
   getDailyGroupActivitiesMonths,
@@ -120,6 +127,23 @@ function extractUniqueMonths(data: UniqueMonthInput[]): UniqueMonthOutput[] {
   return Array.from(uniqueMonths.values());
 }
 
+//* 5. get last 2 month's dates
+function getDisabledDates(array: DailyActivityRow[]): string[] {
+  const today = new Date();
+  const startOfLastMonth = startOfMonth(subMonths(today, 1));
+  const endOfCurrentMonth = endOfMonth(today);
+
+  return array
+    .filter((item) => {
+      const itemDate = parse(item.date, "MM/dd/yyyy", new Date());
+      return isWithinInterval(itemDate, {
+        start: startOfLastMonth,
+        end: endOfCurrentMonth,
+      });
+    })
+    .map((item) => item.date);
+}
+
 type PageProps = {
   params: { id: string };
   searchParams: { [key: string]: string | undefined };
@@ -159,6 +183,9 @@ async function Page({ params, searchParams }: PageProps) {
   const sortedMonths = sortByDate(transformedMonths, "desc");
   const months = extractUniqueMonths(sortedMonths);
 
+  // from transformedMonths (includes all dates), get only last 2 month's dates
+  const disabledDates = getDisabledDates(transformedMonths);
+
   return (
     <main>
       <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
@@ -192,6 +219,7 @@ async function Page({ params, searchParams }: PageProps) {
           {isEqual(user.id, groupInfo.data.groupInfo.ownerId) ? (
             <AddDailyActivityButton
               groupMembers={groupInfo.data.groupMembers}
+              disabledDates={disabledDates}
             />
           ) : null}
         </div>
