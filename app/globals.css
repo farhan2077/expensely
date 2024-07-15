@@ -2,8 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ! when css variables are updated, also update `BRAND_COLOR` in `static.ts` file */
+/* ------------------------------------------------------------------------------- */
 /* blue-ish theme from https://ui.shadcn.com/themes */
+/* ! when css variables are updated, also update `BRAND_COLOR` in `static.ts` file */
+/* ------------------------------------------------------------------------------- */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -51,6 +53,9 @@
   }
 }
 
+/* ----------------------------- */
+/* global styling using tailwind */
+/* ----------------------------- */
 @layer base {
   * {
     @apply border-border;
@@ -60,12 +65,32 @@
   }
 }
 
+/* ------------------------------- */
+/* global styling of html elements */
+/* ------------------------------- */
+
+/* remove Arrows from number type input field */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ---------------- */
 /* top progress bar */
+/* ---------------- */
 #nprogress .bar {
   z-index: 99999 !important;
 }
 
-/* custom */
+/* -------------- */
+/* custom classes */
+/* -------------- */
 .custom_spin_infinite {
   transform: rotate(360);
 }
