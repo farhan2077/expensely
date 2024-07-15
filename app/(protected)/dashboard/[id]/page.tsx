@@ -19,7 +19,7 @@ import InfoCard from "@/components/InfoCard";
 import { DataTable } from "@/components/tables/daily-activities/data-table";
 import MonthPicker from "@/app/(protected)/dashboard/[id]/MonthPicker";
 import { validateSession } from "@/app/actions/auth";
-import { isEqual } from "@/libs/utils";
+import { isEqual, isEmpty } from "@/libs/utils";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -188,7 +188,7 @@ async function Page({ params, searchParams }: PageProps) {
       </div>
       <div className="my-4">
         <div className="flex items-center justify-end gap-4">
-          <MonthPicker months={months} />
+          {isEmpty(months) ? null : <MonthPicker months={months} />}
           {isEqual(user.id, groupInfo.data.groupInfo.ownerId) ? (
             <AddDailyActivityButton
               groupMembers={groupInfo.data.groupMembers}
