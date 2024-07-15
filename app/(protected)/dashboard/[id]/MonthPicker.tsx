@@ -3,9 +3,9 @@
 import * as React from "react";
 import { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Check } from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { startOfMonth, endOfMonth, format } from "date-fns";
+import { startOfMonth, endOfMonth, format, parse } from "date-fns";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -45,6 +45,14 @@ export default function MonthPicker({
     [searchParams]
   );
 
+  let fromSP = searchParams.get("from");
+  let currentMonth = format(new Date(), "MMMM yyyy");
+
+  const parsedFromSP = !fromSP
+    ? currentMonth
+    : parse(fromSP, "MM/dd/yyyy", new Date());
+  const monthFromSP = format(parsedFromSP, "MMMM yyyy");
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -67,7 +75,7 @@ export default function MonthPicker({
             return (
               <div
                 key={each.month}
-                className="mx-1 cursor-pointer rounded px-3 py-1.5 text-sm hover:bg-muted"
+                className="mx-1 flex cursor-pointer items-center rounded px-2.5 py-1.5 text-sm hover:bg-muted"
                 onClick={() => {
                   setSelectedMonth(each.month);
                   setOpen(false);
@@ -81,6 +89,12 @@ export default function MonthPicker({
                   );
                 }}
               >
+                <Check
+                  className={cn("mr-2 h-4 w-4 shrink-0", {
+                    "opacity-100": each.month === monthFromSP,
+                    "opacity-0": each.month !== monthFromSP,
+                  })}
+                />
                 {each.month}
               </div>
             );
