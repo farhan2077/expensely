@@ -59,6 +59,7 @@ export default function AddDailyActivity({
     .map(() => ({ ...formDefaultValue }));
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [daypickerOpen, setDaypickerOpen] = useState(false);
 
   const form = useForm<z.infer<typeof dailyActivityFormSchema>>({
     resolver: zodResolver(dailyActivityFormSchema),
@@ -130,11 +131,15 @@ export default function AddDailyActivity({
                       <FormLabel className="col-start-1 col-end-5 mt-2 text-ellipsis text-sm font-medium leading-none">
                         Choose date
                       </FormLabel>
-                      <Popover>
+                      <Popover
+                        open={daypickerOpen}
+                        onOpenChange={setDaypickerOpen}
+                      >
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
                               variant={"outline"}
+                              aria-expanded={daypickerOpen}
                               className={cn(
                                 "col-start-5 col-end-13 px-3 text-left font-normal",
                                 {
@@ -154,9 +159,11 @@ export default function AddDailyActivity({
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
                             mode="single"
-                            // selected={field.value || new Date()}
                             selected={field.value || undefined}
-                            onSelect={(date) => field.onChange(date)}
+                            onSelect={(date) => {
+                              field.onChange(date);
+                              setDaypickerOpen(false);
+                            }}
                             disabled={[
                               { before: thirtyDaysAgo }, // Disable dates before thirtyDaysAgo
                               { after: new Date() }, // Disable dates after today
