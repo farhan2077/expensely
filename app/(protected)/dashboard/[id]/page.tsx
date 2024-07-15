@@ -18,6 +18,8 @@ import AddDailyActivityButton from "@/app/(protected)/dashboard/[id]/AddDailyAct
 import InfoCard from "@/components/InfoCard";
 import { DataTable } from "@/components/tables/daily-activities/data-table";
 import MonthPicker from "@/app/(protected)/dashboard/[id]/MonthPicker";
+import { validateSession } from "@/app/actions/auth";
+import { isEqual } from "@/libs/utils";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -124,21 +126,21 @@ type PageProps = {
 };
 
 async function Page({ params, searchParams }: PageProps) {
+  const groupId = params.id;
   const fromSP = searchParams.from;
   const toSP = searchParams.to;
 
-  const groupId = params.id;
-
+  const { user } = await validateSession();
   const groupInfo = await getGroupInfo(groupId);
   const dailyGrpActivities = await getDailyGroupActivities(
     groupId,
     !fromSP ? "" : fromSP,
     !toSP ? "" : toSP
   );
-
   const dailyGrpActivitiesMonths = await getDailyGroupActivitiesMonths(groupId);
 
   if (
+    !user ||
     !groupInfo.success ||
     !dailyGrpActivities.success ||
     !dailyGrpActivities.data ||
@@ -187,7 +189,11 @@ async function Page({ params, searchParams }: PageProps) {
       <div className="my-4">
         <div className="flex items-center justify-end gap-4">
           <MonthPicker months={months} />
-          <AddDailyActivityButton groupMembers={groupInfo.data.groupMembers} />
+          {isEqual(user.id, groupInfo.data.groupInfo.ownerId) ? (
+            <AddDailyActivityButton
+              groupMembers={groupInfo.data.groupMembers}
+            />
+          ) : null}
         </div>
       </div>
       <DataTable data={sortedActivities} columns={columns} />
