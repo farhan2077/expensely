@@ -22,7 +22,6 @@ import { getGroupInfo } from "@/app/actions/group";
 import { validateSession } from "@/app/actions/auth";
 import { isEqual } from "@/libs/utils";
 import { Badge } from "@/components/ui/badge";
-import { getFormattedDate, getRelativeTime } from "@/libs/formatters";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { user } = await validateSession();
@@ -86,7 +85,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Type</TableHead>
-            <TableHead>Joined</TableHead>
+            {/* <TableHead>Joined</TableHead> */}
             {isEqual(result.data.groupInfo.ownerId, user.id) ? (
               <TableHead></TableHead>
             ) : null}
@@ -116,18 +115,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                     <Badge variant="outline">Member</Badge>
                   )}
                 </TableCell>
-                <TableCell>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        {getRelativeTime(member.user.createdAt)}
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        {getFormattedDate(member.user.createdAt)}
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </TableCell>
+                {/* <TableCell>group join date</TableCell> */}
                 {isEqual(result.data.groupInfo.ownerId, user.id) ? (
                   <TableCell className="w-fit text-right">
                     <Button variant="ghost">

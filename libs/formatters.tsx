@@ -1,8 +1,3 @@
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-
-dayjs.extend(relativeTime);
-
 export function PrettyJSONFormatter({ data }: { data: any }) {
   const colorize = (jsonString: string) => {
     // Replace with colored spans
@@ -37,6 +32,7 @@ export function PrettyJSONFormatter({ data }: { data: any }) {
 }
 
 export function getFormattedDate(dateTimeString: string): string {
+  // TODO: handle timezone stuff
   const date = new Date(dateTimeString);
 
   const day = date.getDate();
@@ -44,8 +40,4 @@ export function getFormattedDate(dateTimeString: string): string {
   const year = date.getFullYear();
 
   return `${day} ${month} ${year}`;
-}
-
-export function getRelativeTime(dateTimeString: string): string {
-  return dayjs(dateTimeString).fromNow();
 }
