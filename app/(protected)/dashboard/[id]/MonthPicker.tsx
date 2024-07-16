@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useCallback, useState } from "react";
 import { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { CalendarIcon, Check } from "lucide-react";
@@ -29,11 +29,10 @@ export default function MonthPicker({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [selectedMonth, setSelectedMonth] = React.useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
 
   // https://nextjs.org/docs/app/api-reference/functions/use-search-params#updating-searchparams
-  const createQueryString = React.useCallback(
+  const createQueryString = useCallback(
     (newParams: QueryParams) => {
       const params = new URLSearchParams(searchParams.toString());
       Object.entries(newParams).forEach(([key, value]) => {
@@ -61,12 +60,12 @@ export default function MonthPicker({
           variant={"outline"}
           className={cn(
             "w-[240px] justify-start text-left font-normal",
-            !selectedMonth && "text-muted-foreground"
+            !fromSP && "text-muted-foreground"
           )}
           onClick={() => setOpen(true)}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {selectedMonth ? selectedMonth : <span>Pick a month</span>}
+          {fromSP ? monthFromSP : <span>Pick a month</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-[200px] p-0">
@@ -77,7 +76,6 @@ export default function MonthPicker({
                 key={each.month}
                 className="mx-1 flex cursor-pointer items-center rounded px-2.5 py-1.5 text-sm hover:bg-muted"
                 onClick={() => {
-                  setSelectedMonth(each.month);
                   setOpen(false);
                   router.push(
                     (pathname +
