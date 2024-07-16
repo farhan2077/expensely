@@ -8,7 +8,7 @@ import { Response } from "@/libs/types";
 import { dailyActivitiesTable } from "@/db/schema";
 import { startOfMonth, endOfMonth, format } from "date-fns";
 
-type DailyActivity = {
+type DailyActivityInput = {
   date: string;
   groupId: string;
   userId: string;
@@ -16,7 +16,7 @@ type DailyActivity = {
   grocery: number;
 };
 
-export type DailyGroupActivity = {
+export type DailyActivityOutput = {
   date: string;
   id: string;
   userId: string;
@@ -28,11 +28,15 @@ export type DailyGroupActivity = {
   };
 };
 
-export async function getDailyGroupActivities(
+export type DailyActivityDateOutput = {
+  date: string;
+};
+
+export async function getDailyActivities(
   groupId: string,
   fromDate: string | undefined,
   toDate: string | undefined
-): Promise<Response<DailyGroupActivity[]>> {
+): Promise<Response<DailyActivityOutput[]>> {
   const today = new Date();
   const from = startOfMonth(today);
   const to = endOfMonth(today);
@@ -69,17 +73,13 @@ export async function getDailyGroupActivities(
   };
 }
 
-export async function getDailyGroupActivitiesMonths(
+export async function getDailyActivitiesDates(
   groupId: string
-): Promise<Response<DailyGroupActivity[]>> {
+): Promise<Response<DailyActivityDateOutput[]>> {
   const result = await db.query.dailyActivitiesTable.findMany({
     where: and(eq(dailyActivitiesTable.groupId, groupId)),
-    with: {
-      user: {
-        columns: {
-          name: true,
-        },
-      },
+    columns: {
+      date: true,
     },
   });
 
@@ -98,33 +98,8 @@ export async function getDailyGroupActivitiesMonths(
 }
 
 export async function addDailyAcitivities(
-  activities: DailyActivity[]
+  activities: DailyActivityInput[]
 ): Promise<Response> {
-  // const today = new Date().toISOString().split("T")[0];
-  // const testActivities = [
-  //   {
-  //     date: today,
-  //     userId: "gxpduwh3l7zcdmlr3z9ma4ca", // Farhan Bin Amin
-  //     groupId: "j15jwa6257pjsacg29qn0jba", // Farhan's group
-  //     meal: 1,
-  //     grocery: 10,
-  //   },
-  //   {
-  //     date: today,
-  //     userId: "wseyrgd84tip1kst8i2wzk2s", // Jane Doe
-  //     groupId: "j15jwa6257pjsacg29qn0jba", // Farhan's group
-  //     meal: 2,
-  //     grocery: 20,
-  //   },
-  //   {
-  //     date: today,
-  //     userId: "jmxqpxpyxkdi947nhr6foosc", // Another one
-  //     groupId: "j15jwa6257pjsacg29qn0jba", // Farhan's group
-  //     meal: 3,
-  //     grocery: 30,
-  //   },
-  // ];
-
   try {
     const results = await db.transaction(async (tx) => {
       const insertedActivities = [];

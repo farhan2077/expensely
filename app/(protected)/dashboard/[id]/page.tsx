@@ -12,9 +12,10 @@ import {
   endOfMonth,
 } from "date-fns";
 import {
-  getDailyGroupActivities,
-  getDailyGroupActivitiesMonths,
-  type DailyGroupActivity,
+  getDailyActivities,
+  getDailyActivitiesDates,
+  type DailyActivityOutput,
+  type DailyActivityDateOutput,
 } from "@/app/actions/daily-activity";
 import {
   columns,
@@ -33,52 +34,68 @@ export const metadata: Metadata = {
   description: "Welcome to your expensely dashboard",
 };
 
-//* 1. Transform the data to be used in data table and month picker
-function transformData(
-  dailyGrpActivitiesData: DailyGroupActivity[]
+//* 1a. transform the data to be used in data table
+function transformDailyActivities(
+  data: DailyActivityOutput[]
 ): DailyActivityRow[] {
-  const transformedData = dailyGrpActivitiesData.reduce(
-    (acc: DailyActivityRow[], curr) => {
-      const existingGroup = acc.find((group) => group.date === curr.date);
+  const output = data.reduce((acc: DailyActivityRow[], curr) => {
+    const existingGroup = acc.find((group) => group.date === curr.date);
 
-      if (existingGroup) {
-        existingGroup.rest.push({ ...curr });
-      } else {
-        acc.push({
-          date: curr.date,
-          rest: [{ ...curr }],
-        });
-      }
+    if (existingGroup) {
+      existingGroup.rest.push({ ...curr });
+    } else {
+      acc.push({
+        date: curr.date,
+        rest: [{ ...curr }],
+      });
+    }
 
-      return acc;
-    },
-    []
-  );
+    return acc;
+  }, []);
 
-  return transformedData;
+  return output;
 }
 
-//* 2. Ascending or descending sort
-function sortByDate(
-  data: DailyActivityRow[],
+//* 1b. transform the data to be used in month picker and to show disabled dates while adding data
+function transformDailyActivitiesDates(
+  data: DailyActivityDateOutput[]
+): DailyActivityDateOutput[] {
+  const output = data.reduce((acc: DailyActivityDateOutput[], curr) => {
+    const existingGroup = acc.find((group) => group.date === curr.date);
+
+    if (!existingGroup) {
+      acc.push({
+        date: curr.date,
+      });
+    }
+
+    return acc;
+  }, []);
+
+  return output;
+}
+
+//* 2. sort both daily activities and daily activities dates
+function sortByDate<T extends DailyActivityRow[] | DailyActivityDateOutput[]>(
+  data: T,
   type: "asc" | "desc"
-): DailyActivityRow[] {
+): T {
   // asc = 1 2 3 4 5
   // desc = 5 4 3 2 1
 
   if (type === "desc") {
     return data.sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
+    ) as T;
   }
 
   // type === "asc"
   return data.sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-  );
+  ) as T;
 }
 
-//* 3.
+//* 3a. calculation from transformed activities
 function calculateTotals(data: DailyActivityRow[]): {
   totalMeal: number;
   totalGrocery: number;
@@ -111,7 +128,7 @@ export type UniqueMonthOutput = {
   month: string;
 };
 
-//* 4. From the sorted data, get the unique months only
+//* 3b. from sorted daily activites dates, get unique months only
 function extractUniqueMonths(data: UniqueMonthInput[]): UniqueMonthOutput[] {
   const uniqueMonths = new Map<string, UniqueMonthOutput>();
 
@@ -127,8 +144,8 @@ function extractUniqueMonths(data: UniqueMonthInput[]): UniqueMonthOutput[] {
   return Array.from(uniqueMonths.values());
 }
 
-//* 5. get last 2 month's dates
-function getDisabledDates(array: DailyActivityRow[]): string[] {
+//* 3. from transformed daily activites dates, get last 2 months' dates (on which day there we activities)
+function getLastTwoMonthsDates(array: DailyActivityDateOutput[]): string[] {
   const today = new Date();
   const startOfLastMonth = startOfMonth(subMonths(today, 1));
   const endOfCurrentMonth = endOfMonth(today);
@@ -156,35 +173,36 @@ async function Page({ params, searchParams }: PageProps) {
 
   const { user } = await validateSession();
   const groupInfo = await getGroupInfo(groupId);
-  const dailyGrpActivities = await getDailyGroupActivities(
+  const dailyActivities = await getDailyActivities(
     groupId,
     !fromSP ? "" : fromSP,
     !toSP ? "" : toSP
   );
-  const dailyGrpActivitiesMonths = await getDailyGroupActivitiesMonths(groupId);
+  const dailyActivitiesMonths = await getDailyActivitiesDates(groupId);
 
   if (
     !user ||
     !groupInfo.success ||
-    !dailyGrpActivities.success ||
-    !dailyGrpActivities.data ||
-    !dailyGrpActivitiesMonths.data
+    !dailyActivities.success ||
+    !dailyActivities.data ||
+    !dailyActivitiesMonths.success ||
+    !dailyActivitiesMonths.data
   ) {
     notFound();
   }
 
   // daily activities
-  const transformedActivities = transformData(dailyGrpActivities.data);
+  const transformedActivities = transformDailyActivities(dailyActivities.data);
   const sortedActivities = sortByDate(transformedActivities, "desc");
   const totals = calculateTotals(transformedActivities);
 
   // months
-  const transformedMonths = transformData(dailyGrpActivitiesMonths.data);
+  const transformedMonths = transformDailyActivitiesDates(
+    dailyActivitiesMonths.data
+  );
   const sortedMonths = sortByDate(transformedMonths, "desc");
   const months = extractUniqueMonths(sortedMonths);
-
-  // from transformedMonths (includes all dates), get only last 2 month's dates
-  const disabledDates = getDisabledDates(transformedMonths);
+  const disabledDates = getLastTwoMonthsDates(transformedMonths);
 
   return (
     <main>

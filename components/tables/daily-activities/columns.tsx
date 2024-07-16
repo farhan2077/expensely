@@ -2,11 +2,11 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import type { DailyGroupActivity } from "@/app/actions/daily-activity";
+import type { DailyActivityOutput } from "@/app/actions/daily-activity";
 
 export type DailyActivityRow = {
   date: string;
-  rest: DailyGroupActivity[];
+  rest: DailyActivityOutput[];
 };
 
 export const columns: ColumnDef<DailyActivityRow>[] = [
@@ -24,7 +24,7 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
     header: "Meals",
     accessorFn: (row) => row.rest,
     cell: ({ row }) => {
-      const users = row.original.rest as Array<DailyGroupActivity>;
+      const users = row.original.rest as Array<DailyActivityOutput>;
       const totalMealCount = users.reduce((sum, user) => sum + user.meal, 0);
 
       return (
