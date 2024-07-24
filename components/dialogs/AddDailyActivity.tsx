@@ -131,141 +131,144 @@ export default function AddDailyActivity({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
-        className="max-w-lg overflow-hidden"
+        // p-6 is applied by default, but <ScrollArea/> was cutting the input field ring thus p-5 here and additional p-1 is applied later
+        className="max-w-lg overflow-hidden p-5"
         aria-describedby={undefined} // this is needed to remove the `DialogDescription` entirely
       >
-        <ScrollArea className="bg- max-h-[85vh]">
-          <DialogHeader className="mb-4">
-            <DialogTitle>Add info</DialogTitle>
-            {/* <DialogDescription>
+        <ScrollArea className="max-h-[85vh]">
+          <div className="p-1">
+            <DialogHeader className="mb-4">
+              <DialogTitle>Add info</DialogTitle>
+              {/* <DialogDescription>
               Add bazar costs and meals here
             </DialogDescription> */}
-          </DialogHeader>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                name="date"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="grid grid-cols-12">
-                      <FormLabel className="col-start-1 col-end-5 mt-2 text-ellipsis text-sm font-medium leading-none">
-                        Choose date
-                      </FormLabel>
-                      <Popover
-                        open={daypickerOpen}
-                        onOpenChange={setDaypickerOpen}
-                      >
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              aria-expanded={daypickerOpen}
-                              className={cn(
-                                "col-start-5 col-end-13 px-3 text-left font-normal",
-                                {
-                                  "text-muted-foreground": !field.value,
-                                }
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value || undefined}
-                            onSelect={(date) => {
-                              field.onChange(date);
-                              setDaypickerOpen(false);
-                            }}
-                            disabled={isDateDisabled}
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                    <div className="grid grid-cols-12">
-                      <div className="col-start-5 col-end-13">
-                        <FormMessage className="text-xs" />
-                      </div>
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <hr className="mb-3 mt-4 border-b border-muted" />
-              <div className="divide-y-2 divide-muted *:pb-4 *:pt-3 first:*:pt-0 last:*:pb-0">
-                {fields.map((field, index) => (
-                  <div className="grid grid-cols-1" key={field.id}>
-                    <div className="grid grid-cols-12 gap-4">
-                      <div className="col-start-1 col-end-5">
-                        <p className="mt-1 flex items-center text-ellipsis text-sm font-medium leading-none">
-                          <span className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded bg-muted-foreground/20 text-xs tabular-nums text-black/80">
-                            {index + 1}
-                          </span>
-                          <span>{groupMembers[index].user.name}</span>
-                        </p>
-                      </div>
-                      <FormField
-                        control={form.control}
-                        name={`groups.${index}.meal`}
-                        render={({ field }) => (
-                          <FormItem className="col-start-5 col-end-9 space-y-1">
-                            <FormLabel>Meal(s)</FormLabel>
+            </DialogHeader>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                  control={form.control}
+                  name="date"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="grid grid-cols-12">
+                        <FormLabel className="col-start-1 col-end-5 mt-2 text-ellipsis text-sm font-medium leading-none">
+                          Choose date
+                        </FormLabel>
+                        <Popover
+                          open={daypickerOpen}
+                          onOpenChange={setDaypickerOpen}
+                        >
+                          <PopoverTrigger asChild>
                             <FormControl>
-                              <Input
-                                className="placeholder:tracking-tight"
-                                type="number"
-                                inputMode="numeric" // display numeric keyboard on mobile
-                                placeholder="Meal count"
-                                autoComplete="meal"
-                                {...field}
-                              />
+                              <Button
+                                variant={"outline"}
+                                aria-expanded={daypickerOpen}
+                                className={cn(
+                                  "col-start-5 col-end-13 px-3 text-left font-normal",
+                                  {
+                                    "text-muted-foreground": !field.value,
+                                  }
+                                )}
+                              >
+                                {field.value ? (
+                                  format(field.value, "PPP")
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
                             </FormControl>
-                            <FormMessage className="text-xs" />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name={`groups.${index}.grocery`}
-                        render={({ field }) => (
-                          <FormItem className="col-start-9 col-end-13 space-y-1">
-                            <FormLabel>Groceries</FormLabel>
-                            <FormControl>
-                              <Input
-                                className="placeholder:tracking-tight"
-                                type="number"
-                                inputMode="numeric" // display numeric keyboard on mobile
-                                placeholder="Grocery expenses"
-                                autoComplete="grocery"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage className="text-xs" />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-4">
-                <Button disabled={isLoading} type="submit" className="w-full">
-                  {isLoading && (
-                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value || undefined}
+                              onSelect={(date) => {
+                                field.onChange(date);
+                                setDaypickerOpen(false);
+                              }}
+                              disabled={isDateDisabled}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                      <div className="grid grid-cols-12">
+                        <div className="col-start-5 col-end-13">
+                          <FormMessage className="text-xs" />
+                        </div>
+                      </div>
+                    </FormItem>
                   )}
-                  {isLoading ? "" : "Add data"}
-                </Button>
-              </div>
-            </form>
-          </Form>
+                />
+                <hr className="mb-3 mt-4 border-b border-muted" />
+                <div className="divide-y-2 divide-muted *:pb-4 *:pt-3 first:*:pt-0 last:*:pb-0">
+                  {fields.map((field, index) => (
+                    <div className="grid grid-cols-1" key={field.id}>
+                      <div className="grid grid-cols-12 gap-4">
+                        <div className="col-start-1 col-end-5">
+                          <p className="mt-1 flex items-center text-ellipsis text-sm font-medium leading-none">
+                            <span className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded bg-muted-foreground/20 text-xs tabular-nums text-black/80">
+                              {index + 1}
+                            </span>
+                            <span>{groupMembers[index].user.name}</span>
+                          </p>
+                        </div>
+                        <FormField
+                          control={form.control}
+                          name={`groups.${index}.meal`}
+                          render={({ field }) => (
+                            <FormItem className="col-start-5 col-end-9 space-y-1">
+                              <FormLabel>Meal(s)</FormLabel>
+                              <FormControl>
+                                <Input
+                                  className="placeholder:tracking-tight"
+                                  type="number"
+                                  inputMode="numeric" // display numeric keyboard on mobile
+                                  placeholder="Meal count"
+                                  autoComplete="meal"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage className="text-xs" />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name={`groups.${index}.grocery`}
+                          render={({ field }) => (
+                            <FormItem className="col-start-9 col-end-13 space-y-1">
+                              <FormLabel>Groceries</FormLabel>
+                              <FormControl>
+                                <Input
+                                  className="placeholder:tracking-tight"
+                                  type="number"
+                                  inputMode="numeric" // display numeric keyboard on mobile
+                                  placeholder="Grocery expenses"
+                                  autoComplete="grocery"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage className="text-xs" />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-4">
+                  <Button disabled={isLoading} type="submit" className="w-full">
+                    {isLoading && (
+                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    {isLoading ? "" : "Add data"}
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </div>
         </ScrollArea>
       </DialogContent>
     </Dialog>
