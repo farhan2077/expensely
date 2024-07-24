@@ -12,39 +12,27 @@ export default async function Layout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   const { user } = await validateSession();
+  const userInfo = await getUserInfo();
+  const usersGroupsData = await getUsersGroups();
+
   if (!user) {
     redirect("/sign-in");
   }
 
-  let userInfo = null;
-  let usersGroupsData = null;
-
-  try {
-    userInfo = await getUserInfo();
-    usersGroupsData = await getUsersGroups();
-
-    if (isEmpty(usersGroupsData.data)) {
-      redirect("/welcome");
-    }
-  } catch {
-    redirect("/welcome");
+  if (!userInfo.data || !usersGroupsData.success) {
+    notFound();
   }
 
-  if (!usersGroupsData.success) {
-    notFound();
+  if (isEmpty(usersGroupsData.data)) {
+    redirect("/welcome");
   }
 
   return (
     <>
       <nav className="mb-6">
-        {!userInfo ||
-        !userInfo.data ||
-        !usersGroupsData ||
-        !usersGroupsData.data ? null : (
-          <Header user={userInfo.data} usersGroups={usersGroupsData.data} />
-        )}
+        <Header user={userInfo.data} usersGroups={usersGroupsData.data} />
       </nav>
-      <main className="mx-6">{children}</main>
+      <main className="mx-6 mb-10">{children}</main>
     </>
   );
 }

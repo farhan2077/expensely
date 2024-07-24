@@ -87,7 +87,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <TableHead>Type</TableHead>
             {/* <TableHead>Joined</TableHead> */}
             {isEqual(result.data.groupInfo.ownerId, user.id) ? (
-              <TableHead></TableHead>
+              <TableHead className="text-right">Action</TableHead>
             ) : null}
           </TableRow>
         </TableHeader>
@@ -118,7 +118,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 {/* <TableCell>group join date</TableCell> */}
                 {isEqual(result.data.groupInfo.ownerId, user.id) ? (
                   <TableCell className="w-fit text-right">
-                    <Button variant="ghost">
+                    <Button variant={"ghost"} size={"icon"}>
                       <Ellipsis className="h-4 w-4" />
                     </Button>
                   </TableCell>
