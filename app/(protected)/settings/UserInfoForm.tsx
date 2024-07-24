@@ -89,7 +89,7 @@ export default function UserInfoForm({ userInfo }: { userInfo: any }) {
             <Label>Email</Label>
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger asChild className="cursor-pointer">
                   <Info className="ml-1 h-3 w-3" />
                 </TooltipTrigger>
                 <TooltipContent>
