@@ -31,6 +31,6 @@ const dailyActivitiesRelations = relations(dailyActivitiesTable, ({ one }) => ({
   }),
 }));
 
-type DailyGroupInfo = InferSelectModel<typeof dailyActivitiesTable>;
+type DailyActivities = InferSelectModel<typeof dailyActivitiesTable>;
 
-export { dailyActivitiesTable, dailyActivitiesRelations, type DailyGroupInfo };
+export { dailyActivitiesTable, dailyActivitiesRelations, type DailyActivities };

@@ -16,7 +16,7 @@ type DailyActivityInput = {
   grocery: number;
 };
 
-export type DailyActivityOutput = {
+export type DailyActivityOutputData = {
   date: string;
   id: string;
   userId: string;
@@ -28,27 +28,25 @@ export type DailyActivityOutput = {
   };
 };
 
-export type DailyActivityDateOutput = {
+export type DailyActivityDateOutputData = {
   date: string;
 };
 
 export async function getDailyActivities(
   groupId: string,
-  fromDate: string | undefined,
-  toDate: string | undefined
-): Promise<Response<DailyActivityOutput[]>> {
+  fromDate: string,
+  toDate: string
+): Promise<Response<DailyActivityOutputData[]>> {
   const today = new Date();
-  const from = startOfMonth(today);
-  const to = endOfMonth(today);
 
-  const formattedFromDate = format(from, "P");
-  const formattedToDate = format(to, "P");
+  const defaultFromDate = format(startOfMonth(today), "P");
+  const defaultToDate = format(endOfMonth(today), "P");
 
   const result = await db.query.dailyActivitiesTable.findMany({
     where: and(
       eq(dailyActivitiesTable.groupId, groupId),
-      gte(dailyActivitiesTable.date, !fromDate ? formattedFromDate : fromDate),
-      lte(dailyActivitiesTable.date, !toDate ? formattedToDate : toDate)
+      gte(dailyActivitiesTable.date, !fromDate ? defaultFromDate : fromDate),
+      lte(dailyActivitiesTable.date, !toDate ? defaultToDate : toDate)
     ),
     with: {
       user: {
@@ -75,7 +73,7 @@ export async function getDailyActivities(
 
 export async function getDailyActivitiesDates(
   groupId: string
-): Promise<Response<DailyActivityDateOutput[]>> {
+): Promise<Response<DailyActivityDateOutputData[]>> {
   const result = await db.query.dailyActivitiesTable.findMany({
     where: and(eq(dailyActivitiesTable.groupId, groupId)),
     columns: {

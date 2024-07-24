@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { Route } from "next";
+import type { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { CalendarIcon, Check } from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
