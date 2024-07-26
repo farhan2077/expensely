@@ -5,6 +5,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { usersGroupsTable } from "@/db/schema/users-groups";
 import { dailyActivitiesTable } from "@/db/schema/daily-activities";
 import { usersTable } from "@/db/schema/users";
+import { monthlyUtilitiesTable } from "@/db/schema/monthly-utilities";
 
 const groupsTable = sqliteTable("groups", {
   id: text("id")
@@ -22,6 +23,7 @@ const groupsRelations = relations(groupsTable, ({ many, one }) => ({
     fields: [groupsTable.ownerId],
     references: [usersTable.id],
   }),
+  monthlyUtilitiesTable: many(monthlyUtilitiesTable),
 }));
 
 type Groups = InferSelectModel<typeof groupsTable>;

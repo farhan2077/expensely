@@ -6,7 +6,7 @@ import { and, eq, gte, lte } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Response } from "@/libs/types";
 import { dailyActivitiesTable } from "@/db/schema";
-import { startOfMonth, endOfMonth, format } from "date-fns";
+import { startOfMonth, endOfMonth, format, subMonths } from "date-fns";
 
 type DailyActivityInput = {
   date: string;
@@ -34,8 +34,8 @@ export type DailyActivityDateOutputData = {
 
 export async function getDailyActivities(
   groupId: string,
-  fromDate: string,
-  toDate: string
+  fromDate?: string,
+  toDate?: string
 ): Promise<Response<DailyActivityOutputData[]>> {
   const today = new Date();
 

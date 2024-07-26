@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Route } from "next";
+import type { Route } from "next";
 
 import { cn } from "@/libs/utils";
 import { User } from "@/db/schema/users";
@@ -18,56 +18,109 @@ function Header({
   user: Omit<User, "hash" | "salt">;
   usersGroups: any;
 }) {
-  const DASHBOARD_OVERVIEW_LINK = `/dashboard/${usersGroups[0].groupId}`;
-  const NAV_LINKS = [
-    { name: "overview", href: DASHBOARD_OVERVIEW_LINK, prefix: "/dashboard" },
-    { name: "settings", href: "/settings", prefix: "/settings" },
-  ];
-
   const pathname = usePathname();
+
+  const firstGroupId = usersGroups[0].groupId;
+  const currentGroupId = pathname.split("/")[2];
+  const groupId = pathname.startsWith("/dashboard")
+    ? currentGroupId
+    : firstGroupId;
+
+  const OVERVIEW_LINK = `/dashboard/${groupId}`;
+  const UTILITIES_LINK = `/dashboard/${groupId}/utilities`;
 
   return (
     <div className="flex items-center justify-between px-6 shadow">
       <div className="flex h-[4rem] gap-8">
         <div className="flex h-[101.5%] items-center justify-center">
-          <Link
-            href={DASHBOARD_OVERVIEW_LINK as Route}
-            passHref
-            className="group"
-          >
+          <Link href={OVERVIEW_LINK as Route} passHref className="group">
             <Icons.logo className="h-8 w-8 opacity-100 transition-opacity group-hover:opacity-75" />
           </Link>
         </div>
         <ul className="hidden h-[101.5%] items-start justify-center gap-4 md:flex">
-          {NAV_LINKS.map((navMenu) => {
-            const isLinkActive = pathname.startsWith(navMenu.prefix);
-
-            return (
-              <li
-                key={navMenu.name}
-                className={cn(
-                  "group flex h-full items-center justify-center font-medium transition",
-                  {
-                    "border-b-2 border-primary text-primary": isLinkActive,
-                    "border-b-2 border-transparent opacity-50": !isLinkActive,
-                  }
-                )}
-              >
-                <Link
-                  href={navMenu.href as Route}
-                  className={cn(
-                    "select-none rounded px-3 py-1.5 text-sm capitalize",
-                    {
-                      "group-hover:bg-primary/5": isLinkActive,
-                      "group-hover:bg-secondary": !isLinkActive,
-                    }
-                  )}
-                >
-                  {navMenu.name}
-                </Link>
-              </li>
-            );
-          })}
+          {/* menu - 1 */}
+          <li
+            className={cn(
+              "group flex h-full items-center justify-center font-medium transition",
+              {
+                "border-b-2 border-primary text-primary":
+                  pathname.startsWith("/dashboard") &&
+                  !pathname.endsWith("/utilities"),
+                "border-b-2 border-transparent opacity-50":
+                  (pathname.startsWith("/dashboard") &&
+                    pathname.endsWith("/utilities")) ||
+                  !pathname.includes("/dashboard"),
+              }
+            )}
+          >
+            <Link
+              href={OVERVIEW_LINK as Route}
+              className={cn(
+                "select-none rounded px-3 py-1.5 text-sm capitalize",
+                {
+                  "group-hover:bg-primary/5":
+                    pathname.startsWith("/dashboard") &&
+                    !pathname.endsWith("/utilities"),
+                  "group-hover:bg-secondary":
+                    (pathname.startsWith("/dashboard") &&
+                      pathname.endsWith("/utilities")) ||
+                    !pathname.includes("/dashboard"),
+                }
+              )}
+            >
+              overview
+            </Link>
+          </li>
+          {/* menu - 2 */}
+          <li
+            className={cn(
+              "group flex h-full items-center justify-center font-medium transition",
+              {
+                "border-b-2 border-primary text-primary":
+                  pathname.endsWith("/utilities"),
+                "border-b-2 border-transparent opacity-50":
+                  !pathname.endsWith("/utilities"),
+              }
+            )}
+          >
+            <Link
+              href={UTILITIES_LINK as Route}
+              className={cn(
+                "select-none rounded px-3 py-1.5 text-sm capitalize",
+                {
+                  "group-hover:bg-primary/5": pathname.endsWith("/utilities"),
+                  "group-hover:bg-secondary": !pathname.endsWith("/utilities"),
+                }
+              )}
+            >
+              utilities
+            </Link>
+          </li>
+          {/* menu - 3 */}
+          <li
+            className={cn(
+              "group flex h-full items-center justify-center font-medium transition",
+              {
+                "border-b-2 border-primary text-primary":
+                  pathname.startsWith("/settings"),
+                "border-b-2 border-transparent opacity-50":
+                  !pathname.startsWith("/settings"),
+              }
+            )}
+          >
+            <Link
+              href={`/settings`}
+              className={cn(
+                "select-none rounded px-3 py-1.5 text-sm capitalize",
+                {
+                  "group-hover:bg-primary/5": pathname.startsWith("/settings"),
+                  "group-hover:bg-secondary": !pathname.startsWith("/settings"),
+                }
+              )}
+            >
+              settings
+            </Link>
+          </li>
         </ul>
       </div>
       <div className="flex items-center gap-6">

@@ -6,6 +6,7 @@ import {
   Utensils,
   UtensilsCrossed,
   Banknote,
+  CreditCard,
 } from "lucide-react";
 
 import { getGroupInfo } from "@/app/actions/group";
@@ -39,14 +40,14 @@ export const metadata: Metadata = {
   description: "Welcome to your expensely dashboard",
 };
 
-type MemberTotal = {
+export type MemberTotal = {
   userId: string;
   name: string;
   totalMeal: number;
   totalGrocery: number;
 };
 
-function calculateMembersTotals(
+export function calculateMembersTotals(
   data: DailyActivityOutputData[]
 ): MemberTotal[] {
   const output = data.reduce((acc: MemberTotal[], curr) => {
@@ -70,11 +71,13 @@ function calculateMembersTotals(
   return output;
 }
 
-function calculateTotals(data: DailyActivityOutputData[]): {
+export type AllTotals = {
   totalMeal: number;
   totalGrocery: number;
   avgMealRate: number;
-} {
+};
+
+export function calculateTotals(data: DailyActivityOutputData[]): AllTotals {
   let totalMeal = 0;
   let totalGrocery = 0;
   let avgMealRate = 0;
@@ -286,7 +289,14 @@ async function Page({ params, searchParams }: PageProps) {
                   <div className="flex items-center gap-2">
                     <UtensilsCrossed className="h-4 w-4" />
                     <span className="text-sm tabular-nums">
-                      {member.totalMeal}
+                      {member.totalMeal} meals
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CreditCard className="h-4 w-4" />
+                    <span className="text-sm tabular-nums">
+                      {Math.ceil(member.totalMeal * totals.avgMealRate)} BDT
+                      (meal cost)
                     </span>
                   </div>
                 </div>

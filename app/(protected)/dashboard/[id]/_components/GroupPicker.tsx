@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, useParams, usePathname } from "next/navigation";
 import { Check, ChevronsUpDown, Plus, Users } from "lucide-react";
 
 import { cn } from "@/libs/utils";
@@ -19,7 +20,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useRouter, useParams } from "next/navigation";
 import { UsersGroups } from "@/db/schema/users-groups";
 import CreateGroup from "@/components/dialogs/CreateGroup";
 import JoinGroup from "@/components/dialogs/JoinGroup";
@@ -33,6 +33,7 @@ export default function GroupPicker({
 }) {
   const params = useParams<{ id: string }>();
   const router = useRouter();
+  const pathname = usePathname();
 
   const [open, setOpen] = useState(false);
 
@@ -55,7 +56,8 @@ export default function GroupPicker({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between overflow-hidden"
+            className="w-[200px] justify-between overflow-hidden shadow"
+            size="sm"
           >
             {matchedGroupFromParam.group.name}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -72,8 +74,12 @@ export default function GroupPicker({
                     key={group.id}
                     value={group.group.name}
                     onSelect={() => {
-                      router.push(`/dashboard/${group.groupId}`);
                       setOpen(false);
+                      router.push(
+                        pathname.endsWith("/utilities")
+                          ? `/dashboard/${group.groupId}/utilities`
+                          : `/dashboard/${group.groupId}`
+                      );
                     }}
                   >
                     <Check

@@ -9,3 +9,11 @@ export {
   dailyActivitiesTable,
   dailyActivitiesRelations,
 } from "@/db/schema/daily-activities";
+export {
+  monthlyUtilitiesTable,
+  monthlyUtilitiesRelations,
+} from "@/db/schema/monthly-utilities";
+export {
+  monthlyActivitiesTable,
+  monthlyActivitiesRelations,
+} from "@/db/schema/monthly-activities";

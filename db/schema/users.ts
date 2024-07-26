@@ -4,6 +4,7 @@ import { createId } from "@paralleldrive/cuid2";
 
 import { usersGroupsTable } from "@/db/schema/users-groups";
 import { dailyActivitiesTable } from "@/db/schema/daily-activities";
+import { monthlyActivitiesTable } from "@/db/schema/monthly-activities";
 
 const usersTable = sqliteTable("users", {
   id: text("id")
@@ -21,6 +22,7 @@ const usersTable = sqliteTable("users", {
 const usersRelations = relations(usersTable, ({ many }) => ({
   usersGroupsTable: many(usersGroupsTable),
   dailyActivitiesTable: many(dailyActivitiesTable),
+  monthlyActivitiesTable: many(monthlyActivitiesTable),
 }));
 
 type User = InferSelectModel<typeof usersTable>;
