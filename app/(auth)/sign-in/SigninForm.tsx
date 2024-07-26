@@ -1,5 +1,6 @@
 "use client";
 
+import { type Route } from "next";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -71,7 +72,8 @@ export function SigninForm() {
       }
 
       const targetGroupId = getTargetGroupId(groups);
-      router.push(`/dashboard/${targetGroupId}`);
+      const OVERVIEW_LINK = `/dashboard/${targetGroupId}` as Route;
+      router.push(OVERVIEW_LINK);
     } catch (error) {
       toast.error("Could not fetch room data");
     }

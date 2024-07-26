@@ -1,5 +1,6 @@
 "use client";
 
+import { type Route } from "next";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -59,7 +60,9 @@ function CreateGroup({
         toast.success(res.message);
         form.reset();
 
-        router.push(`/dashboard/${res.data.groupId}`);
+        const OVERVIEW_LINK = `/dashboard/${res.data.groupId}` as Route;
+
+        router.push(OVERVIEW_LINK);
         setOpen(false);
       } else {
         toast.warning(res.message);

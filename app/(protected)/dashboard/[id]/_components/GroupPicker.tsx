@@ -1,5 +1,6 @@
 "use client";
 
+import { type Route } from "next";
 import { useState } from "react";
 import { useRouter, useParams, usePathname } from "next/navigation";
 import { Check, ChevronsUpDown, Plus, Users } from "lucide-react";
@@ -74,11 +75,16 @@ export default function GroupPicker({
                     key={group.id}
                     value={group.group.name}
                     onSelect={() => {
+                      const OVERVIEW_LINK =
+                        `/dashboard/${group.groupId}` as Route;
+                      const UTILITIES_LINK =
+                        `/dashboard/${group.groupId}/utilities` as Route;
+
                       setOpen(false);
                       router.push(
                         pathname.endsWith("/utilities")
-                          ? `/dashboard/${group.groupId}/utilities`
-                          : `/dashboard/${group.groupId}`
+                          ? UTILITIES_LINK
+                          : OVERVIEW_LINK
                       );
                     }}
                   >
