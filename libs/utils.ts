@@ -1,6 +1,9 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+import { type MonthlyUtilityOutputData } from "@/app/actions/monthly-utility";
+import { type TotalUtilities } from "@/app/(protected)/dashboard/[id]/utilities/page";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -35,4 +38,24 @@ export function logRuntimeType(type: "client" | "server") {
 
 export function isEqual<T extends string | number>(a: T, b: T): boolean {
   return a === b;
+}
+
+export function calculateTotalUtilities(
+  data: MonthlyUtilityOutputData,
+  membersCount: number
+): TotalUtilities {
+  const electricity = data.electricity;
+  const internet = data.internet;
+  const water = data.water;
+  const gas = data.gas;
+  const cook = data.cook;
+  const otherUtils = data.otherUtils;
+
+  const total = electricity + internet + water + gas + cook + otherUtils;
+  const avg = total / membersCount;
+
+  const originalAvg = avg.toFixed(2);
+  const formattedAvg = Math.ceil(avg);
+
+  return { total, originalAvg, formattedAvg };
 }

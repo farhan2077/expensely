@@ -17,9 +17,9 @@ import {
 import InfoCard from "@/components/InfoCard";
 import {
   getMonthlyUtilities,
-  MonthlyUtilityOutputData,
+  type MonthlyUtilityOutputData,
 } from "@/app/actions/monthly-utility";
-import { isEmpty, isEqual } from "@/libs/utils";
+import { isEmpty, isEqual, calculateTotalUtilities } from "@/libs/utils";
 import { getGroupInfo } from "@/app/actions/group";
 import MembersBills from "@/app/(protected)/dashboard/[id]/utilities/MembersBills";
 import { validateSession } from "@/app/actions/auth";
@@ -31,30 +31,6 @@ export type TotalUtilities = {
   originalAvg: string;
   formattedAvg: number;
 };
-
-export function calculateTotalUtilities(
-  data: MonthlyUtilityOutputData,
-  membersCount: number
-): TotalUtilities {
-  const electricity = data.electricity;
-  const internet = data.internet;
-  const water = data.water;
-  const gas = data.gas;
-  const cook = data.cook;
-  const otherUtils = data.otherUtils;
-
-  const total = electricity + internet + water + gas + cook + otherUtils;
-  const avg = total / membersCount;
-
-  const originalAvg = avg.toFixed(2);
-  const formattedAvg = Math.ceil(avg);
-  console.log({ total });
-  console.log({ membersCount });
-  console.log({ avg });
-  console.log({ formattedAvg });
-
-  return { total, originalAvg, formattedAvg };
-}
 
 function MonthlyUtilitiesDetails({
   monthlyUtilitiesData,

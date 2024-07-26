@@ -1,6 +1,6 @@
 import { CheckCircle2, PlusCircleIcon, PenLine } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { isEmpty, cn, isEqual } from "@/libs/utils";
+import { isEmpty, cn, isEqual, calculateTotalUtilities } from "@/libs/utils";
 import AddMonthlyActivitiesButton from "@/app/(protected)/dashboard/[id]/utilities/AddMonthlyActivitiesButton";
 
 import {
@@ -10,7 +10,6 @@ import {
 import { getDailyActivities } from "@/app/actions/daily-activity";
 import { endOfMonth, format, startOfMonth, subMonths } from "date-fns";
 import { MonthlyUtilityOutputData } from "@/app/actions/monthly-utility";
-import { calculateTotalUtilities } from "@/app/(protected)/dashboard/[id]/utilities/page";
 import {
   calculateMembersTotals,
   calculateTotals,
