@@ -33,6 +33,8 @@ export default async function Page({ params }: { params: { id: string } }) {
     notFound();
   }
 
+  const isAdmin = isEqual(result.data.groupInfo.ownerId, user.id);
+
   return (
     <>
       <div className="flex items-center justify-between">
@@ -45,13 +47,13 @@ export default async function Page({ params }: { params: { id: string } }) {
             </div>
           </div>
           <p className="text-sm text-muted-foreground">
-            {isEqual(result.data.groupInfo.ownerId, user.id)
+            {isAdmin
               ? "You can add or remove members here"
               : "View who are in this group"}
           </p>
         </div>
 
-        {isEqual(result.data.groupInfo.ownerId, user.id) ? (
+        {isAdmin ? (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -75,18 +77,15 @@ export default async function Page({ params }: { params: { id: string } }) {
 
       <Table>
         <TableCaption>
-          {isEqual(result.data.groupInfo.ownerId, user.id)
-            ? "Your group"
-            : "This group"}{" "}
-          has {result.data.groupMembers.length} member
+          {isAdmin ? "Your group" : "This group"} has{" "}
+          {result.data.groupMembers.length} member
           {result.data.groupMembers.length > 1 ? "s" : ""}
         </TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Type</TableHead>
-            {/* <TableHead>Joined</TableHead> */}
-            {isEqual(result.data.groupInfo.ownerId, user.id) ? (
+            {isAdmin ? (
               <TableHead className="text-right">Action</TableHead>
             ) : null}
           </TableRow>
@@ -97,14 +96,14 @@ export default async function Page({ params }: { params: { id: string } }) {
               <TableRow key={member.id}>
                 <TableCell className="font-medium">
                   <p>{member.user.name}</p>
-                  {isEqual(result.data.groupInfo.ownerId, user.id) ? (
+                  {isAdmin ? (
                     <p className="text-sm font-normal text-muted-foreground">
                       {member.user.email}
                     </p>
                   ) : null}
                 </TableCell>
                 <TableCell>
-                  {isEqual(result.data.groupInfo.ownerId, member.user.id) ? (
+                  {isAdmin ? (
                     <Badge
                       variant="outline"
                       className="border-blue-100 bg-blue-100"
@@ -115,8 +114,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                     <Badge variant="outline">Member</Badge>
                   )}
                 </TableCell>
-                {/* <TableCell>group join date</TableCell> */}
-                {isEqual(result.data.groupInfo.ownerId, user.id) ? (
+                {isAdmin ? (
                   <TableCell className="w-fit text-right">
                     <Button variant={"ghost"} size={"icon"}>
                       <Ellipsis className="h-4 w-4" />

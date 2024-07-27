@@ -46,11 +46,13 @@ export default function GroupsTable({
       </TableHeader>
       <TableBody className="divide-y divide-muted">
         {usersGroupsData.map((grp: any) => {
+          const isAdmin = isEqual(grp.group.ownerId, userId);
+
           return (
             <ClientSideTableRow key={grp.id} groupId={grp.groupId}>
               <TableCell>
                 {grp.group.name}
-                {isEqual(grp.group.ownerId, userId) ? (
+                {isAdmin ? (
                   <Badge
                     variant="outline"
                     className="ml-2 border-blue-100 bg-blue-100"

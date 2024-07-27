@@ -240,6 +240,8 @@ async function Page({ params, searchParams }: PageProps) {
   const sortedMonths = sortByDate(transformedMonths, "desc");
   const months = extractUniqueMonths(sortedMonths);
 
+  const isAdmin = isEqual(user.id, groupInfo.data.groupInfo.ownerId);
+
   return (
     <div className="grid gap-4">
       <section>
@@ -308,7 +310,7 @@ async function Page({ params, searchParams }: PageProps) {
       <div>
         <div className="flex flex-col items-start justify-end gap-4 sm:flex-row">
           {isEmpty(months) ? null : <MonthPicker months={months} />}
-          {isEqual(user.id, groupInfo.data.groupInfo.ownerId) ? (
+          {isAdmin ? (
             <AddDailyActivityButton
               groupMembers={groupInfo.data.groupMembers}
               disabledDates={disabledDates}

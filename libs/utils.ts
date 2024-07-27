@@ -54,7 +54,7 @@ export function calculateTotalUtilities(
   const total = electricity + internet + water + gas + cook + otherUtils;
   const avg = total / membersCount;
 
-  const originalAvg = avg.toFixed(2);
+  const originalAvg = Number(avg.toFixed(2));
   const formattedAvg = Math.ceil(avg);
 
   return { total, originalAvg, formattedAvg };

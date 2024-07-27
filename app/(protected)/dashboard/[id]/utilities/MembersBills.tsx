@@ -240,6 +240,8 @@ export default async function MembersBills({
     currentMonthAvgUtilities
   );
 
+  const isAdmin = isEqual(currentSessionUserId, groupOwnerId);
+
   return (
     <>
       {!monthlyActivities ||
@@ -249,7 +251,7 @@ export default async function MembersBills({
           <hr />
           <section className="text-center">
             <h2 className="text-lg font-medium">Group members&apos; bills</h2>
-            {isEqual(currentSessionUserId, groupOwnerId) ? (
+            {isAdmin ? (
               <>
                 <p className="mb-4 mt-1 text-balance text-sm text-muted-foreground">
                   Track each members&apos; payment for {currentMonth}

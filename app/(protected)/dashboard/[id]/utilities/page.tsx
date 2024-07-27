@@ -28,7 +28,7 @@ import UpsertUtilitiesButton from "@/app/(protected)/dashboard/[id]/utilities/Up
 
 export type TotalUtilities = {
   total: number;
-  originalAvg: string;
+  originalAvg: number;
   formattedAvg: number;
 };
 
@@ -37,11 +37,13 @@ function MonthlyUtilitiesDetails({
   membersCount,
   groupId,
   currentMonth,
+  isAdmin,
 }: {
   monthlyUtilitiesData: MonthlyUtilityOutputData;
   membersCount: number;
   groupId: string;
   currentMonth: string;
+  isAdmin: boolean;
 }) {
   const { total, originalAvg, formattedAvg } = calculateTotalUtilities(
     monthlyUtilitiesData,
@@ -97,32 +99,42 @@ function MonthlyUtilitiesDetails({
         </div>
         <div className="mt-4">
           <div className="mb-3 flex items-center text-sm">
-            <p>
+            <p className="inline">
               This month&apos;s total utilities are {total}.{" "}
               {membersCount > 1 ? (
                 <>
-                  So everyone ({membersCount} members) will have to pay{" "}
-                  <span className="font-medium">{formattedAvg} taka</span> each
+                  So everyone ({membersCount} members) will have to pay
+                  <span className="font-medium">
+                    &nbsp;{formattedAvg} taka&nbsp;
+                  </span>
+                  each&nbsp;
+                  {formattedAvg === originalAvg ? null : (
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger
+                          asChild
+                          className="inline cursor-pointer"
+                        >
+                          <Info className="mb-0.5 h-3 w-3" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Actual average utility is {originalAvg} BDT</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
                 </>
               ) : null}
             </p>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild className="cursor-pointer">
-                  <Info className="ml-1 h-3 w-3" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Actual average utility is {originalAvg} BDT</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
           </div>
-          <UpsertUtilitiesButton
-            type="update"
-            groupId={groupId}
-            currentMonth={currentMonth}
-            monthlyUtilitiesData={monthlyUtilitiesData}
-          />
+          {isAdmin ? (
+            <UpsertUtilitiesButton
+              type="update"
+              groupId={groupId}
+              currentMonth={currentMonth}
+              monthlyUtilitiesData={monthlyUtilitiesData}
+            />
+          ) : null}
         </div>
       </div>
     </section>
@@ -144,6 +156,10 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const currentMonth = format(new Date(), "MMMM");
 
+  const isAdmin = isEqual(groupInfo.data.groupInfo.ownerId, user.id)
+    ? true
+    : false;
+
   return (
     <>
       <h1 className="text-2xl font-semibold tracking-tight">Utilities</h1>
@@ -155,7 +171,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         {isEmpty(monthlyUtilities.data) || !monthlyUtilities.data ? (
           <section className="text-center">
             <h2 className="text-lg font-medium">Utilities</h2>
-            {isEqual(user.id, groupInfo.data.groupInfo.ownerId) ? (
+            {isAdmin ? (
               <>
                 <p className="mb-4 mt-1 text-balance text-sm text-muted-foreground">
                   Shared equally amongst group members
@@ -180,6 +196,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               membersCount={membersCount}
               groupId={groupId}
               currentMonth={currentMonth}
+              isAdmin={isAdmin}
             />
             <MembersBills
               currentSessionUserId={user.id}
