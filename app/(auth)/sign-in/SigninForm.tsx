@@ -48,6 +48,7 @@ export function SigninForm() {
       );
 
       if (!success) {
+        setIsLoading(false);
         toast.warning(message);
         return;
       }
@@ -56,9 +57,8 @@ export function SigninForm() {
       form.reset();
       await handleSuccessfulSignIn();
     } catch (error) {
-      handleError(error);
-    } finally {
       setIsLoading(false);
+      handleError(error);
     }
   }
 
