@@ -80,7 +80,7 @@ function CreateGroup({
         <DialogHeader>
           <DialogTitle>Add new group</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
+            Create and manage your own group
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -93,9 +93,10 @@ function CreateGroup({
                   <FormLabel>Group name</FormLabel>
                   <FormControl>
                     <Input
+                      autoFocus
                       type="text"
                       placeholder="Enter preferred group name"
-                      autoComplete="email"
+                      autoComplete="group-name"
                       {...field}
                     />
                   </FormControl>
@@ -111,7 +112,8 @@ function CreateGroup({
                   <FormLabel>Group code</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="••••" // your defaultValue must be undefined
+                      placeholder="Enter a 4 digit code" // your defaultValue must be undefined
+                      autoComplete="group-code"
                       inputMode="numeric" // display numeric keyboard on mobile
                       {...field}
                       value={field.value || ""} // avoid errors of uncontrolled vs controlled

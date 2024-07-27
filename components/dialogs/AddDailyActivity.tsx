@@ -224,7 +224,7 @@ export default function AddDailyActivity({
                                   className="placeholder:tracking-tight"
                                   type="number"
                                   inputMode="numeric" // display numeric keyboard on mobile
-                                  placeholder="Meal count"
+                                  placeholder="Number of meal"
                                   autoComplete="meal"
                                   {...field}
                                 />
@@ -238,13 +238,13 @@ export default function AddDailyActivity({
                           name={`groups.${index}.grocery`}
                           render={({ field }) => (
                             <FormItem className="col-start-9 col-end-13 space-y-1">
-                              <FormLabel>Groceries</FormLabel>
+                              <FormLabel>Grocery expenses</FormLabel>
                               <FormControl>
                                 <Input
                                   className="placeholder:tracking-tight"
                                   type="number"
                                   inputMode="numeric" // display numeric keyboard on mobile
-                                  placeholder="Grocery expenses"
+                                  placeholder="Amount spent"
                                   autoComplete="grocery"
                                   {...field}
                                 />

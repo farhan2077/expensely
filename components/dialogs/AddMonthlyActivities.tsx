@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -101,15 +102,14 @@ export default function AddMonthlyActivities({
       <DialogContent
         // p-6 is applied by default, but <ScrollArea/> was cutting the input field ring thus p-5 here and additional p-1 is applied later
         className="max-w-lg overflow-hidden p-5"
-        // aria-describedby={undefined} // this is needed to remove the `DialogDescription` entirely
       >
         <ScrollArea className="max-h-[85vh]">
           <div className="p-1">
             <DialogHeader className="mb-4">
               <DialogTitle>Add info</DialogTitle>
-              {/* <DialogDescription>
-              Add bazar costs and meals here
-            </DialogDescription> */}
+              <DialogDescription>
+                Add group members&apos; rent and paid amount
+              </DialogDescription>
             </DialogHeader>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -136,7 +136,7 @@ export default function AddMonthlyActivities({
                                   className="placeholder:tracking-tight"
                                   type="number"
                                   inputMode="numeric" // display numeric keyboard on mobile
-                                  placeholder="Enter rent"
+                                  placeholder="Rent amount"
                                   autoComplete="rent"
                                   {...field}
                                 />
@@ -156,7 +156,7 @@ export default function AddMonthlyActivities({
                                   className="placeholder:tracking-tight"
                                   type="number"
                                   inputMode="numeric" // display numeric keyboard on mobile
-                                  placeholder="Enter paid amount"
+                                  placeholder="Paid amount"
                                   autoComplete="paid"
                                   {...field}
                                 />

@@ -74,7 +74,7 @@ export default function UserInfoForm({ userInfo }: { userInfo: any }) {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input type="name" {...field} />
+                <Input type="name" spellCheck={false} {...field} />
               </FormControl>
               <FormDescription className="text-xs">
                 This is how other&apos;s see you

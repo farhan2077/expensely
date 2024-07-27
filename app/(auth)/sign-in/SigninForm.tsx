@@ -108,6 +108,7 @@ export function SigninForm() {
                   type="email"
                   placeholder="email@example.com"
                   autoComplete="email"
+                  spellCheck={false}
                   {...field}
                 />
               </FormControl>
@@ -129,8 +130,8 @@ export function SigninForm() {
               <FormControl>
                 <Input
                   type="password"
-                  autoComplete="current-password"
-                  placeholder="••••••••"
+                  placeholder="Must include both numbers and characters"
+                  autoComplete="password"
                   {...field}
                 />
               </FormControl>

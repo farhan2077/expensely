@@ -115,7 +115,6 @@ export default function AddUtilities({
       <DialogContent
         // p-6 is applied by default, but <ScrollArea/> was cutting the input field ring thus p-5 here and additional p-1 is applied later
         className="max-w-lg overflow-hidden p-5"
-        aria-describedby={undefined} // this is needed to remove the `DialogDescription` entirely
       >
         <ScrollArea className="max-h-[85vh]">
           <div className="p-1">
@@ -123,7 +122,6 @@ export default function AddUtilities({
               <DialogTitle>
                 {isMonthlyUtilsDataEmpty ? "Add" : "Update"} Utilities
               </DialogTitle>
-              {/* <DialogDescription>Add July&apos;s utilities</DialogDescription> */}
               <DialogDescription>
                 {isMonthlyUtilsDataEmpty ? (
                   <>Add data for {format(new Date(), "MMMM yyyy")}</>
@@ -146,6 +144,7 @@ export default function AddUtilities({
                         <FormLabel>Electricity bill</FormLabel>
                         <FormControl>
                           <Input
+                            autoFocus
                             type="number"
                             inputMode="numeric" // display numeric keyboard on mobile
                             placeholder="Enter elctricity bill"

@@ -75,10 +75,8 @@ function JoinGroup({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Join da group</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </DialogDescription>
+          <DialogTitle>Join group</DialogTitle>
+          <DialogDescription>Join other people&apos;s group</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -90,9 +88,10 @@ function JoinGroup({
                   <FormLabel>Group name</FormLabel>
                   <FormControl>
                     <Input
+                      autoFocus
                       type="text"
-                      placeholder="Enter preferred group name"
-                      autoComplete="email"
+                      placeholder="Enter group name"
+                      autoComplete="group-name"
                       {...field}
                     />
                   </FormControl>
@@ -108,7 +107,8 @@ function JoinGroup({
                   <FormLabel>Group code</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="••••" // your defaultValue must be undefined
+                      placeholder="Enter the 4 digit code" // your defaultValue must be undefined
+                      autoComplete="group-code"
                       inputMode="numeric" // display numeric keyboard on mobile
                       {...field}
                       value={field.value || ""} // avoid errors of uncontrolled vs controlled

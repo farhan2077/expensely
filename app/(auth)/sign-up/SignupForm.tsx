@@ -67,7 +67,14 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="Jane Doe" {...field} />
+                <Input
+                  autoFocus
+                  type="text"
+                  placeholder="Erlich Bachman"
+                  autoComplete="name"
+                  spellCheck={false}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -80,7 +87,12 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="email@example.com" {...field} />
+                <Input
+                  placeholder="email@example.com"
+                  autoComplete="email"
+                  spellCheck={false}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -93,7 +105,12 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <Input
+                  type="password"
+                  placeholder="Must include both numbers and characters"
+                  autoComplete="new-password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -106,7 +123,12 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Confirm password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <Input
+                  type="password"
+                  placeholder="Re-enter password"
+                  autoComplete="confirm-password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
