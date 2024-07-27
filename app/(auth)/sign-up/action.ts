@@ -34,14 +34,13 @@ export async function signupAction(
   name: string,
   email: string,
   password: string
-): Promise<Response> {
+): Promise<Omit<Response, "data">> {
   try {
     const existingUser = await getUserByEmail(email);
     if (existingUser) {
       return {
         success: false,
         message: "User already exists",
-        data: null,
       };
     }
 
@@ -50,7 +49,6 @@ export async function signupAction(
       return {
         success: false,
         message: "User could not be created",
-        data: null,
       };
     }
 
@@ -67,13 +65,11 @@ export async function signupAction(
     return {
       success: true,
       message: "User created successfully",
-      data: null,
     };
   } catch (error) {
     return {
       success: false,
       message: "User could not be created",
-      data: null,
     };
   }
 }

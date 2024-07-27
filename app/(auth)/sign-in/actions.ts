@@ -38,7 +38,7 @@ export async function signinUser(email: string, password: string) {
 export async function signinAction(
   email: string,
   password: string
-): Promise<Response> {
+): Promise<Omit<Response, "data">> {
   try {
     const user = await signinUser(email, password);
 
@@ -46,7 +46,6 @@ export async function signinAction(
       return {
         success: false,
         message: "User could not log in",
-        data: null,
       };
     }
 
@@ -64,14 +63,12 @@ export async function signinAction(
 
     return {
       success: true,
-      message: "User logged in",
-      data: user.id,
+      message: "Login successful.",
     };
   } catch (err) {
     return {
       success: false,
       message: "User could not log in",
-      data: null,
     };
   }
 }
