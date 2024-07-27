@@ -57,10 +57,12 @@ export default function GroupPicker({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between overflow-hidden shadow"
+            className="flex w-[200px] justify-between overflow-hidden shadow"
             size="sm"
           >
-            {matchedGroupFromParam.group.name}
+            <div className="overflow-hidden text-ellipsis">
+              {matchedGroupFromParam.group.name}
+            </div>
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
