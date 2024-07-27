@@ -66,6 +66,16 @@ export default function AddMonthlyActivities({
     name: "formGroups",
   });
 
+  const fillEmptyFields = () => {
+    const currentGroupValues = form.getValues().formGroups;
+
+    const updatedGroupValues = currentGroupValues.map((group) => ({
+      paid: group.paid || 0,
+      rent: group.rent || 0,
+    }));
+    form.setValue("formGroups", updatedGroupValues);
+  };
+
   async function onSubmit(
     formValues: z.infer<typeof monthlyActivityFormSchema>
   ) {
@@ -170,7 +180,17 @@ export default function AddMonthlyActivities({
                   ))}
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 flex gap-4">
+                  <Button
+                    variant={"outline"}
+                    className="w-full"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      fillEmptyFields();
+                    }}
+                  >
+                    Fill empty fields
+                  </Button>
                   <Button disabled={isLoading} type="submit" className="w-full">
                     {isLoading && (
                       <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

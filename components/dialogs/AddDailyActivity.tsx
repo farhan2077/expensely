@@ -94,6 +94,16 @@ export default function AddDailyActivity({
     name: "groups",
   });
 
+  const fillEmptyFields = () => {
+    const currentGroupValues = form.getValues().groups;
+
+    const updatedGroupValues = currentGroupValues.map((group) => ({
+      meal: group.meal || 0,
+      grocery: group.grocery || 0,
+    }));
+    form.setValue("groups", updatedGroupValues);
+  };
+
   async function onSubmit(formValues: z.infer<typeof dailyActivityFormSchema>) {
     if (!formValues.date) {
       toast.error("Date is required.");
@@ -258,7 +268,17 @@ export default function AddDailyActivity({
                   ))}
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 flex gap-4">
+                  <Button
+                    variant={"outline"}
+                    className="w-full"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      fillEmptyFields();
+                    }}
+                  >
+                    Fill empty fields
+                  </Button>
                   <Button disabled={isLoading} type="submit" className="w-full">
                     {isLoading && (
                       <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
