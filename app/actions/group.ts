@@ -113,7 +113,7 @@ export async function joinGroupAction(
     };
   }
 
-  // check if already joined group
+  // check user id and group already exists
   const existingUserGroup = await db.query.usersGroupsTable.findFirst({
     where: and(
       eq(usersGroupsTable.userId, user.id),
@@ -121,13 +121,7 @@ export async function joinGroupAction(
     ),
   });
 
-  if (!existingUserGroup) {
-    return {
-      success: false,
-      message: "Could not join the group",
-    };
-  }
-
+  // check existingUserGroup is active
   if (existingUserGroup && existingUserGroup.isActive) {
     return {
       success: false,
@@ -135,8 +129,16 @@ export async function joinGroupAction(
       data: null,
     };
   }
-
-  if (!existingUserGroup.isActive) {
+  // if existingUserGroup is active, then check code
+  if (existingGroup.code !== code) {
+    return {
+      success: false,
+      message: "Passcode does not match",
+      data: null,
+    };
+  }
+  // if existingUserGroup is not active, then make it active
+  if (existingUserGroup && !existingUserGroup.isActive) {
     const [updatedResult] = await db
       .update(usersGroupsTable)
       .set({
@@ -150,22 +152,31 @@ export async function joinGroupAction(
       )
       .returning();
 
+    // add order after updating isActive
+    const orderRes = await addGroupOrderAfterJoin(
+      updatedResult.groupId,
+      userEmail,
+      userName
+    );
+
+    if (!orderRes.success) {
+      return {
+        success: false,
+        message: orderRes.message,
+      };
+    }
+
     return {
       success: true,
-      message: "Rejoined group",
+      message: "Joined group",
       data: updatedResult,
     };
   }
 
-  // check if password matches
-  if (existingGroup.code !== code) {
-    return {
-      success: false,
-      message: "Passcode does not match",
-      data: null,
-    };
+  // if no existingUserGroup, create new one
+  if (!existingUserGroup) {
+    // do something
   }
-
   const [usersGroupsResult] = await db
     .insert(usersGroupsTable)
     .values({
@@ -184,26 +195,17 @@ export async function joinGroupAction(
     };
   }
 
-  // since the group has already been created, then there will be at least one entry
-  const groupsOrderCount = await db
-    .select({ count: count() })
-    .from(groupsOrdersTable)
-    .where(eq(groupsOrdersTable.groupId, usersGroupsResult.groupId));
+  // add order after adding new user and group
+  const orderRes = await addGroupOrderAfterJoin(
+    usersGroupsResult.groupId,
+    userEmail,
+    userName
+  );
 
-  const anotherOrder = await db
-    .insert(groupsOrdersTable)
-    .values({
-      order: groupsOrderCount[0].count, // why not count + 1, becuase we are saving in index 0, so count will always be +1
-      groupId: usersGroupsResult.groupId,
-      email: userEmail,
-      name: userName,
-    })
-    .returning();
-
-  if (!anotherOrder) {
+  if (!orderRes.success) {
     return {
       success: false,
-      message: "Could not update order",
+      message: orderRes.message,
     };
   }
 
@@ -214,6 +216,42 @@ export async function joinGroupAction(
     success: true,
     message: "Joined group",
     data: usersGroupsResult,
+  };
+}
+
+async function addGroupOrderAfterJoin(
+  groupId: string,
+  email: string,
+  name: string
+): Promise<Response> {
+  // this must be run after user and group correlation has already been created
+  // which will ensure that there will be at least one entry
+  const [groupsOrderCount] = await db
+    .select({ count: count() })
+    .from(groupsOrdersTable)
+    // .where(eq(groupsOrdersTable.groupId, usersGroupsResult.groupId));
+    .where(eq(groupsOrdersTable.groupId, groupId));
+
+  const anotherOrder = await db
+    .insert(groupsOrdersTable)
+    .values({
+      order: groupsOrderCount.count, // why not count + 1, becuase index starts at 0, so the count is already +1
+      groupId: groupId,
+      email: email,
+      name: name,
+    })
+    .returning();
+
+  if (!anotherOrder) {
+    return {
+      success: false,
+      message: "Could not update order",
+    };
+  }
+
+  return {
+    success: true,
+    message: "Added order",
   };
 }
 
