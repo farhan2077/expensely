@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 
-import { getGroupInfo } from "@/app/actions/group";
+import { getGroupDetails } from "@/app/actions/group";
 import { validateSession } from "@/app/actions/auth";
 import { isEqual } from "@/libs/utils";
 import { Badge } from "@/components/ui/badge";
@@ -27,13 +27,13 @@ export default async function Page({ params }: { params: { id: string } }) {
   const { user } = await validateSession();
   const id = params.id;
 
-  const result = await getGroupInfo(id);
+  const groupDetails = await getGroupDetails(id);
 
-  if (!result.success || !user) {
+  if (!user || !groupDetails.success || !groupDetails.data) {
     notFound();
   }
 
-  const isAdmin = isEqual(result.data.groupInfo.ownerId, user.id);
+  const isAdmin = isEqual(groupDetails.data.groupInfo.ownerId, user.id);
 
   return (
     <>
@@ -42,7 +42,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-medium">
-                {result.data.groupInfo.name}
+                {groupDetails.data.groupInfo.name}
               </h2>
             </div>
           </div>
@@ -78,8 +78,8 @@ export default async function Page({ params }: { params: { id: string } }) {
       <Table>
         <TableCaption>
           {isAdmin ? "Your group" : "This group"} has{" "}
-          {result.data.groupMembers.length} member
-          {result.data.groupMembers.length > 1 ? "s" : ""}
+          {groupDetails.data.groupMembers.length} member
+          {groupDetails.data.groupMembers.length > 1 ? "s" : ""}
         </TableCaption>
         <TableHeader>
           <TableRow>
@@ -91,7 +91,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {result.data.groupMembers.map((member: any) => {
+          {groupDetails.data.groupMembers.map((member: any) => {
             return (
               <TableRow key={member.id}>
                 <TableCell className="font-medium">

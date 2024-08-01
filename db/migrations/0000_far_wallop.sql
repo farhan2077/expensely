@@ -22,7 +22,7 @@ CREATE TABLE `groups` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text(255) NOT NULL,
 	`code` integer NOT NULL,
-	`owner_id` text,
+	`owner_id` text NOT NULL,
 	FOREIGN KEY (`owner_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint

@@ -9,7 +9,7 @@ import {
   CreditCard,
 } from "lucide-react";
 
-import { getGroupInfo } from "@/app/actions/group";
+import { getGroupDetails } from "@/app/actions/group";
 import {
   parse,
   format,
@@ -210,13 +210,13 @@ async function Page({ params, searchParams }: PageProps) {
   const toSP = searchParams?.to || "";
 
   const { user } = await validateSession();
-  const groupInfo = await getGroupInfo(groupId);
+  const groupDetails = await getGroupDetails(groupId);
   const dailyActivities = await getDailyActivities(groupId, fromSP, toSP);
   const dailyActivitiesMonths = await getDailyActivitiesDates(groupId);
 
   if (
     !user ||
-    !groupInfo.success ||
+    !groupDetails.data ||
     !dailyActivities.success ||
     !dailyActivities.data ||
     !dailyActivitiesMonths.success ||
@@ -240,7 +240,7 @@ async function Page({ params, searchParams }: PageProps) {
   const sortedMonths = sortByDate(transformedMonths, "desc");
   const months = extractUniqueMonths(sortedMonths);
 
-  const isAdmin = isEqual(user.id, groupInfo.data.groupInfo.ownerId);
+  const isAdmin = isEqual(user.id, groupDetails.data.groupInfo.ownerId);
 
   return (
     <div className="grid gap-4">
@@ -248,7 +248,7 @@ async function Page({ params, searchParams }: PageProps) {
         <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">
           Take a look at what&apos;s happening in{" "}
-          {groupInfo.data.groupInfo.name}
+          {groupDetails.data.groupInfo.name}
         </p>
       </section>
       <hr className="text-muted-foreground" />
@@ -312,7 +312,7 @@ async function Page({ params, searchParams }: PageProps) {
           {isEmpty(months) ? null : <MonthPicker months={months} />}
           {isAdmin ? (
             <AddDailyActivityButton
-              groupMembers={groupInfo.data.groupMembers}
+              groupMembers={groupDetails.data.groupMembers}
               disabledDates={disabledDates}
             />
           ) : null}

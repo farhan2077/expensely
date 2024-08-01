@@ -20,7 +20,7 @@ import {
   type MonthlyUtilityOutputData,
 } from "@/app/actions/monthly-utility";
 import { isEmpty, isEqual, calculateTotalUtilities } from "@/libs/utils";
-import { getGroupInfo } from "@/app/actions/group";
+import { getGroupDetails } from "@/app/actions/group";
 import MembersBills from "@/app/(protected)/dashboard/[id]/utilities/MembersBills";
 import { validateSession } from "@/app/actions/auth";
 import { format } from "date-fns";
@@ -146,17 +146,17 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const { user } = await validateSession();
   const monthlyUtilities = await getMonthlyUtilities(groupId);
-  const groupInfo = await getGroupInfo(groupId);
+  const groupDetails = await getGroupDetails(groupId);
 
-  if (!user || !groupInfo.data) {
+  if (!user || !groupDetails.data) {
     return notFound();
   }
 
-  const membersCount = groupInfo.data.groupMembers.length;
+  const membersCount = groupDetails.data.groupMembers.length;
 
   const currentMonth = format(new Date(), "MMMM");
 
-  const isAdmin = isEqual(groupInfo.data.groupInfo.ownerId, user.id)
+  const isAdmin = isEqual(groupDetails.data.groupInfo.ownerId, user.id)
     ? true
     : false;
 
@@ -200,10 +200,10 @@ export default async function Page({ params }: { params: { id: string } }) {
             />
             <MembersBills
               currentSessionUserId={user.id}
-              groupOwnerId={groupInfo.data.groupInfo.ownerId}
+              groupOwnerId={groupDetails.data.groupInfo.ownerId}
               groupId={groupId}
               monthlyUtilitiesData={monthlyUtilities.data}
-              groupMembers={groupInfo.data.groupMembers}
+              groupMembers={groupDetails.data.groupMembers}
               currentMonth={currentMonth}
             />
           </>

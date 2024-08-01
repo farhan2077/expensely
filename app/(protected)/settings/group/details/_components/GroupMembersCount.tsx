@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getGroupInfo } from "@/app/actions/group";
+import { getGroupDetails } from "@/app/actions/group";
 
 export default async function GroupMembersCount({
   groupId,
@@ -9,11 +9,11 @@ export default async function GroupMembersCount({
   // artificially delaying the response
   await new Promise((resolve) => setTimeout(resolve, 500));
 
-  const result = await getGroupInfo(groupId);
+  const groupDetails = await getGroupDetails(groupId);
 
-  if (!result) {
+  if (!groupDetails.success || !groupDetails.data) {
     notFound();
   }
 
-  return <div>{result.data.groupMembers.length}</div>;
+  return <div>{groupDetails.data.groupMembers.length}</div>;
 }

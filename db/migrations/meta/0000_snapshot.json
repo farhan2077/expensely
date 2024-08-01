@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "35060c5e-e50c-4ed0-a7aa-51dcd40926b4",
+  "id": "f7883dad-fdb0-4304-b233-ff1ebf339746",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "daily_activities": {
@@ -168,7 +168,7 @@
           "name": "owner_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         }
       },

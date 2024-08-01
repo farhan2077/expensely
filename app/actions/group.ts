@@ -2,8 +2,8 @@
 
 import { validateSession } from "@/app/actions/auth";
 import { db } from "@/db";
-import { groupsTable } from "@/db/schema/groups";
-import { usersGroupsTable } from "@/db/schema/users-groups";
+import { groupsTable, type Groups } from "@/db/schema/groups";
+import { usersGroupsTable, type UsersGroups } from "@/db/schema/users-groups";
 import { redirect } from "next/navigation";
 
 import { and, eq, count } from "drizzle-orm";
@@ -95,7 +95,7 @@ export async function joinGroupAction(
   code: number,
   userName: string,
   userEmail: string
-): Promise<Response> {
+): Promise<Response<UsersGroups | null>> {
   const { user } = await validateSession();
   if (!user) {
     redirect("/sign-in");
@@ -121,11 +121,39 @@ export async function joinGroupAction(
     ),
   });
 
-  if (existingUserGroup) {
+  if (!existingUserGroup) {
+    return {
+      success: false,
+      message: "Could not join the group",
+    };
+  }
+
+  if (existingUserGroup && existingUserGroup.isActive) {
     return {
       success: false,
       message: "You have already joined the group",
       data: null,
+    };
+  }
+
+  if (!existingUserGroup.isActive) {
+    const [updatedResult] = await db
+      .update(usersGroupsTable)
+      .set({
+        isActive: true,
+      })
+      .where(
+        and(
+          eq(usersGroupsTable.userId, user.id),
+          eq(usersGroupsTable.groupId, existingGroup.id)
+        )
+      )
+      .returning();
+
+    return {
+      success: true,
+      message: "Rejoined group",
+      data: updatedResult,
     };
   }
 
@@ -196,7 +224,10 @@ export async function getUsersGroups(): Promise<Response> {
   }
 
   const result = await db.query.usersGroupsTable.findMany({
-    where: eq(usersGroupsTable.userId, user.id),
+    where: and(
+      eq(usersGroupsTable.userId, user.id),
+      eq(usersGroupsTable.isActive, true)
+    ),
     with: {
       group: true,
     },
@@ -209,13 +240,36 @@ export async function getUsersGroups(): Promise<Response> {
   };
 }
 
-export async function getGroupInfo(groupId: string): Promise<Response> {
+type GroupMember = {
+  id: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    createdAt: string | null;
+  };
+  group: {
+    id: string;
+  };
+};
+
+type GroupDetailsData = {
+  groupInfo: Groups;
+  groupMembers: GroupMember[];
+};
+
+export async function getGroupDetails(
+  groupId: string
+): Promise<Response<GroupDetailsData | null>> {
   const groupInfo = await db.query.groupsTable.findFirst({
     where: eq(groupsTable.id, groupId),
   });
 
   const groupMembers = await db.query.usersGroupsTable.findMany({
-    where: eq(usersGroupsTable.groupId, groupId),
+    where: and(
+      eq(usersGroupsTable.groupId, groupId),
+      eq(usersGroupsTable.isActive, true)
+    ),
     columns: {
       id: true,
     },

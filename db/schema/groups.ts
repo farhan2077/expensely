@@ -14,9 +14,11 @@ const groupsTable = sqliteTable("groups", {
     .primaryKey(),
   name: text("name", { length: 255 }).notNull().unique(),
   code: integer("code", { mode: "number" }).notNull(),
-  ownerId: text("owner_id").references(() => usersTable.id, {
-    onDelete: "cascade",
-  }),
+  ownerId: text("owner_id")
+    .notNull()
+    .references(() => usersTable.id, {
+      onDelete: "cascade",
+    }),
 });
 
 const groupsRelations = relations(groupsTable, ({ many, one }) => ({
