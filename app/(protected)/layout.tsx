@@ -30,7 +30,10 @@ export default async function Layout({
   return (
     <>
       <nav className="mb-6">
-        <Header user={userInfo.data} usersGroups={usersGroupsData.data} />
+        <Header
+          userInfoData={userInfo.data}
+          usersGroups={usersGroupsData.data}
+        />
       </nav>
       <main className="mx-6 mb-10">{children}</main>
     </>

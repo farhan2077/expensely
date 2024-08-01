@@ -6,13 +6,16 @@ import { groupsTable } from "@/db/schema/groups";
 import { usersGroupsTable } from "@/db/schema/users-groups";
 import { redirect } from "next/navigation";
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, count } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Response } from "@/libs/types";
+import { groupsOrdersTable } from "@/db/schema";
 
 export async function createGroupAction(
   name: string,
-  code: number
+  code: number,
+  userName: string,
+  userEmail: string
 ): Promise<Response> {
   const { user } = await validateSession();
   if (!user) {
@@ -26,11 +29,10 @@ export async function createGroupAction(
     return {
       success: false,
       message: "Group already exists. Please try different name.",
-      data: null,
     };
   }
 
-  const [result] = await db
+  const [newGroup] = await db
     .insert(groupsTable)
     .values({
       name: name,
@@ -39,13 +41,44 @@ export async function createGroupAction(
     })
     .returning();
 
-  const [anotherResult] = await db
+  if (!newGroup) {
+    return {
+      success: false,
+      message: "Group could not be created.",
+    };
+  }
+
+  const [newUsersGroups] = await db
     .insert(usersGroupsTable)
     .values({
-      groupId: result.id,
+      groupId: newGroup.id,
       userId: user.id,
+      isActive: true,
+      type: "admin",
     })
     .returning();
+
+  if (!newUsersGroups) {
+    return {
+      success: false,
+      message: "Group could not be assigned to you.",
+    };
+  }
+
+  // while creating a group, there will be no previous data in groupsOrdersTable
+  const newGroupOrder = await db.insert(groupsOrdersTable).values({
+    order: 0, // first one, so 0 index
+    groupId: newUsersGroups.groupId,
+    email: userEmail,
+    name: userName,
+  });
+
+  if (!newGroupOrder) {
+    return {
+      success: false,
+      message: "You were not added to the order",
+    };
+  }
 
   revalidatePath("/(protected)/dashboard/[id]", "layout");
   revalidatePath("/(protected)/settings", "layout");
@@ -53,13 +86,15 @@ export async function createGroupAction(
   return {
     success: true,
     message: "New group added",
-    data: anotherResult,
+    data: newUsersGroups,
   };
 }
 
 export async function joinGroupAction(
   name: string,
-  code: number
+  code: number,
+  userName: string,
+  userEmail: string
 ): Promise<Response> {
   const { user } = await validateSession();
   if (!user) {
@@ -103,19 +138,44 @@ export async function joinGroupAction(
     };
   }
 
-  const [result] = await db
+  const [usersGroupsResult] = await db
     .insert(usersGroupsTable)
     .values({
       groupId: existingGroup.id,
       userId: user.id,
+      isActive: true,
+      type: "member",
     })
     .returning();
 
-  if (!result) {
+  if (!usersGroupsResult) {
     return {
       success: false,
-      message: "There was an error",
+      message: "Could not join group",
       data: null,
+    };
+  }
+
+  // since the group has already been created, then there will be at least one entry
+  const groupsOrderCount = await db
+    .select({ count: count() })
+    .from(groupsOrdersTable)
+    .where(eq(groupsOrdersTable.groupId, usersGroupsResult.groupId));
+
+  const anotherOrder = await db
+    .insert(groupsOrdersTable)
+    .values({
+      order: groupsOrderCount[0].count, // why not count + 1, becuase we are saving in index 0, so count will always be +1
+      groupId: usersGroupsResult.groupId,
+      email: userEmail,
+      name: userName,
+    })
+    .returning();
+
+  if (!anotherOrder) {
+    return {
+      success: false,
+      message: "Could not update order",
     };
   }
 
@@ -125,7 +185,7 @@ export async function joinGroupAction(
   return {
     success: true,
     message: "Joined group",
-    data: result,
+    data: usersGroupsResult,
   };
 }
 

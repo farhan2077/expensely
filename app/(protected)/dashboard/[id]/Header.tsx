@@ -5,17 +5,17 @@ import { usePathname } from "next/navigation";
 import type { Route } from "next";
 
 import { cn } from "@/libs/utils";
-import { User } from "@/db/schema/users";
+import type { SafeUser } from "@/db/schema/users";
 
 import { Icons } from "@/components/icons";
 import AvatarDropdownMenu from "@/app/(protected)/dashboard/[id]/_components/AvatarDropdownMenu";
 import GroupPicker from "@/app/(protected)/dashboard/[id]/_components/GroupPicker";
 
 function Header({
-  user,
+  userInfoData,
   usersGroups,
 }: {
-  user: Omit<User, "hash" | "salt">;
+  userInfoData: SafeUser;
   usersGroups: any;
 }) {
   const pathname = usePathname();
@@ -28,6 +28,7 @@ function Header({
 
   const OVERVIEW_LINK = `/dashboard/${groupId}`;
   const UTILITIES_LINK = `/dashboard/${groupId}/utilities`;
+  const ORDER_LINK = `/dashboard/${groupId}/order`;
 
   return (
     <div className="flex items-center justify-between px-6 shadow">
@@ -45,10 +46,12 @@ function Header({
               {
                 "border-b-2 border-primary text-primary":
                   pathname.startsWith("/dashboard") &&
-                  !pathname.endsWith("/utilities"),
-                "border-b-2 border-transparent opacity-50":
+                  (!pathname.endsWith("/utilities") ||
+                    !pathname.endsWith("/order")),
+                "border-b-2 border-transparent text-muted-foreground/80":
                   (pathname.startsWith("/dashboard") &&
-                    pathname.endsWith("/utilities")) ||
+                    (pathname.endsWith("/utilities") ||
+                      pathname.endsWith("/order"))) ||
                   !pathname.includes("/dashboard"),
               }
             )}
@@ -60,10 +63,12 @@ function Header({
                 {
                   "group-hover:bg-primary/5":
                     pathname.startsWith("/dashboard") &&
-                    !pathname.endsWith("/utilities"),
-                  "group-hover:bg-secondary":
+                    (!pathname.endsWith("/utilities") ||
+                      !pathname.endsWith("/order")),
+                  "group-hover:bg-secondary/70":
                     (pathname.startsWith("/dashboard") &&
-                      pathname.endsWith("/utilities")) ||
+                      (pathname.endsWith("/utilities") ||
+                        pathname.endsWith("/order"))) ||
                     !pathname.includes("/dashboard"),
                 }
               )}
@@ -78,7 +83,7 @@ function Header({
               {
                 "border-b-2 border-primary text-primary":
                   pathname.endsWith("/utilities"),
-                "border-b-2 border-transparent opacity-50":
+                "border-b-2 border-transparent text-muted-foreground/80":
                   !pathname.endsWith("/utilities"),
               }
             )}
@@ -89,7 +94,8 @@ function Header({
                 "select-none rounded px-3 py-1.5 text-sm capitalize",
                 {
                   "group-hover:bg-primary/5": pathname.endsWith("/utilities"),
-                  "group-hover:bg-secondary": !pathname.endsWith("/utilities"),
+                  "group-hover:bg-secondary/70":
+                    !pathname.endsWith("/utilities"),
                 }
               )}
             >
@@ -102,8 +108,33 @@ function Header({
               "group flex h-full items-center justify-center font-medium transition",
               {
                 "border-b-2 border-primary text-primary":
+                  pathname.endsWith("/order"),
+                "border-b-2 border-transparent text-muted-foreground/80":
+                  !pathname.endsWith("/order"),
+              }
+            )}
+          >
+            <Link
+              href={ORDER_LINK as Route}
+              className={cn(
+                "select-none rounded px-3 py-1.5 text-sm capitalize",
+                {
+                  "group-hover:bg-primary/5": pathname.endsWith("/order"),
+                  "group-hover:bg-secondary/70": !pathname.endsWith("/order"),
+                }
+              )}
+            >
+              order
+            </Link>
+          </li>
+          {/* menu - 4 */}
+          <li
+            className={cn(
+              "group flex h-full items-center justify-center font-medium transition",
+              {
+                "border-b-2 border-primary text-primary":
                   pathname.startsWith("/settings"),
-                "border-b-2 border-transparent opacity-50":
+                "border-b-2 border-transparent text-muted-foreground/80":
                   !pathname.startsWith("/settings"),
               }
             )}
@@ -114,7 +145,8 @@ function Header({
                 "select-none rounded px-3 py-1.5 text-sm capitalize",
                 {
                   "group-hover:bg-primary/5": pathname.startsWith("/settings"),
-                  "group-hover:bg-secondary": !pathname.startsWith("/settings"),
+                  "group-hover:bg-secondary/70":
+                    !pathname.startsWith("/settings"),
                 }
               )}
             >
@@ -125,9 +157,9 @@ function Header({
       </div>
       <div className="flex items-center gap-6">
         {pathname.startsWith("/dashboard") ? (
-          <GroupPicker user={user} usersGroups={usersGroups} />
+          <GroupPicker userInfoData={userInfoData} usersGroups={usersGroups} />
         ) : null}
-        <AvatarDropdownMenu user={user} />
+        <AvatarDropdownMenu userInfoData={userInfoData} />
       </div>
     </div>
   );

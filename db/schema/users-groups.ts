@@ -1,5 +1,5 @@
 import { relations, type InferSelectModel } from "drizzle-orm";
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
 
 import { usersTable } from "@/db/schema/users";
@@ -9,6 +9,10 @@ const usersGroupsTable = sqliteTable("users_groups", {
   id: text("id")
     .$defaultFn(() => createId())
     .primaryKey(),
+  isActive: integer("active", { mode: "boolean" }).notNull(),
+  type: text("type", {
+    enum: ["super_admin", "admin", "editor", "member"],
+  }).notNull(),
   userId: text("user_id")
     .notNull()
     .references(() => usersTable.id, { onDelete: "cascade" }),

@@ -20,7 +20,7 @@ async function Page() {
   const { user } = await validateSession();
   const userInfo = await getUserInfo();
 
-  if (!user || !userInfo.success || !userInfo.data) {
+  if (!user || !userInfo.success || !userInfo.data || !userInfo.data.email) {
     redirect("/sign-in");
   }
 
@@ -53,7 +53,7 @@ async function Page() {
             </h1>
           </div>
           <div className="mt-8">
-            <CreateJoinGroupForm />
+            <CreateJoinGroupForm userInfoData={userInfo.data} />
           </div>
         </div>
       </div>

@@ -2,14 +2,16 @@ import { notFound } from "next/navigation";
 
 import { getUsersGroups } from "@/app/actions/group";
 import { validateSession } from "@/app/actions/auth";
+import { getUserInfo } from "@/app/actions/user";
 import GroupsTable from "@/app/(protected)/settings/group/details/_components/GroupsTable";
 import CreateJoinGroupForm from "@/app/welcome/CreateJoinGroupForm";
 
 export default async function Page() {
   const { user } = await validateSession();
+  const userInfo = await getUserInfo();
   const usersGroupsData = await getUsersGroups();
 
-  if (!user || !usersGroupsData || !usersGroupsData.data) {
+  if (!user || !userInfo.data || !usersGroupsData || !usersGroupsData.data) {
     notFound();
   }
 
@@ -24,7 +26,7 @@ export default async function Page() {
         </div>
         {usersGroupsData.data.length < 5 ? (
           <div>
-            <CreateJoinGroupForm />
+            <CreateJoinGroupForm userInfoData={userInfo.data} />
           </div>
         ) : null}
       </div>

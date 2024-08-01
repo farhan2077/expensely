@@ -17,3 +17,7 @@ export {
   monthlyActivitiesTable,
   monthlyActivitiesRelations,
 } from "@/db/schema/monthly-activities";
+export {
+  groupsOrdersTable,
+  groupsOrdersTableRelations,
+} from "@/db/schema/groups-orders";

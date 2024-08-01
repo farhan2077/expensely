@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
+import type { SafeUser } from "@/db/schema/users";
 
 import { Icons } from "@/components/icons";
 import {
@@ -34,9 +35,11 @@ import { joinGroupAction } from "@/app/actions/group";
 function JoinGroup({
   open,
   setOpen,
+  userInfoData,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
+  userInfoData: SafeUser;
 }) {
   const router = useRouter();
 
@@ -54,12 +57,19 @@ function JoinGroup({
     setIsLoading(true);
 
     try {
-      const res = await joinGroupAction(formValues.name, formValues.code);
+      const res = await joinGroupAction(
+        formValues.name,
+        formValues.code,
+        userInfoData.name,
+        userInfoData.email
+      );
       if (res.success) {
         toast.success(res.message);
         form.reset();
+
         const OVERVIEW_LINK = `/dashboard/${res.data.groupId}` as Route;
         router.push(OVERVIEW_LINK);
+
         setOpen(false);
       } else {
         toast.warning(res.message);

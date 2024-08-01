@@ -9,12 +9,21 @@ CREATE TABLE `daily_activities` (
 	FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
+CREATE TABLE `groups_orders` (
+	`id` text PRIMARY KEY NOT NULL,
+	`order` integer NOT NULL,
+	`name` text(255) NOT NULL,
+	`email` text(255),
+	`group_id` text NOT NULL,
+	FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
 CREATE TABLE `groups` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text(255) NOT NULL,
 	`code` integer NOT NULL,
 	`owner_id` text,
-	FOREIGN KEY (`owner_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`owner_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `monthly_activities` (
@@ -50,6 +59,8 @@ CREATE TABLE `sessions` (
 --> statement-breakpoint
 CREATE TABLE `users_groups` (
 	`id` text PRIMARY KEY NOT NULL,
+	`active` integer NOT NULL,
+	`type` text NOT NULL,
 	`user_id` text NOT NULL,
 	`group_id` text NOT NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade,
@@ -59,7 +70,7 @@ CREATE TABLE `users_groups` (
 CREATE TABLE `users` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text(255) NOT NULL,
-	`email` text(255),
+	`email` text(255) NOT NULL,
 	`hash` text(255),
 	`salt` text(255),
 	`created_at` text DEFAULT (CURRENT_TIMESTAMP)

@@ -11,7 +11,7 @@ const usersTable = sqliteTable("users", {
     .$defaultFn(() => createId())
     .primaryKey(),
   name: text("name", { length: 255 }).notNull(),
-  email: text("email", { length: 255 }).unique(),
+  email: text("email", { length: 255 }).unique().notNull(),
   hash: text("hash", { length: 255 }),
   salt: text("salt", { length: 255 }),
   createdAt: text("created_at", { mode: "text" }).default(
@@ -26,5 +26,7 @@ const usersRelations = relations(usersTable, ({ many }) => ({
 }));
 
 type User = InferSelectModel<typeof usersTable>;
+type SafeUser = Omit<User, "hash" | "salt">;
 
-export { usersTable, usersRelations, type User };
+export { usersTable, usersRelations };
+export type { User, SafeUser };

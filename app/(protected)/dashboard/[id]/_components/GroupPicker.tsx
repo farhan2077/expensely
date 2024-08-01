@@ -24,12 +24,13 @@ import {
 import { UsersGroups } from "@/db/schema/users-groups";
 import CreateGroup from "@/components/dialogs/CreateGroup";
 import JoinGroup from "@/components/dialogs/JoinGroup";
+import type { SafeUser } from "@/db/schema/users";
 
 export default function GroupPicker({
-  user,
+  userInfoData,
   usersGroups,
 }: {
-  user: any;
+  userInfoData: SafeUser;
   usersGroups: any;
 }) {
   const params = useParams<{ id: string }>();
@@ -42,7 +43,8 @@ export default function GroupPicker({
   const [openJoinModal, setOpenJoinModal] = useState(false);
 
   const matchedGroupFromParam = usersGroups.find(
-    (item: UsersGroups) => item.groupId === params.id && item.userId === user.id
+    (item: UsersGroups) =>
+      item.groupId === params.id && item.userId === userInfoData.id
   );
 
   if (!matchedGroupFromParam) {
@@ -81,12 +83,16 @@ export default function GroupPicker({
                         `/dashboard/${group.groupId}` as Route;
                       const UTILITIES_LINK =
                         `/dashboard/${group.groupId}/utilities` as Route;
+                      const ORDER_LINK =
+                        `/dashboard/${group.groupId}/order` as Route;
 
                       setOpen(false);
                       router.push(
                         pathname.endsWith("/utilities")
                           ? UTILITIES_LINK
-                          : OVERVIEW_LINK
+                          : pathname.endsWith("/order")
+                            ? ORDER_LINK
+                            : OVERVIEW_LINK
                       );
                     }}
                   >
@@ -99,7 +105,7 @@ export default function GroupPicker({
                       )}
                     />
                     <span className="truncate">{group.group.name}</span>
-                    {group.group.ownerId === user.id ? (
+                    {group.group.ownerId === userInfoData.id ? (
                       <Badge className="ml-2 px-1.5 py-0">own</Badge>
                     ) : null}
                   </CommandItem>
@@ -134,8 +140,16 @@ export default function GroupPicker({
           </div>
         </PopoverContent>
       </Popover>
-      <CreateGroup open={openCreateModal} setOpen={setOpenCreateModal} />
-      <JoinGroup open={openJoinModal} setOpen={setOpenJoinModal} />
+      <CreateGroup
+        open={openCreateModal}
+        setOpen={setOpenCreateModal}
+        userInfoData={userInfoData}
+      />
+      <JoinGroup
+        open={openJoinModal}
+        setOpen={setOpenJoinModal}
+        userInfoData={userInfoData}
+      />
     </>
   );
 }

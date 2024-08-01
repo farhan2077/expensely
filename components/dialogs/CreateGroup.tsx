@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
+import type { User } from "@/db/schema/users";
 
 import { Icons } from "@/components/icons";
 import {
@@ -34,10 +35,12 @@ import { createGroupAction } from "@/app/actions/group";
 function CreateGroup({
   open,
   setOpen,
+  userInfoData,
 }: {
   open: boolean;
   // eslint-disable-next-line no-unused-vars
   setOpen: (open: boolean) => void;
+  userInfoData: Omit<User, "hash" | "salt">;
 }) {
   const router = useRouter();
 
@@ -55,7 +58,12 @@ function CreateGroup({
     setIsLoading(true);
 
     try {
-      const res = await createGroupAction(formValues.name, formValues.code);
+      const res = await createGroupAction(
+        formValues.name,
+        formValues.code,
+        userInfoData.name,
+        userInfoData.email
+      );
       if (res.success) {
         toast.success(res.message);
         form.reset();

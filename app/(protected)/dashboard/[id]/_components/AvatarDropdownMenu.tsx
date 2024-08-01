@@ -14,12 +14,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User } from "@/db/schema/users";
+import type { SafeUser } from "@/db/schema/users";
 
 export default function AvatarDropdownMenu({
-  user,
+  userInfoData,
 }: {
-  user: Omit<User, "hash" | "salt">;
+  userInfoData: SafeUser;
 }) {
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -27,13 +27,13 @@ export default function AvatarDropdownMenu({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Avatar size={35} name={user.email as string} variant="beam" />
+          <Avatar size={35} name={userInfoData.email} variant="beam" />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mt-0.5 w-56" align="end" side="bottom">
           <DropdownMenuGroup className="m-2">
-            <p className="truncate text-sm font-medium">{user.name}</p>
+            <p className="truncate text-sm font-medium">{userInfoData.name}</p>
             <p className="truncate text-xs text-muted-foreground">
-              {user.email}
+              {userInfoData.email}
             </p>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
