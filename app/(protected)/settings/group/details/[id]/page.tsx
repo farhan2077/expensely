@@ -22,6 +22,7 @@ import { getGroupDetails } from "@/app/actions/group";
 import { validateSession } from "@/app/actions/auth";
 import { isEqual } from "@/libs/utils";
 import { Badge } from "@/components/ui/badge";
+import { ViewGroupCode } from "@/app/(protected)/settings/group/details/[id]/ViewGroupCode";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { user } = await validateSession();
@@ -46,11 +47,13 @@ export default async function Page({ params }: { params: { id: string } }) {
               </h2>
             </div>
           </div>
-          <p className="text-sm text-muted-foreground">
-            {isAdmin
-              ? "You can add or remove members here"
-              : "View who are in this group"}
-          </p>
+          <div className="text-sm text-muted-foreground">
+            {isAdmin ? (
+              <ViewGroupCode groupCode={groupDetails.data.groupInfo.code} />
+            ) : (
+              "View who are in this group"
+            )}
+          </div>
         </div>
 
         {isAdmin ? (
