@@ -272,41 +272,44 @@ async function Page({ params, searchParams }: PageProps) {
           icon={Utensils}
         />
       </section>
-      <section>
-        <h2 className="my-4 text-lg font-bold leading-none">
-          Everyone&apos;s grocery costs and meals so far
-        </h2>
-        <div className="flex divide-x-2 divide-border">
-          {groupMembersTotals.map((member) => {
-            return (
-              <div key={member.userId} className="px-8 first:pl-0 last:pr-0">
-                <p className="text-sm font-medium">{member.name}</p>
-                <div className="mt-1">
-                  <div className="flex items-center gap-2">
-                    <Banknote className="h-4 w-4" />
-                    <span className="text-sm tabular-nums">
-                      {member.totalGrocery} BDT
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <UtensilsCrossed className="h-4 w-4" />
-                    <span className="text-sm tabular-nums">
-                      {member.totalMeal} meals
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CreditCard className="h-4 w-4" />
-                    <span className="text-sm tabular-nums">
-                      {Math.ceil(member.totalMeal * totals.avgMealRate)} BDT
-                      (meal cost)
-                    </span>
+      {groupMembersTotals.length > 0 && (
+        <section>
+          <h2 className="my-4 text-lg font-bold leading-none">
+            Everyone&apos;s grocery costs and meals so far
+          </h2>
+
+          <div className="flex divide-x-2 divide-border">
+            {groupMembersTotals.map((member) => {
+              return (
+                <div key={member.userId} className="px-8 first:pl-0 last:pr-0">
+                  <p className="text-sm font-medium">{member.name}</p>
+                  <div className="mt-1">
+                    <div className="flex items-center gap-2">
+                      <Banknote className="h-4 w-4" />
+                      <span className="text-sm tabular-nums">
+                        {member.totalGrocery} BDT
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <UtensilsCrossed className="h-4 w-4" />
+                      <span className="text-sm tabular-nums">
+                        {member.totalMeal} meals
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CreditCard className="h-4 w-4" />
+                      <span className="text-sm tabular-nums">
+                        {Math.ceil(member.totalMeal * totals.avgMealRate)} BDT
+                        (meal cost)
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+              );
+            })}
+          </div>
+        </section>
+      )}
       <div>
         <div className="flex flex-col items-start justify-end gap-4 sm:flex-row">
           {isEmpty(months) ? null : <MonthPicker months={months} />}

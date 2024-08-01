@@ -29,7 +29,7 @@ export default function AvatarDropdownMenu({
         <DropdownMenuTrigger>
           <Avatar size={35} name={userInfoData.email} variant="beam" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="mt-0.5 w-56" align="end" side="bottom">
+        <DropdownMenuContent className="w-56" align="end" side="bottom">
           <DropdownMenuGroup className="m-2">
             <p className="truncate text-sm font-medium">{userInfoData.name}</p>
             <p className="truncate text-xs text-muted-foreground">

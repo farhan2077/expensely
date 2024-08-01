@@ -59,7 +59,7 @@ export default function GroupPicker({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="flex w-[200px] justify-between overflow-hidden shadow"
+            className="flex w-[200px] justify-between overflow-hidden"
             size="sm"
           >
             <div className="overflow-hidden text-ellipsis">

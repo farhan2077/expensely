@@ -15,6 +15,7 @@ import {
 import env from "@/env";
 
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -79,10 +80,17 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ProgressbarProvider>
-          <Toaster richColors position="top-center" />
-          {children}
-        </ProgressbarProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ProgressbarProvider>
+            <Toaster richColors position="top-center" />
+            {children}
+          </ProgressbarProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

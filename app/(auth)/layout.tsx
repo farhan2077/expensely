@@ -16,7 +16,7 @@ export default function AuthLayout({
           href="/"
           className="relative z-20 flex items-center text-lg font-medium"
         >
-          <Icons.logo className="mr-2 h-5 w-5 text-white" />
+          <Icons.logo className="mr-2 h-5 w-5" />
           <h1 className="text-xl font-semibold tracking-tight">Expensely</h1>
         </Link>
         <div className="relative z-20 mt-auto">

@@ -53,10 +53,7 @@ export default function GroupsTable({
               <TableCell>
                 {grp.group.name}
                 {isAdmin ? (
-                  <Badge
-                    variant="outline"
-                    className="ml-2 border-blue-100 bg-blue-100"
-                  >
+                  <Badge variant="secondary" className="ml-2">
                     own
                   </Badge>
                 ) : null}

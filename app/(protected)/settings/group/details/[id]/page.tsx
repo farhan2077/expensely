@@ -103,16 +103,9 @@ export default async function Page({ params }: { params: { id: string } }) {
                   ) : null}
                 </TableCell>
                 <TableCell>
-                  {isAdmin ? (
-                    <Badge
-                      variant="outline"
-                      className="border-blue-100 bg-blue-100"
-                    >
-                      Owner
-                    </Badge>
-                  ) : (
-                    <Badge variant="outline">Member</Badge>
-                  )}
+                  <Badge variant="secondary">
+                    {isAdmin ? "Owner" : "Member"}
+                  </Badge>
                 </TableCell>
                 {isAdmin ? (
                   <TableCell className="w-fit text-right">
