@@ -63,7 +63,7 @@ function JoinGroup({
         userInfoData.name,
         userInfoData.email
       );
-      if (res.success) {
+      if (res.success && res.data) {
         toast.success(res.message);
         form.reset();
 
