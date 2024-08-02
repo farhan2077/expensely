@@ -39,7 +39,7 @@ function Header({
             <Icons.logo className="h-8 w-8 opacity-100 transition-opacity group-hover:opacity-75" />
           </Link>
         </div>
-        <ul className="hidden h-[101.5%] items-start justify-center gap-4 md:flex">
+        <ul className="hidden h-[101.5%] items-start justify-center gap-2 md:flex">
           {/* menu - 1 */}
           <li
             className={cn(
@@ -156,7 +156,7 @@ function Header({
           </li>
         </ul>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2">
         {pathname.startsWith("/dashboard") ? (
           <GroupPicker userInfoData={userInfoData} usersGroups={usersGroups} />
         ) : null}

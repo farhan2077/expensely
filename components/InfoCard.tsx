@@ -29,7 +29,10 @@ export default function InfoCard({
       <CardContent>
         <div className="text-2xl font-bold">
           {bodyType === "currency" && (
-            <span className="mr-0.5 text-[1.6875rem] font-semibold">৳</span>
+            <span className="mr-0.5 text-[1.6875rem] font-semibold">
+              {/* symbol source: https://www.toptal.com/designers/htmlarrows/currency/, Bengali Taka */}
+              &#2547;
+            </span>
           )}
           {formattedBody}
         </div>

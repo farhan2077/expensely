@@ -70,12 +70,13 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
         0
       );
 
-      return (
-        <p
-          className="flex w-fit gap-2"
-          title={`Total cost ${totalGroceryCost}`}
-        >
-          ৳{totalGroceryCost}
+      return totalGroceryCost === 0 ? (
+        "No grocery"
+      ) : (
+        <p title={`Total cost ${totalGroceryCost} taka`}>
+          {/* symbol source: https://www.toptal.com/designers/htmlarrows/currency/, Bengali Taka */}
+          <span className="mr-0.5 text-base">&#2547;</span>
+          {totalGroceryCost}
         </p>
       );
     },
