@@ -6,10 +6,11 @@ import { groupsTable, type Groups } from "@/db/schema/groups";
 import { usersGroupsTable, type UsersGroups } from "@/db/schema/users-groups";
 import { redirect } from "next/navigation";
 
-import { and, eq, count } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Response } from "@/libs/types";
 import { groupsOrdersTable } from "@/db/schema";
+import { addGroupOrder } from "@/app/actions/group-order";
 
 export async function createGroupAction(
   name: string,
@@ -153,7 +154,7 @@ export async function joinGroupAction(
       .returning();
 
     // add order after updating isActive
-    const orderRes = await addGroupOrderAfterJoin(
+    const orderRes = await addGroupOrder(
       updatedResult.groupId,
       userEmail,
       userName
@@ -196,7 +197,7 @@ export async function joinGroupAction(
   }
 
   // add order after adding new user and group
-  const orderRes = await addGroupOrderAfterJoin(
+  const orderRes = await addGroupOrder(
     usersGroupsResult.groupId,
     userEmail,
     userName
@@ -216,42 +217,6 @@ export async function joinGroupAction(
     success: true,
     message: "Joined group",
     data: usersGroupsResult,
-  };
-}
-
-async function addGroupOrderAfterJoin(
-  groupId: string,
-  email: string,
-  name: string
-): Promise<Response> {
-  // this must be run after user and group correlation has already been created
-  // which will ensure that there will be at least one entry
-  const [groupsOrderCount] = await db
-    .select({ count: count() })
-    .from(groupsOrdersTable)
-    // .where(eq(groupsOrdersTable.groupId, usersGroupsResult.groupId));
-    .where(eq(groupsOrdersTable.groupId, groupId));
-
-  const anotherOrder = await db
-    .insert(groupsOrdersTable)
-    .values({
-      order: groupsOrderCount.count, // why not count + 1, becuase index starts at 0, so the count is already +1
-      groupId: groupId,
-      email: email,
-      name: name,
-    })
-    .returning();
-
-  if (!anotherOrder) {
-    return {
-      success: false,
-      message: "Could not update order",
-    };
-  }
-
-  return {
-    success: true,
-    message: "Added order",
   };
 }
 

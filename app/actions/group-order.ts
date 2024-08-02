@@ -2,14 +2,14 @@
 
 import { db } from "@/db";
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, count, asc, like } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { Response } from "@/libs/types";
 import {
   groupsOrdersTable,
   type GroupsOrders,
 } from "@/db/schema/groups-orders";
-import { error } from "console";
+import { EMPTY_MAIL_SUFFIX } from "@/config";
 
 export async function getGroupOrderInfo(
   groupId: string
@@ -41,11 +41,6 @@ export async function updateGroupOrders(
   groupId: string,
   groupsOrders: any // better type
 ): Promise<Response> {
-  // 1
-  // get all the current fields
-  // delete them
-  // add the new ones
-  //
   try {
     const results = await db.transaction(async (tx) => {
       const updatedGroupsOrders = [];
@@ -83,11 +78,105 @@ export async function updateGroupOrders(
       success: true,
       message: "Order updated",
     };
-  } catch (e) {
+  } catch (error) {
     return {
       success: false,
       message: "There was an error",
       data: error,
+    };
+  }
+}
+
+// this must be run after user and group correlation has already been created
+// which will ensure that there will be at least one entry
+export async function addGroupOrder(
+  groupId: string,
+  email: string,
+  name: string
+): Promise<Response> {
+  try {
+    const [groupsOrderCount] = await db
+      .select({ count: count() })
+      .from(groupsOrdersTable)
+      .where(eq(groupsOrdersTable.groupId, groupId));
+
+    const anotherOrder = await db
+      .insert(groupsOrdersTable)
+      .values({
+        order: groupsOrderCount.count, // why not count + 1, becuase index starts at 0, so the count is already +1
+        groupId: groupId,
+        email: email,
+        name: name,
+      })
+      .returning();
+
+    if (!anotherOrder) {
+      return {
+        success: false,
+        message: "Could not add order",
+      };
+    }
+
+    revalidatePath("/(protected)/dashboard/[id]", "layout");
+
+    return {
+      success: true,
+      message: "Added order",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "There was an error",
+      data: error,
+    };
+  }
+}
+
+export async function deleteEmptyAndResetOrder(
+  groupId: string
+): Promise<Response> {
+  try {
+    // Start a transaction
+    return await db.transaction(async (tx) => {
+      // 1. Delete rows with empty email and matching group ID
+      const deleteResult = await tx
+        .delete(groupsOrdersTable)
+        .where(
+          and(
+            eq(groupsOrdersTable.groupId, groupId),
+            like(groupsOrdersTable.email, `%${EMPTY_MAIL_SUFFIX}`)
+          )
+        );
+
+      // 2. Select remaining rows for the group, ordered by current order
+      const remainingRows = await tx
+        .select()
+        .from(groupsOrdersTable)
+        .where(eq(groupsOrdersTable.groupId, groupId))
+        .orderBy(asc(groupsOrdersTable.order));
+
+      // 3. Update the order of remaining rows
+      let updatedCount = 0;
+      for (let i = 0; i < remainingRows.length; i++) {
+        await tx
+          .update(groupsOrdersTable)
+          .set({ order: i })
+          .where(eq(groupsOrdersTable.id, remainingRows[i].id));
+        updatedCount++;
+      }
+
+      // deletedCount: deleteResult.rowsAffected,
+      // updatedCount: updatedCount,
+
+      return {
+        success: true,
+        message: "Removed empty slots successfully",
+      };
+    });
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong",
     };
   }
 }
