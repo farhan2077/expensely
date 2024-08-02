@@ -36,7 +36,7 @@ function Header({
       <div className="flex h-[4rem] gap-8">
         <div className="flex h-[101.5%] items-center justify-center">
           <Link href={OVERVIEW_LINK as Route} passHref className="group">
-            <Icons.logo className="h-8 w-8 opacity-100 transition-opacity group-hover:opacity-75" />
+            <Icons.logo className="h-8 w-8 text-foreground opacity-100 transition-opacity group-hover:opacity-75" />
           </Link>
         </div>
         <ul className="hidden h-[101.5%] items-start justify-center gap-2 md:flex">
