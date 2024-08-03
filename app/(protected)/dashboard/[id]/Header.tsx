@@ -30,6 +30,29 @@ function Header({
   const OVERVIEW_LINK = `/dashboard/${groupId}`;
   const UTILITIES_LINK = `/dashboard/${groupId}/utilities`;
   const ORDER_LINK = `/dashboard/${groupId}/order`;
+  const SETTINGS_LINK = `/settings`;
+
+  const isDashboardActive = pathname.startsWith("/dashboard");
+  const isUtilitiesActive = pathname.endsWith("/utilities");
+  const isOrderActive = pathname.endsWith("/order");
+  const isSettingsActive = pathname.startsWith("/settings");
+
+  function getMenuClassName(isActive: boolean): string {
+    return cn(
+      "group flex h-full items-center justify-center font-medium transition",
+      {
+        "border-b-2 border-primary text-primary": isActive,
+        "border-b-2 border-transparent text-muted-foreground/90": !isActive,
+      }
+    );
+  }
+
+  function getLinkClassName(isActive: boolean): string {
+    return cn("select-none rounded px-3 py-1.5 text-sm capitalize", {
+      "group-hover:bg-primary/5": isActive,
+      "group-hover:bg-secondary/70": !isActive,
+    });
+  }
 
   return (
     <div className="flex items-center justify-between border-b px-6 shadow-sm">
@@ -42,114 +65,42 @@ function Header({
         <ul className="hidden h-[101.5%] items-start justify-center gap-2 md:flex">
           {/* menu - 1 */}
           <li
-            className={cn(
-              "group flex h-full items-center justify-center font-medium transition",
-              {
-                "border-b-2 border-primary text-primary":
-                  pathname.startsWith("/dashboard") &&
-                  (!pathname.endsWith("/utilities") ||
-                    !pathname.endsWith("/order")),
-                "border-b-2 border-transparent text-muted-foreground/90":
-                  (pathname.startsWith("/dashboard") &&
-                    (pathname.endsWith("/utilities") ||
-                      pathname.endsWith("/order"))) ||
-                  !pathname.includes("/dashboard"),
-              }
+            className={getMenuClassName(
+              isDashboardActive && !isUtilitiesActive && !isOrderActive
             )}
           >
             <Link
               href={OVERVIEW_LINK as Route}
-              className={cn(
-                "select-none rounded px-3 py-1.5 text-sm capitalize",
-                {
-                  "group-hover:bg-primary/5":
-                    pathname.startsWith("/dashboard") &&
-                    (!pathname.endsWith("/utilities") ||
-                      !pathname.endsWith("/order")),
-                  "group-hover:bg-secondary/70":
-                    (pathname.startsWith("/dashboard") &&
-                      (pathname.endsWith("/utilities") ||
-                        pathname.endsWith("/order"))) ||
-                    !pathname.includes("/dashboard"),
-                }
+              className={getLinkClassName(
+                isDashboardActive && !isUtilitiesActive && !isOrderActive
               )}
             >
               overview
             </Link>
           </li>
           {/* menu - 2 */}
-          <li
-            className={cn(
-              "group flex h-full items-center justify-center font-medium tracking-wide transition",
-              {
-                "border-b-2 border-primary text-primary":
-                  pathname.endsWith("/utilities"),
-                "border-b-2 border-transparent text-muted-foreground/90":
-                  !pathname.endsWith("/utilities"),
-              }
-            )}
-          >
+          <li className={getMenuClassName(isUtilitiesActive)}>
             <Link
               href={UTILITIES_LINK as Route}
-              className={cn(
-                "select-none rounded px-3 py-1.5 text-sm capitalize",
-                {
-                  "group-hover:bg-primary/5": pathname.endsWith("/utilities"),
-                  "group-hover:bg-secondary/70":
-                    !pathname.endsWith("/utilities"),
-                }
-              )}
+              className={getLinkClassName(isUtilitiesActive)}
             >
               utilities
             </Link>
           </li>
           {/* menu - 3 */}
-          <li
-            className={cn(
-              "group flex h-full items-center justify-center font-medium transition",
-              {
-                "border-b-2 border-primary text-primary":
-                  pathname.endsWith("/order"),
-                "border-b-2 border-transparent text-muted-foreground/90":
-                  !pathname.endsWith("/order"),
-              }
-            )}
-          >
+          <li className={getMenuClassName(isOrderActive)}>
             <Link
               href={ORDER_LINK as Route}
-              className={cn(
-                "select-none rounded px-3 py-1.5 text-sm capitalize",
-                {
-                  "group-hover:bg-primary/5": pathname.endsWith("/order"),
-                  "group-hover:bg-secondary/70": !pathname.endsWith("/order"),
-                }
-              )}
+              className={getLinkClassName(isOrderActive)}
             >
               order
             </Link>
           </li>
           {/* menu - 4 */}
-          <li
-            className={cn(
-              "group flex h-full items-center justify-center font-medium transition",
-              {
-                "border-b-2 border-primary text-primary":
-                  pathname.startsWith("/settings"),
-                "border-b-2 border-transparent text-muted-foreground/90":
-                  !pathname.startsWith("/settings"),
-              }
-            )}
-          >
+          <li className={getMenuClassName(isSettingsActive)}>
             <Link
-              href={`/settings`}
-              className={cn(
-                "select-none rounded px-3 py-1.5 text-sm capitalize",
-                {
-                  "group-hover:bg-primary/5": pathname.startsWith("/settings"),
-                  "group-hover:bg-secondary/70":
-                    !pathname.startsWith("/settings"),
-                }
-              )}
+              href={SETTINGS_LINK as Route}
+              className={getLinkClassName(isSettingsActive)}
             >
               settings
             </Link>
@@ -157,7 +108,7 @@ function Header({
         </ul>
       </div>
       <div className="flex items-center gap-2">
-        {pathname.startsWith("/dashboard") ? (
+        {isDashboardActive ? (
           <GroupPicker userInfoData={userInfoData} usersGroups={usersGroups} />
         ) : null}
         <ToggleTheme />
