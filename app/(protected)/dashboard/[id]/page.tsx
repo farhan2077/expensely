@@ -205,8 +205,13 @@ type PageProps = {
 
 async function Page({ params, searchParams }: PageProps) {
   const groupId = params.id;
-  const fromSP = searchParams?.from || "";
-  const toSP = searchParams?.to || "";
+  const fromSP = searchParams.from || "";
+  const toSP = searchParams.to || "";
+
+  // TODO: there's some issue with the page still showing previously selected month's data when clicked on the logo or overview or coming back to other page to this page
+  // TODO: need to fix this later, for now this works, idk how
+  console.log("⌘ fromSP:", fromSP, new Date());
+  console.log("⌘ toSP:", toSP, new Date());
 
   const { user } = await validateSession();
   const groupDetails = await getGroupDetails(groupId);
@@ -253,7 +258,7 @@ async function Page({ params, searchParams }: PageProps) {
       <hr className="text-muted-foreground" />
       <section className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-6">
         <InfoCard
-          title="Total bazar costs"
+          title="Total grocery costs"
           body={totals.totalGrocery}
           bodyType="currency"
           icon={DollarSign}
@@ -304,16 +309,14 @@ async function Page({ params, searchParams }: PageProps) {
           </div>
         </section>
       )}
-      <div>
-        <div className="flex flex-col items-start justify-end gap-4 sm:flex-row">
-          {isEmpty(months) ? null : <MonthPicker months={months} />}
-          {isAdmin ? (
-            <AddDailyActivityButton
-              groupMembers={groupDetails.data.groupMembers}
-              disabledDates={disabledDates}
-            />
-          ) : null}
-        </div>
+      <div className="mt-4 flex flex-col items-start justify-end gap-4 sm:flex-row">
+        {isEmpty(months) ? null : <MonthPicker months={months} />}
+        {isAdmin ? (
+          <AddDailyActivityButton
+            groupMembers={groupDetails.data.groupMembers}
+            disabledDates={disabledDates}
+          />
+        ) : null}
       </div>
       <DataTable data={sortedActivities} columns={columns} />
     </div>
