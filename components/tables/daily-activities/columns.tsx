@@ -3,6 +3,14 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import type { DailyActivityOutputData } from "@/app/actions/daily-activity";
+import { cn } from "@/libs/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Fragment } from "react";
 
 export type DailyActivityRow = {
   date: string;
@@ -16,7 +24,12 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
     cell: ({ row }) => {
       const date = row.getValue("date") as string;
 
-      return <p className="font-medium">{format(date, "ccc, PPP")}</p>;
+      return (
+        <p className="whitespace-nowrap font-medium">
+          <span className="block lg:hidden">{format(date, "PP")}</span>
+          <span className="hidden lg:block">{format(date, "ccc, PPP")}</span>
+        </p>
+      );
     },
   },
   {
@@ -25,13 +38,10 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
     accessorFn: (row) => row.rest,
     cell: ({ row }) => {
       const users = row.original.rest as Array<DailyActivityOutputData>;
-      const totalMealCount = users.reduce((sum, user) => sum + user.meal, 0);
+      const totalMeals = users.reduce((sum, user) => sum + user.meal, 0);
 
       return (
-        <div
-          className="flex w-fit gap-2"
-          title={`Total meals ${totalMealCount}`}
-        >
+        <div className="flex max-w-5xl flex-wrap items-center gap-2">
           {users
             .sort(function (a, b) {
               const nameA = a.user.name.toLowerCase(),
@@ -44,24 +54,71 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
               return 0; // default return value (no sorting)
             })
             .map((user) => {
-              return user.meal === 0 ? null : (
-                <div key={user.id} className="flex items-center">
-                  <span className="rounded-l bg-slate-100 px-2 py-1">
-                    {user.user.name}
-                  </span>
-                  <span className="rounded-r bg-slate-200 px-2 py-1 font-semibold">
-                    {user.meal}
-                  </span>
-                </div>
+              return (
+                <Fragment key={user.id}>
+                  {user.grocery === 0 ? (
+                    <div className="flex items-center rounded bg-slate-200 ring-2 ring-slate-200 dark:bg-slate-800 dark:ring-slate-800">
+                      <span className="rounded bg-slate-100 px-2 py-1 dark:bg-slate-900">
+                        {user.user.name}
+                      </span>
+                      <span
+                        className={cn(
+                          "rounded-r bg-slate-200 px-2 py-1 tabular-nums dark:bg-slate-800",
+                          {
+                            "font-semibold": user.meal !== 0,
+                          }
+                        )}
+                      >
+                        {user.meal}
+                      </span>
+                    </div>
+                  ) : (
+                    <TooltipProvider delayDuration={50} key={user.id}>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="flex items-center rounded ring-2 ring-primary">
+                            <span className="rounded-l bg-slate-100 px-2 py-1 dark:bg-slate-900">
+                              {user.user.name}
+                            </span>
+                            <span
+                              className={cn(
+                                "rounded-r bg-slate-200 px-2 py-1 tabular-nums dark:bg-slate-800",
+                                {
+                                  "font-semibold": user.meal !== 0,
+                                }
+                              )}
+                            >
+                              {user.meal}
+                            </span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent className="mb-1">
+                          <p>
+                            Grocery cost:{" "}
+                            <span className="font-semibold">
+                              {user.grocery}
+                            </span>{" "}
+                            BDT
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
+                </Fragment>
               );
             })}
+          {/* <Test /> <Test /> <Test /> <Test /> <Test /> <Test />
+          <Test /> <Test /> <Test /> <Test /> <Test /> <Test /> */}
+          <p className="duration-50 group ml-2 text-sm opacity-0 transition-opacity group-hover:opacity-100">
+            Total meals <span className="font-semibold">{totalMeals}</span>
+          </p>
         </div>
       );
     },
   },
   {
     id: "grocery-cost",
-    header: "Grocery cost",
+    header: "Total grocery cost",
     accessorFn: (row) => row.rest,
     cell: ({ row }) => {
       const users = row.original.rest;
@@ -70,10 +127,12 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
         0
       );
 
-      return totalGroceryCost === 0 ? (
-        "No grocery"
-      ) : (
-        <p title={`Total cost ${totalGroceryCost} taka`}>
+      return (
+        <p
+          className={cn("whitespace-nowrap", {
+            "text-muted-foreground": totalGroceryCost === 0,
+          })}
+        >
           {/* symbol source: https://www.toptal.com/designers/htmlarrows/currency/, Bengali Taka */}
           <span className="mr-0.5 text-base">&#2547;</span>
           {totalGroceryCost}
