@@ -20,5 +20,13 @@ const monthlyActivityFormSchema = z.object({
   ),
 });
 
-export { monthlyActivityFormSchema };
+const editMonthlyActivityFormSchema = z.object({
+  rent: numberSchema,
+  paid: numberSchema,
+});
+
+export { monthlyActivityFormSchema, editMonthlyActivityFormSchema };
 export type FormType = z.infer<typeof monthlyActivityFormSchema>;
+export type EditMonthlyActivityFormType = z.infer<
+  typeof editMonthlyActivityFormSchema
+>;

@@ -17,6 +17,7 @@ import {
   type AllTotals,
 } from "@/app/(protected)/dashboard/[id]/page";
 import { notFound } from "next/navigation";
+import EditMonthlyActivityButton from "@/app/(protected)/dashboard/[id]/utilities/EditMonthlyActivityButton";
 
 type MembersBillsDetailsCardT = {
   id: string;
@@ -82,27 +83,32 @@ function MembersBillsDetailsCard({
     prevDue = 0;
   }
 
-  const isPrevDueDangerous = prevDue > 0;
-  const isPaidDangerous = totalToPay > paid;
+  const hasPrevDue = prevDue > 0;
+  const hasPaidLess = totalToPay > paid;
+  const hasPaidMore = paid > totalToPay;
 
   return (
     <Card
       className={cn("group", {
-        "border-destructive": isPaidDangerous,
+        "border-destructive": hasPaidLess || hasPaidMore,
       })}
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <CardTitle className="flex items-center gap-1.5">
           <p className="text-base font-medium">{name}</p>
-          {isPaidDangerous ? (
-            <PlusCircleIcon className="h-6 w-6 rotate-45 fill-destructive text-white" />
+          {hasPaidLess ? (
+            <PlusCircleIcon className="h-6 w-6 rotate-45 fill-destructive text-background" />
           ) : (
-            <CheckCircle2 className="h-6 w-6 fill-green-500 text-white" />
+            <CheckCircle2 className="h-6 w-6 fill-green-500 text-background" />
           )}
         </CardTitle>
-        <button className="rounded bg-muted p-2 opacity-0 transition-opacity duration-100 ease-out group-hover:opacity-100">
-          <PenLine className="h-5 w-5 text-black " />
-        </button>
+        <EditMonthlyActivityButton
+          id={id}
+          name={name}
+          prevRent={rent}
+          prevPaid={paid}
+          totalToPay={totalToPay}
+        />
       </CardHeader>
       <CardContent className="-mt-2 ">
         <div className="grid gap-2">
@@ -118,11 +124,11 @@ function MembersBillsDetailsCard({
             <span>Due (prev month)</span>
             <span
               className={cn("font-medium tabular-nums", {
-                "text-destructive": isPrevDueDangerous,
-                "text-green-600": !isPrevDueDangerous,
+                "text-destructive": hasPrevDue,
+                "text-green-600": !hasPrevDue,
               })}
             >
-              {isPrevDueDangerous ? `+${prevDue}` : prevDue}
+              {hasPrevDue ? `+${prevDue}` : prevDue}
             </span>
           </div>
           <hr className="my-0.5" />
@@ -132,7 +138,7 @@ function MembersBillsDetailsCard({
           </div>
           <div
             className={cn("flex justify-between text-sm", {
-              "text-destructive": isPaidDangerous,
+              "text-destructive": hasPaidLess,
             })}
           >
             <span className="font-medium">Paid</span>

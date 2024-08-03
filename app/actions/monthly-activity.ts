@@ -108,3 +108,31 @@ export async function addMonthlyActivity(
     };
   }
 }
+
+export async function updateMonthlyActivity(
+  id: string,
+  rent: number,
+  paid: number
+): Promise<Response> {
+  const result = await db
+    .update(monthlyActivitiesTable)
+    .set({
+      rent: rent,
+      paid: paid,
+    })
+    .where(eq(monthlyActivitiesTable.id, id))
+    .returning();
+
+  revalidatePath("/(protected)/dashboard/[id]", "layout");
+
+  if (!result)
+    return {
+      success: false,
+      message: "Monthly data could not be updated",
+    };
+
+  return {
+    success: true,
+    message: "Monthly data updated successfully",
+  };
+}
