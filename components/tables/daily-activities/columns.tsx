@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
+import { format, isFriday } from "date-fns";
 import type { DailyActivityOutputData } from "@/app/actions/daily-activity";
 import { cn } from "@/libs/utils";
 import {
@@ -25,7 +25,11 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
       const date = row.getValue("date") as string;
 
       return (
-        <p className="whitespace-nowrap font-medium">
+        <p
+          className={cn("whitespace-nowrap font-medium", {
+            "text-primary": isFriday(date),
+          })}
+        >
           <span className="block lg:hidden">{format(date, "PP")}</span>
           <span className="hidden lg:block">{format(date, "ccc, PPP")}</span>
         </p>
@@ -43,27 +47,27 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
       return (
         <div className="flex max-w-5xl flex-wrap items-center gap-2">
           {users
-            .sort(function (a, b) {
-              const nameA = a.user.name.toLowerCase(),
-                nameB = b.user.name.toLowerCase();
+            // .sort(function (a, b) {
+            //   const nameA = a.user.name.toLowerCase(),
+            //     nameB = b.user.name.toLowerCase();
 
-              if (nameA < nameB)
-                // sort string ascending
-                return -1;
-              if (nameA > nameB) return 1;
-              return 0; // default return value (no sorting)
-            })
+            //   if (nameA < nameB)
+            //     // sort string ascending
+            //     return -1;
+            //   if (nameA > nameB) return 1;
+            //   return 0; // default return value (no sorting)
+            // })
             .map((user) => {
               return (
                 <Fragment key={user.id}>
                   {user.grocery === 0 ? (
                     <div className="flex items-center rounded bg-slate-200 ring-2 ring-slate-200 dark:bg-slate-800 dark:ring-slate-800">
-                      <span className="rounded bg-slate-100 px-2 py-1 dark:bg-slate-900">
+                      <span className="rounded bg-background px-2 py-1">
                         {user.user.name}
                       </span>
                       <span
                         className={cn(
-                          "rounded-r bg-slate-200 px-2 py-1 tabular-nums dark:bg-slate-800",
+                          "bg-slate-200 px-2 py-1 tabular-nums dark:bg-slate-800",
                           {
                             "font-semibold": user.meal !== 0,
                           }
@@ -76,13 +80,13 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
                     <TooltipProvider delayDuration={50} key={user.id}>
                       <Tooltip>
                         <TooltipTrigger>
-                          <div className="flex items-center rounded ring-2 ring-primary">
-                            <span className="rounded-l bg-slate-100 px-2 py-1 dark:bg-slate-900">
+                          <div className="flex items-center overflow-hidden rounded ring-2 ring-primary">
+                            <span className="bg-background px-2 py-1">
                               {user.user.name}
                             </span>
                             <span
                               className={cn(
-                                "rounded-r bg-slate-200 px-2 py-1 tabular-nums dark:bg-slate-800",
+                                "bg-slate-200 px-2 py-1 tabular-nums dark:bg-slate-800",
                                 {
                                   "font-semibold": user.meal !== 0,
                                 }
@@ -107,8 +111,6 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
                 </Fragment>
               );
             })}
-          {/* <Test /> <Test /> <Test /> <Test /> <Test /> <Test />
-          <Test /> <Test /> <Test /> <Test /> <Test /> <Test /> */}
           <p className="duration-50 group ml-2 text-sm opacity-0 transition-opacity group-hover:opacity-100">
             Total meals <span className="font-semibold">{totalMeals}</span>
           </p>

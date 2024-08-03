@@ -290,13 +290,11 @@ async function Page({ params, searchParams }: PageProps) {
                   <div className="mt-1">
                     <div className="flex items-center gap-2">
                       <Banknote className="h-4 w-4" />
-                      <span className="text-sm tabular-nums">
-                        {member.totalGrocery} BDT
-                      </span>
+                      <span className="text-sm">{member.totalGrocery} BDT</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <UtensilsCrossed className="h-4 w-4" />
-                      <span className="text-sm tabular-nums">
+                      <span className="text-sm">
                         {/* symbol source: https://www.toptal.com/designers/htmlarrows/arrows/, Wedge-Tailed Right Arrow */}
                         {member.totalMeal} meals (&#10172;&nbsp;
                         {Math.ceil(member.totalMeal * totals.avgMealRate)} BDT)
