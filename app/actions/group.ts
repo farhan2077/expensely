@@ -169,7 +169,7 @@ export async function joinGroupAction(
 
     return {
       success: true,
-      message: "Joined group",
+      message: "Rejoined group",
       data: updatedResult,
     };
   }
@@ -243,7 +243,7 @@ export async function getUsersGroups(): Promise<Response> {
   };
 }
 
-type GroupMember = {
+export type GroupMember = {
   id: string;
   user: {
     id: string;
@@ -306,4 +306,42 @@ export async function getGroupDetails(
     message: "Group details found",
     data: { groupInfo, groupMembers },
   };
+}
+
+export async function removeMemberFromGroup(
+  id: string,
+  groupId: string
+): Promise<Response> {
+  try {
+    const res = await db
+      .update(usersGroupsTable)
+      .set({
+        isActive: false,
+      })
+      .where(
+        and(eq(usersGroupsTable.id, id), eq(usersGroupsTable.groupId, groupId))
+      )
+      .returning();
+
+    revalidatePath("/(protected)/dashboard/[id]", "layout");
+    revalidatePath("/(protected)/settings", "layout");
+
+    if (!res) {
+      return {
+        success: false,
+        message: "Could not remove member",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Removed member",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong",
+      data: error,
+    };
+  }
 }

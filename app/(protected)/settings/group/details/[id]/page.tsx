@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { Badge as BadgeIcon, Ellipsis } from "lucide-react";
+import { Badge as BadgeIcon } from "lucide-react";
 
 import {
   Tooltip,
@@ -16,13 +16,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 
-import { getGroupDetails } from "@/app/actions/group";
+import { getGroupDetails, type GroupMember } from "@/app/actions/group";
 import { validateSession } from "@/app/actions/auth";
 import { isEqual } from "@/libs/utils";
 import { Badge } from "@/components/ui/badge";
 import { ViewGroupCode } from "@/app/(protected)/settings/group/details/[id]/ViewGroupCode";
+import { ActionButtonDropdown } from "@/app/(protected)/settings/group/details/[id]/ActionButtonDropdown";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { user } = await validateSession();
@@ -34,7 +34,8 @@ export default async function Page({ params }: { params: { id: string } }) {
     notFound();
   }
 
-  const isAdmin = isEqual(groupDetails.data.groupInfo.ownerId, user.id);
+  const ownerId = groupDetails.data.groupInfo.ownerId;
+  const isAdmin = isEqual(ownerId, user.id);
 
   return (
     <>
@@ -94,7 +95,9 @@ export default async function Page({ params }: { params: { id: string } }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {groupDetails.data.groupMembers.map((member: any) => {
+          {groupDetails.data.groupMembers.map((member: GroupMember) => {
+            const isMemberAdmin = ownerId === member.user.id;
+
             return (
               <TableRow key={member.id}>
                 <TableCell className="font-medium">
@@ -107,16 +110,18 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </TableCell>
                 <TableCell>
                   <Badge variant="secondary">
-                    {isAdmin ? "Owner" : "Member"}
+                    {isMemberAdmin ? "Owner" : "Member"}
                   </Badge>
                 </TableCell>
-                {isAdmin ? (
-                  <TableCell className="w-fit text-right">
-                    <Button variant={"ghost"} size={"icon"}>
-                      <Ellipsis className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
-                ) : null}
+                <TableCell className="w-fit text-right">
+                  {isAdmin && !isMemberAdmin ? (
+                    <ActionButtonDropdown
+                      id={member.id}
+                      name={member.user.name}
+                      groupId={member.group.id}
+                    />
+                  ) : null}
+                </TableCell>
               </TableRow>
             );
           })}
