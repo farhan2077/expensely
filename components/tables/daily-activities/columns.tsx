@@ -11,6 +11,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Fragment } from "react";
+import UpdateDailyActivityButton from "@/components/tables/daily-activities/UpdateDailyActivityButton";
 
 export type DailyActivityRow = {
   date: string;
@@ -111,7 +112,7 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
                 </Fragment>
               );
             })}
-          <p className="duration-50 group ml-2 text-sm opacity-0 transition-opacity group-hover:opacity-100">
+          <p className="duration-50 text-sm opacity-0 transition-opacity group-hover:opacity-100">
             Total meals <span className="font-semibold">{totalMeals}</span>
           </p>
         </div>
@@ -139,6 +140,20 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
           <span className="mr-0.5 text-base">&#2547;</span>
           {totalGroceryCost}
         </p>
+      );
+    },
+  },
+  {
+    id: "action",
+    header: "",
+    accessorFn: (row) => row.rest,
+    cell: ({ row }) => {
+      const restData = row.original.rest;
+
+      return (
+        <div className="flex justify-end">
+          <UpdateDailyActivityButton restData={restData} />
+        </div>
       );
     },
   },

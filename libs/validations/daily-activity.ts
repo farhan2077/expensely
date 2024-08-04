@@ -30,5 +30,14 @@ const dailyActivityFormSchema = z.object({
   ),
 });
 
-export { dailyActivityFormSchema };
+const updateDailyActivityFormSchema = z.object({
+  groups: z.array(
+    z.object({
+      meal: mealSchema,
+      grocery: grocerySchema,
+    })
+  ),
+});
+
+export { dailyActivityFormSchema, updateDailyActivityFormSchema };
 export type FormType = z.infer<typeof dailyActivityFormSchema>;

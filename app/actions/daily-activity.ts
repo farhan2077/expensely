@@ -137,3 +137,52 @@ export async function addDailyAcitivities(
     };
   }
 }
+
+type UpdateFormValue = { id: string; meal: number; grocery: number };
+
+export async function updateDailyActivity({
+  formValues,
+}: {
+  formValues: UpdateFormValue[];
+}): Promise<Response> {
+  try {
+    const results = await db.transaction(async (tx) => {
+      const updatedGroupsOrders = [];
+
+      for (const item of formValues) {
+        const [updated] = await tx
+          .update(dailyActivitiesTable)
+          .set({
+            meal: item.meal,
+            grocery: item.grocery,
+          })
+          .where(and(eq(dailyActivitiesTable.id, item.id)))
+          .returning();
+        updatedGroupsOrders.push(updated);
+      }
+
+      return updatedGroupsOrders;
+    });
+
+    if (!results) {
+      return {
+        success: false,
+        message: "There was an error while updaing meal and grocery",
+        data: null,
+      };
+    }
+
+    revalidatePath("/(protected)/dashboard/[id]", "layout");
+
+    return {
+      success: true,
+      message: "Meals and groceries updated",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong",
+      data: error,
+    };
+  }
+}
