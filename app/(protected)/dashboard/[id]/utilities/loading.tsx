@@ -1,28 +1,41 @@
-// generated using https://www.skeletongenerator.com
+import { format } from "date-fns";
 
 export default function Loading() {
+  const currentMonth = format(new Date(), "MMMM");
+
   return (
-    <main className="mt-8 flex animate-pulse gap-8">
-      <div className="w-64 p-4">
-        <div className="mb-2 h-4 rounded bg-muted"></div>
-        <div className="h-3 rounded bg-muted"></div>
-      </div>
-      <div className="w-full">
-        <div className="grid grid-cols-6 gap-4">
-          <div className="h-20 rounded bg-muted"></div>
-          <div className="h-20 rounded bg-muted"></div>
-          <div className="h-20 rounded bg-muted"></div>
-          <div className="h-20 rounded bg-muted"></div>
-          <div className="h-20 rounded bg-muted"></div>
-          <div className="h-20 rounded bg-muted"></div>
+    <>
+      <h1 className="text-2xl font-semibold tracking-tight">Utilities</h1>
+      <p className="text-muted-foreground">
+        Current month&apos;s electricity bill, internet bill and others
+      </p>
+      <hr className="my-4 text-muted-foreground" />
+      <section className="flex gap-8">
+        <div className="-ml-3 w-[250px] shrink-0 px-3">
+          <h2 className="text-lg font-medium">
+            {currentMonth}&apos;s utilities
+          </h2>
+          <p className="mt-1 text-balance text-sm text-muted-foreground">
+            Shared equally amongst groups memebers
+          </p>
         </div>
-        <div className="mt-4">
-          <div className="mb-3 flex items-center text-sm">
-            <div className="h-3 w-1/3 rounded bg-muted"></div>
+        <div className="w-full">
+          <div>
+            <div className="grid grid-cols-6 gap-4">
+              <div className="h-[110px] animate-pulse rounded-md bg-muted"></div>
+              <div className="h-[110px] animate-pulse rounded-md bg-muted"></div>
+              <div className="h-[110px] animate-pulse rounded-md bg-muted"></div>
+              <div className="h-[110px] animate-pulse rounded-md bg-muted"></div>
+              <div className="h-[110px] animate-pulse rounded-md bg-muted"></div>
+              <div className="h-[110px] animate-pulse rounded-md bg-muted"></div>
+            </div>
           </div>
-          <div className="h-10 rounded bg-muted"></div>
+          <div className="mt-4">
+            <div className="h-[24px] w-[400px] animate-pulse rounded-md bg-muted"></div>
+            <div className="mt-4 h-[40px] w-[200px] animate-pulse rounded-md bg-muted"></div>
+          </div>
         </div>
-      </div>
-    </main>
+      </section>
+    </>
   );
 }

@@ -1,17 +1,18 @@
-// generated using www.skeletongenerator.com/
-
 export default function Loading() {
   return (
-    <main className="mt-8 animate-pulse">
-      <div className="h-6 w-1/4 rounded bg-muted"></div>
-      <div className="mt-2 h-4 w-1/2 rounded bg-muted"></div>
-      <hr className="my-4" />
-      <div>
-        <div className="mt-4 h-4 w-3/4 rounded bg-muted"></div>
-        <div className="mt-2 h-4 w-2/3 rounded bg-muted"></div>
-        <div className="mt-2 h-4 w-full rounded bg-muted"></div>
-        <div className="mt-2 h-4 w-1/2 rounded bg-muted"></div>
-      </div>
-    </main>
+    <div className="grid gap-4">
+      <section>
+        <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+        <p className="text-muted-foreground">
+          <div className="h-[24px] w-[400px] animate-pulse rounded-md bg-muted"></div>
+        </p>
+      </section>
+      <hr className="text-muted-foreground" />
+      <section className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="h-[110px] animate-pulse rounded-md bg-muted"></div>
+        <div className="h-[110px] animate-pulse rounded-md bg-muted"></div>
+        <div className="h-[110px] animate-pulse rounded-md bg-muted"></div>
+      </section>
+    </div>
   );
 }
