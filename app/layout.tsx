@@ -6,12 +6,7 @@ import ProgressbarProvider from "@/components/Progressbar";
 import Script from "next/script";
 
 import { cn } from "@/libs/utils";
-import {
-  BASE_URL,
-  SEO_TITLE,
-  SEO_DESCRIPTION,
-  SEO_KEYWORDS,
-} from "@/app/static";
+import { BASE_URL, SEO_TITLE, SEO_DESCRIPTION, SEO_KEYWORDS } from "@/config";
 import env from "@/env";
 
 import "./globals.css";

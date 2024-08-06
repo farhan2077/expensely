@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import GroupMembersCount from "@/app/(protected)/settings/group/details/_components/GroupMembersCount";
 import ClientSideTableRow from "@/app/(protected)/settings/group/details/_components/ClientTableRow";
-import { MAX_GROUP_LIMIT } from "@/app/static";
+import { MAX_GROUP_LIMIT } from "@/config";
 
 export default function GroupsTable({
   usersGroupsData,

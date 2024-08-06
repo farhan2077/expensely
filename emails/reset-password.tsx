@@ -11,7 +11,7 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-import { BASE_URL, BRAND_COLOR, APP_NAME } from "@/app/static";
+import { BASE_URL, BRAND_COLOR, APP_NAME } from "@/config";
 
 interface ResetPasswordEmailProps {
   userName: string;

@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
-import { BRAND_COLOR } from "@/app/static";
+import { BRAND_COLOR } from "@/config";
 
 const ProgressbarProvider = ({
   children,
