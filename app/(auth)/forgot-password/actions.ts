@@ -5,6 +5,7 @@ import { createPasswordResetToken } from "@/app/actions/reset-token";
 import { sendEmail } from "@/libs/send-email";
 import ResetPasswordEmail from "@/emails/reset-password";
 import { Response } from "@/libs/types";
+import { APP_NAME } from "@/config";
 
 export async function getResetPasswordMail(email: string): Promise<Response> {
   try {
@@ -21,7 +22,7 @@ export async function getResetPasswordMail(email: string): Promise<Response> {
     // send mail using resend
     const data = await sendEmail(
       email,
-      `Your password reset link for Expensely`,
+      `Your password reset link for ${APP_NAME}`,
       ResetPasswordEmail({
         userName: user.name,
         token: token,

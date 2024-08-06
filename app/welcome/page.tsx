@@ -10,10 +10,11 @@ import { getUsersGroups } from "@/app/actions/group";
 import { getUserInfo } from "@/app/actions/user";
 import { Separator } from "@/components/ui/separator";
 import Logout from "@/app/welcome/LogoutButton";
+import { APP_NAME } from "@/config";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Welcome to your expensely dashboard",
+  title: "Welcome",
+  description: `Welcome to ${APP_NAME}`,
 };
 
 async function Page() {
@@ -49,7 +50,7 @@ async function Page() {
         <div className="flex flex-col items-center">
           <div className="flex items-center">
             <h1 className="text-3xl font-semibold tracking-tight">
-              Welcome to Expensely
+              Welcome to {APP_NAME}
             </h1>
           </div>
           <div className="mt-8">

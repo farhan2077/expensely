@@ -7,7 +7,6 @@ config({ path: ".env" });
 import env from "@/env";
 
 export default defineConfig({
-  // tablesFilter: ["expensely_*"],
   schema: "./db/schema/index.ts",
   out: "./db/migrations",
   dialect: "sqlite",

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import AnimatedElement from "@/components/AnimatedElement";
+import { APP_NAME } from "@/config";
 
 export default function HomePage() {
   return (
@@ -13,7 +14,7 @@ export default function HomePage() {
             <div className="flex items-center">
               <Icons.logo className="mr-2 h-7 w-7" />
               <h1 className="text-3xl font-semibold tracking-tight">
-                Expensely
+                {APP_NAME}
               </h1>
             </div>
           </AnimatedElement>

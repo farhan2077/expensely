@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { APP_NAME } from "@/config";
 
 const LogoutButton = () => {
   const { pending } = useFormStatus();
@@ -60,7 +61,7 @@ export function LogoutConfirmation({
         <DialogHeader>
           <DialogTitle className="text-center">Are you sure?</DialogTitle>
           <DialogDescription className="text-pretty py-2 text-center">
-            Logging out will require you to log back in to use expensely
+            Logging out will require you to log back in to use {APP_NAME}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="grid grid-cols-2 gap-4">

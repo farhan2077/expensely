@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { Icons } from "@/components/icons";
+import { APP_NAME } from "@/config";
 
 export default function AuthLayout({
   children,
@@ -17,11 +18,11 @@ export default function AuthLayout({
           className="relative z-20 flex items-center text-lg font-medium text-background"
         >
           <Icons.logo className="mr-2 h-5 w-5" />
-          <h1 className="text-xl font-semibold tracking-tight">Expensely</h1>
+          <h1 className="text-xl font-semibold tracking-tight">{APP_NAME}</h1>
         </Link>
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">
-            <p className="text-muted">Manage shared expenses with expensely</p>
+            <p className="text-muted">Manage shared expenses with {APP_NAME}</p>
           </blockquote>
         </div>
       </div>

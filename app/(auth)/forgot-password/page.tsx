@@ -3,10 +3,11 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { ForgotPasswordForm } from "@/app/(auth)/forgot-password/ForgotPasswordForm";
+import { APP_NAME } from "@/config";
 
 export const metadata: Metadata = {
-  title: "Sign in",
-  description: "Sign in to your expensely account",
+  title: "Forgot password",
+  description: `Enter your email address to receive instructions on how to reset your password for your ${APP_NAME} account`,
 };
 
 function ForgotPasswordPage() {

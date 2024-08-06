@@ -3,10 +3,11 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { ResetPasswordForm } from "@/app/(auth)/reset-password/ResetPasswordForm";
+import { APP_NAME } from "@/config";
 
 export const metadata: Metadata = {
   title: "Reset password",
-  description: "Reset password of your expensely account",
+  description: `Reset password of your ${APP_NAME} account`,
 };
 
 function ResetPasswordPage({

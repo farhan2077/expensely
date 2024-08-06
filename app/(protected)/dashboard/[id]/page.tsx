@@ -33,10 +33,11 @@ import { DataTable } from "@/components/tables/daily-activities/data-table";
 import MonthPicker from "@/app/(protected)/dashboard/[id]/MonthPicker";
 import { validateSession } from "@/app/actions/auth";
 import { isEqual, isEmpty } from "@/libs/utils";
+import { APP_NAME } from "@/config";
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "Welcome to your expensely dashboard",
+  description: `Welcome to your ${APP_NAME} dashboard`,
 };
 
 export type MemberTotal = {
