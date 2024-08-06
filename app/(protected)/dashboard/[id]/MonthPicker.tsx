@@ -5,7 +5,7 @@ import type { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { CalendarIcon, Check } from "lucide-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { startOfMonth, endOfMonth, format, parse } from "date-fns";
+import { startOfMonth, endOfMonth, format, parse, isValid } from "date-fns";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -45,12 +45,11 @@ export default function MonthPicker({
   );
 
   let fromSP = searchParams.get("from");
-  let currentMonth = format(new Date(), "MMMM yyyy");
+  const parsedFromSP = !fromSP ? new Date() : fromSP;
 
-  const parsedFromSP = !fromSP
-    ? currentMonth
-    : parse(fromSP, "MM/dd/yyyy", new Date());
-  const monthFromSP = format(parsedFromSP, "MMMM yyyy");
+  const monthFromSP = isValid(parsedFromSP)
+    ? format(parsedFromSP, "MMMM yyyy")
+    : format(new Date(), "MMMM yyyy");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -77,12 +76,18 @@ export default function MonthPicker({
                 className="mx-1 flex cursor-pointer items-center rounded px-2.5 py-1.5 text-sm hover:bg-muted"
                 onClick={() => {
                   setOpen(false);
+                  const parsedMonth = parse(
+                    each.month,
+                    "MMMM yyyy",
+                    new Date()
+                  );
+
                   router.push(
                     (pathname +
                       "?" +
                       createQueryString({
-                        from: format(startOfMonth(each.month), "P"),
-                        to: format(endOfMonth(each.month), "P"),
+                        from: format(startOfMonth(parsedMonth), "P"),
+                        to: format(endOfMonth(parsedMonth), "P"),
                       })) as Route
                   );
                 }}
