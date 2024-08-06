@@ -1,6 +1,7 @@
+export const APP_NAME: string = "Expensely";
 export const BASE_URL: string = "https://expensely-alpha.vercel.app"; // dont't include `/` at the end
 
-export const SEO_TITLE: string = "Expensely";
+export const SEO_TITLE: string = APP_NAME;
 export const SEO_DESCRIPTION: string = "Manage shared expenses with Expensely";
 export const SEO_KEYWORDS: string = "expense management";
 

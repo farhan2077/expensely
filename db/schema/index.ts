@@ -21,3 +21,4 @@ export {
   groupsOrdersTable,
   groupsOrdersTableRelations,
 } from "@/db/schema/groups-orders";
+export { resetTokensTable } from "@/db/schema/reset-tokens";

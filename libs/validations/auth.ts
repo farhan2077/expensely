@@ -39,8 +39,30 @@ const signupFormSchema = z
   });
 
 const signinFormSchema = z.object({
-  email: nameSchema,
+  email: emailSchema,
   password: passwordSchema,
 });
 
-export { nameSchema, emailSchema, signupFormSchema, signinFormSchema };
+const forgotPasswordFormSchema = z.object({
+  email: emailSchema,
+});
+
+const resetPasswordFormSchema = z
+  .object({
+    token: z.string(),
+    password: passwordSchema,
+    confirm_password: passwordSchema,
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "Passwords don't match",
+    path: ["confirm_password"],
+  });
+
+export {
+  nameSchema,
+  emailSchema,
+  signupFormSchema,
+  signinFormSchema,
+  forgotPasswordFormSchema,
+  resetPasswordFormSchema,
+};

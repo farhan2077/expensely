@@ -1,4 +1,4 @@
-import { drizzle } from "drizzle-orm/libsql";
+import { drizzle, LibSQLDatabase } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
 
 import env from "@/env";
@@ -13,3 +13,5 @@ export const db = drizzle(client, {
   schema,
   logger: true,
 });
+
+export let DB: LibSQLDatabase<typeof schema>;

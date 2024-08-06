@@ -3,10 +3,11 @@
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { randomBytes } from "crypto";
 
 import { db } from "@/db";
 import { usersTable } from "@/db/schema/users";
-import { validateSession } from "@/app/actions/auth";
+import { validateSession, hashPassword } from "@/app/actions/auth";
 
 export async function getUserInfo() {
   const { user } = await validateSession();
@@ -59,4 +60,20 @@ export async function updatedUserName(userId: string, newName: string) {
     message: "User name updated",
     data: result.updatedName,
   };
+}
+
+export async function updatePassword(
+  userId: string,
+  password: string,
+  trx = db
+) {
+  const newSalt = randomBytes(128).toString("base64");
+  const newHash = await hashPassword(password, newSalt);
+  await trx
+    .update(usersTable)
+    .set({
+      hash: newHash,
+      salt: newSalt,
+    })
+    .where(eq(usersTable.id, userId));
 }

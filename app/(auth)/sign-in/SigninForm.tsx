@@ -24,6 +24,7 @@ import { signinFormSchema } from "@/libs/validations/auth";
 import { signinAction } from "@/app/(auth)/sign-in/actions";
 import { isEmpty } from "@/libs/utils";
 import { getUsersGroups } from "@/app/actions/group";
+import Link from "next/link";
 
 export function SigninForm() {
   const router = useRouter();
@@ -104,6 +105,7 @@ export function SigninForm() {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
+                  tabIndex={1}
                   autoFocus
                   type="email"
                   placeholder="email@example.com"
@@ -123,12 +125,17 @@ export function SigninForm() {
             <FormItem>
               <div className="flex items-center justify-between">
                 <FormLabel>Password</FormLabel>
-                {/* <p className="text-sm leading-none underline">
+                <Link
+                  tabIndex={3}
+                  href="/forgot-password"
+                  className="text-sm leading-none text-muted-foreground hover:underline"
+                >
                   Forgot password?
-                </p> */}
+                </Link>
               </div>
               <FormControl>
                 <Input
+                  tabIndex={2}
                   type="password"
                   placeholder="Must include both numbers and characters"
                   autoComplete="password"
