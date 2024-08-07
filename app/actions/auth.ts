@@ -1,15 +1,18 @@
 "use server";
 
 import { cache } from "react";
-import { pbkdf2 } from "crypto";
-import { eq } from "drizzle-orm";
+
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
+import { pbkdf2 } from "crypto";
+import { eq } from "drizzle-orm";
 import { type Cookie } from "lucia";
 
 import { db } from "@/db";
-import { lucia } from "@/libs/auth";
 import { usersTable } from "@/db/schema/users";
+
+import { lucia } from "@/libs/auth";
 
 type ValidUser = {
   id: string;

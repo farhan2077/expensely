@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { z } from "zod";
+
+import { getResetPasswordMail } from "@/app/(auth)/forgot-password/actions";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -17,9 +19,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 import { forgotPasswordFormSchema } from "@/libs/validations/auth";
-import { getResetPasswordMail } from "@/app/(auth)/forgot-password/actions";
 
 type FormType = z.infer<typeof forgotPasswordFormSchema>;
 

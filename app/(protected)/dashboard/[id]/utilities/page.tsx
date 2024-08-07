@@ -1,30 +1,35 @@
 import { notFound } from "next/navigation";
+
+import { format } from "date-fns";
 import {
-  Flashlight,
-  Droplet,
-  Wifi,
-  PillBottle,
-  ChefHat,
   Bolt,
+  ChefHat,
+  Droplet,
+  Flashlight,
   Info,
+  PillBottle,
+  Wifi,
 } from "lucide-react";
+
+import { validateSession } from "@/app/actions/auth";
+import { getGroupDetails } from "@/app/actions/group";
+import {
+  getMonthlyUtilities,
+  type MonthlyUtilityOutputData,
+} from "@/app/actions/monthly-utility";
+
+import MembersBills from "@/app/(protected)/dashboard/[id]/utilities/MembersBills";
+import UpsertUtilitiesButton from "@/app/(protected)/dashboard/[id]/utilities/UpsertUtilitiesButton";
+
+import InfoCard from "@/components/InfoCard";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import InfoCard from "@/components/InfoCard";
-import {
-  getMonthlyUtilities,
-  type MonthlyUtilityOutputData,
-} from "@/app/actions/monthly-utility";
-import { isEmpty, isEqual, calculateTotalUtilities } from "@/libs/utils";
-import { getGroupDetails } from "@/app/actions/group";
-import MembersBills from "@/app/(protected)/dashboard/[id]/utilities/MembersBills";
-import { validateSession } from "@/app/actions/auth";
-import { format } from "date-fns";
-import UpsertUtilitiesButton from "@/app/(protected)/dashboard/[id]/utilities/UpsertUtilitiesButton";
+
+import { calculateTotalUtilities, isEmpty, isEqual } from "@/libs/utils";
 
 export type TotalUtilities = {
   total: number;

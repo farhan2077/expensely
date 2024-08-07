@@ -1,7 +1,8 @@
+import { ReactNode } from "react";
+
 import { Resend } from "resend";
 
 import env from "@/env";
-import { ReactNode } from "react";
 
 const resend = new Resend(env.RESEND_API_KEY);
 

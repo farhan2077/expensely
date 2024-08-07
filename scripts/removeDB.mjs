@@ -3,7 +3,7 @@
 
 // this script removes local sqlite db and associated files and the db/migrations folder
 
-import { unlink, rm } from "fs/promises";
+import { rm, unlink } from "fs/promises";
 
 const filesToRemove = ["local.db", "local.db-shm", "local.db-wal"];
 const foldersToRemove = ["db/migrations"];

@@ -1,13 +1,16 @@
 "use client";
 
-import { type Route } from "next";
 import { useState } from "react";
-import { useRouter, useParams, usePathname } from "next/navigation";
+
+import { type Route } from "next";
+import { useParams, usePathname, useRouter } from "next/navigation";
+
 import { Check, ChevronsUpDown, Plus, Users } from "lucide-react";
 
-import { cn } from "@/libs/utils";
-import { Button } from "@/components/ui/button";
+import CreateGroup from "@/components/dialogs/CreateGroup";
+import JoinGroup from "@/components/dialogs/JoinGroup";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -21,10 +24,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { UsersGroups } from "@/db/schema/users-groups";
-import CreateGroup from "@/components/dialogs/CreateGroup";
-import JoinGroup from "@/components/dialogs/JoinGroup";
+
 import type { SafeUser } from "@/db/schema/users";
+import { UsersGroups } from "@/db/schema/users-groups";
+
+import { cn } from "@/libs/utils";
 
 export default function GroupPicker({
   userInfoData,

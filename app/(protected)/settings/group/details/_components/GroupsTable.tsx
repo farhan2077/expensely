@@ -2,7 +2,11 @@ import { Suspense } from "react";
 
 import { ArrowRight } from "lucide-react";
 
-import { isEqual } from "@/libs/utils";
+import { MAX_GROUP_LIMIT } from "@/config";
+
+import ClientSideTableRow from "@/app/(protected)/settings/group/details/_components/ClientTableRow";
+import GroupMembersCount from "@/app/(protected)/settings/group/details/_components/GroupMembersCount";
+
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -13,9 +17,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import GroupMembersCount from "@/app/(protected)/settings/group/details/_components/GroupMembersCount";
-import ClientSideTableRow from "@/app/(protected)/settings/group/details/_components/ClientTableRow";
-import { MAX_GROUP_LIMIT } from "@/config";
+
+import { isEqual } from "@/libs/utils";
 
 export default function GroupsTable({
   usersGroupsData,

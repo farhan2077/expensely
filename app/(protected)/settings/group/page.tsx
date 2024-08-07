@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 
-import { getUsersGroups } from "@/app/actions/group";
 import { validateSession } from "@/app/actions/auth";
+import { getUsersGroups } from "@/app/actions/group";
 import { getUserInfo } from "@/app/actions/user";
+
 import GroupsTable from "@/app/(protected)/settings/group/details/_components/GroupsTable";
 import CreateJoinGroupForm from "@/app/welcome/CreateJoinGroupForm";
 

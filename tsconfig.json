@@ -22,7 +22,10 @@
       "@/*": ["./*"],
       "@/app/*": ["app/*"],
       "@/components/*": ["components/*"],
-      "@/libs/*": ["libs/*"]
+      "@/db/*": ["db/*"],
+      "@/emails/*": ["emails/*"],
+      "@/libs/*": ["libs/*"],
+      "@/public/*": ["public/*"]
     }
   },
   "include": [

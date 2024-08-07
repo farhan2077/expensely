@@ -1,10 +1,21 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
+import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GripVertical } from "lucide-react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
+import { EMPTY_MAIL_SUFFIX } from "@/config";
+
+import { updateGroupOrders } from "@/app/actions/group-order";
+
+import { AddEmptySlot } from "@/app/(protected)/dashboard/[id]/order/AddEmptySlot";
+import { RemoveEmptySlots } from "@/app/(protected)/dashboard/[id]/order/RemoveEmptySlots";
+
+import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -13,15 +24,10 @@ import {
   SortableDragHandle,
   SortableItem,
 } from "@/components/ui/sortable";
+
 import { type GroupsOrders } from "@/db/schema/groups-orders";
-import { Icons } from "@/components/icons";
-import { updateGroupOrders } from "@/app/actions/group-order";
-import { toast } from "sonner";
-import { useEffect, useState } from "react";
-import { AddEmptySlot } from "@/app/(protected)/dashboard/[id]/order/AddEmptySlot";
-import { RemoveEmptySlots } from "@/app/(protected)/dashboard/[id]/order/RemoveEmptySlots";
+
 import { cn } from "@/libs/utils";
-import { EMPTY_MAIL_SUFFIX } from "@/config";
 
 const groupOrderFormSchema = z.object({
   data: z.array(

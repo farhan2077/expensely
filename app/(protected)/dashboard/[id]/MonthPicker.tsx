@@ -1,11 +1,15 @@
 "use client";
 
 import { useCallback, useState } from "react";
+
 import type { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { CalendarIcon, Check } from "lucide-react";
+
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { startOfMonth, endOfMonth, format, parse, isValid } from "date-fns";
+import { endOfMonth, format, isValid, parse, startOfMonth } from "date-fns";
+import { CalendarIcon, Check } from "lucide-react";
+
+import type { UniqueMonthOutput } from "@/app/(protected)/dashboard/[id]/page";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,8 +17,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+
 import { cn } from "@/libs/utils";
-import type { UniqueMonthOutput } from "@/app/(protected)/dashboard/[id]/page";
 
 type QueryParams = {
   [key: string]: string;

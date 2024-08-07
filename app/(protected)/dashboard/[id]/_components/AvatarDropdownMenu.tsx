@@ -1,9 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import { Settings, User as UserIcon, LogOut, House } from "lucide-react";
+
+import Link from "next/link";
+
 import Avatar from "boring-avatars";
+import { House, LogOut, Settings, User as UserIcon } from "lucide-react";
 
 import { LogoutConfirmation } from "@/components/dialogs/LogoutConfirmation";
 import {
@@ -14,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import type { SafeUser } from "@/db/schema/users";
 
 export default function AvatarDropdownMenu({

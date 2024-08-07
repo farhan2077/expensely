@@ -1,15 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { toast } from "sonner";
+
 import { useRouter } from "next/navigation";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { z } from "zod";
+
+import { changePassword } from "@/app/(auth)/reset-password/actions";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -18,9 +21,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 import { resetPasswordFormSchema } from "@/libs/validations/auth";
-import { changePassword } from "@/app/(auth)/reset-password/actions";
 
 type FormType = z.infer<typeof resetPasswordFormSchema>;
 
@@ -38,7 +41,6 @@ export function ResetPasswordForm({ token }: { token: string }) {
   });
 
   async function onSubmit(formValues: FormType) {
-    console.log(formValues);
     setIsLoading(true);
 
     try {

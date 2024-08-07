@@ -1,5 +1,10 @@
 "use client";
 
+import { useState } from "react";
+
+import { Ellipsis, UserX } from "lucide-react";
+
+import { RemoveMember } from "@/components/dialogs/RemoveMember";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,9 +12,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Ellipsis, UserX, UserPen } from "lucide-react";
-import { RemoveMember } from "@/components/dialogs/RemoveMember";
-import { useState } from "react";
 
 export function ActionButtonDropdown({
   id,

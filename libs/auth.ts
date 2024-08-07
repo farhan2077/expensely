@@ -1,5 +1,5 @@
-import { Lucia, TimeSpan } from "lucia";
 import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
+import { Lucia, TimeSpan } from "lucia";
 import { webcrypto } from "node:crypto";
 
 // Node.js 18 and below doesn't support the Web Crypto API. Polyfill it by importing webcrypto. More details https://lucia-auth.com/getting-started/nextjs-app > Polyfill section

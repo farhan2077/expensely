@@ -1,10 +1,14 @@
 import React from "react";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Icons } from "@/components/icons";
-import { addGroupOrder } from "@/app/actions/group-order";
+
 import { EMPTY_MAIL } from "@/config";
+
+import { addGroupOrder } from "@/app/actions/group-order";
+
+import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
 
 export function AddEmptySlot({ groupId }: { groupId: string }) {
   const {

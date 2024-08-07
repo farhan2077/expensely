@@ -1,12 +1,14 @@
 import { notFound } from "next/navigation";
+
 import { Badge as BadgeIcon } from "lucide-react";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { validateSession } from "@/app/actions/auth";
+import { getGroupDetails, type GroupMember } from "@/app/actions/group";
+
+import { ActionButtonDropdown } from "@/app/(protected)/settings/group/details/[id]/ActionButtonDropdown";
+import { ViewGroupCode } from "@/app/(protected)/settings/group/details/[id]/ViewGroupCode";
+
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -16,13 +18,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-import { getGroupDetails, type GroupMember } from "@/app/actions/group";
-import { validateSession } from "@/app/actions/auth";
 import { isEqual } from "@/libs/utils";
-import { Badge } from "@/components/ui/badge";
-import { ViewGroupCode } from "@/app/(protected)/settings/group/details/[id]/ViewGroupCode";
-import { ActionButtonDropdown } from "@/app/(protected)/settings/group/details/[id]/ActionButtonDropdown";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { user } = await validateSession();

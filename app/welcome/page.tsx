@@ -1,16 +1,18 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import type { Metadata } from "next";
+import { APP_NAME } from "@/config";
 
 import { validateSession } from "@/app/actions/auth";
-import CreateJoinGroupForm from "@/app/welcome/CreateJoinGroupForm";
-import {} from "@/app/(auth)/sign-in/actions";
-import { isEmpty } from "@/libs/utils";
 import { getUsersGroups } from "@/app/actions/group";
 import { getUserInfo } from "@/app/actions/user";
-import { Separator } from "@/components/ui/separator";
+
+import CreateJoinGroupForm from "@/app/welcome/CreateJoinGroupForm";
 import Logout from "@/app/welcome/LogoutButton";
-import { APP_NAME } from "@/config";
+
+import { Separator } from "@/components/ui/separator";
+
+import { isEmpty } from "@/libs/utils";
 
 export const metadata: Metadata = {
   title: "Welcome",

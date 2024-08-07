@@ -1,12 +1,15 @@
 "use client";
 
-import { useFormStatus, useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
+
 import { toast } from "sonner";
 
+import { APP_NAME } from "@/config";
+
 import { signoutAction } from "@/app/actions/auth";
+
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-
 import {
   Dialog,
   DialogContent,
@@ -15,7 +18,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { APP_NAME } from "@/config";
 
 const LogoutButton = () => {
   const { pending } = useFormStatus();
@@ -38,6 +40,7 @@ export function LogoutConfirmation({
   setOpen,
 }: {
   open: boolean;
+  // eslint-disable-next-line no-unused-vars
   setOpen: (open: boolean) => void;
 }) {
   const initialState = {

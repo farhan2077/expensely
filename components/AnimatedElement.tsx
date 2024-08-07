@@ -1,7 +1,8 @@
 "use client";
 
+import { type ReactNode, useEffect, useRef, useState } from "react";
+
 import { cn } from "@/libs/utils";
-import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export default function AnimatedElement({
   children,

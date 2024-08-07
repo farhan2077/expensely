@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+
 import { getGroupDetails } from "@/app/actions/group";
 
 export default async function GroupMembersCount({

@@ -1,9 +1,11 @@
 "use client";
 
-import { useFormStatus, useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
+
 import { toast } from "sonner";
 
 import { signoutAction } from "@/app/actions/auth";
+
 import { Icons } from "@/components/icons";
 
 const LogoutButton = () => {

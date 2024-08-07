@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Info } from "lucide-react";
+import { toast } from "sonner";
+import { z } from "zod";
+
+import { updatedUserName } from "@/app/actions/user";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Form,
   FormControl,
@@ -20,7 +21,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Tooltip,
   TooltipContent,
@@ -29,7 +31,6 @@ import {
 } from "@/components/ui/tooltip";
 
 import { userInfoFormSchema } from "@/libs/validations/user";
-import { updatedUserName } from "@/app/actions/user";
 
 export default function UserInfoForm({ userInfo }: { userInfo: any }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);

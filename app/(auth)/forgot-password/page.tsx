@@ -1,9 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
-import type { Metadata } from "next";
+import { APP_NAME } from "@/config";
 
 import { ForgotPasswordForm } from "@/app/(auth)/forgot-password/ForgotPasswordForm";
-import { APP_NAME } from "@/config";
 
 export const metadata: Metadata = {
   title: "Forgot password",

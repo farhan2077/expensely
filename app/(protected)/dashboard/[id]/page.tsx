@@ -1,39 +1,44 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import {
-  DollarSign,
-  CookingPot,
-  Utensils,
-  UtensilsCrossed,
-  Banknote,
-} from "lucide-react";
 
-import { getGroupDetails } from "@/app/actions/group";
 import {
-  parse,
+  endOfMonth,
   format,
   isWithinInterval,
-  subMonths,
+  parse,
   startOfMonth,
-  endOfMonth,
+  subMonths,
 } from "date-fns";
 import {
+  Banknote,
+  CookingPot,
+  DollarSign,
+  Utensils,
+  UtensilsCrossed,
+} from "lucide-react";
+
+import { APP_NAME } from "@/config";
+
+import { validateSession } from "@/app/actions/auth";
+import {
+  type DailyActivityDateOutputData,
+  type DailyActivityOutputData,
   getDailyActivities,
   getDailyActivitiesDates,
-  type DailyActivityOutputData,
-  type DailyActivityDateOutputData,
 } from "@/app/actions/daily-activity";
+import { getGroupDetails } from "@/app/actions/group";
+
+import AddDailyActivityButton from "@/app/(protected)/dashboard/[id]/AddDailyActivityButton";
+import MonthPicker from "@/app/(protected)/dashboard/[id]/MonthPicker";
+
+import InfoCard from "@/components/InfoCard";
 import {
   columns,
   type DailyActivityRow,
 } from "@/components/tables/daily-activities/columns";
-import AddDailyActivityButton from "@/app/(protected)/dashboard/[id]/AddDailyActivityButton";
-import InfoCard from "@/components/InfoCard";
 import { DataTable } from "@/components/tables/daily-activities/data-table";
-import MonthPicker from "@/app/(protected)/dashboard/[id]/MonthPicker";
-import { validateSession } from "@/app/actions/auth";
-import { isEqual, isEmpty } from "@/libs/utils";
-import { APP_NAME } from "@/config";
+
+import { isEmpty, isEqual } from "@/libs/utils";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -211,7 +216,9 @@ async function Page({ params, searchParams }: PageProps) {
 
   // TODO: there's some issue with the page still showing previously selected month's data when clicked on the logo or overview or coming back to other page to this page
   // TODO: need to fix this later, for now this works, idk how
+  // eslint-disable-next-line no-console
   console.log("⌘ fromSP:", fromSP, new Date());
+  // eslint-disable-next-line no-console
   console.log("⌘ toSP:", toSP, new Date());
 
   const { user } = await validateSession();

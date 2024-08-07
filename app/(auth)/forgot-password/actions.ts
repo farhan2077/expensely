@@ -1,11 +1,14 @@
 "use server";
 
+import { APP_NAME } from "@/config";
+
 import { getUserByEmail } from "@/app/actions/auth";
 import { createPasswordResetToken } from "@/app/actions/reset-token";
+
 import { sendEmail } from "@/libs/send-email";
-import ResetPasswordEmail from "@/emails/reset-password";
 import { Response } from "@/libs/types";
-import { APP_NAME } from "@/config";
+
+import ResetPasswordEmail from "@/emails/reset-password";
 
 export async function getResetPasswordMail(email: string): Promise<Response> {
   try {

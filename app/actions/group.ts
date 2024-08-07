@@ -1,16 +1,19 @@
 "use server";
 
-import { validateSession } from "@/app/actions/auth";
-import { db } from "@/db";
-import { groupsTable, type Groups } from "@/db/schema/groups";
-import { usersGroupsTable, type UsersGroups } from "@/db/schema/users-groups";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { and, eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
-import { Response } from "@/libs/types";
-import { groupsOrdersTable } from "@/db/schema";
+
+import { validateSession } from "@/app/actions/auth";
 import { addGroupOrder } from "@/app/actions/group-order";
+
+import { db } from "@/db";
+import { groupsOrdersTable } from "@/db/schema";
+import { type Groups, groupsTable } from "@/db/schema/groups";
+import { type UsersGroups, usersGroupsTable } from "@/db/schema/users-groups";
+
+import { Response } from "@/libs/types";
 
 export async function createGroupAction(
   name: string,

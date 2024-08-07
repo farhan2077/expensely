@@ -1,16 +1,18 @@
 "use client";
 
+import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { Route } from "next";
 
-import { cn } from "@/libs/utils";
-import type { SafeUser } from "@/db/schema/users";
-
-import { Icons } from "@/components/icons";
 import AvatarDropdownMenu from "@/app/(protected)/dashboard/[id]/_components/AvatarDropdownMenu";
 import GroupPicker from "@/app/(protected)/dashboard/[id]/_components/GroupPicker";
+
+import { Icons } from "@/components/icons";
 import { ToggleTheme } from "@/components/ui/toggle-theme";
+
+import type { SafeUser } from "@/db/schema/users";
+
+import { cn } from "@/libs/utils";
 
 function Header({
   userInfoData,

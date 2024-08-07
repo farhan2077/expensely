@@ -1,13 +1,15 @@
 "use server";
 
-import { eq } from "drizzle-orm";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
 import { randomBytes } from "crypto";
+import { eq } from "drizzle-orm";
+
+import { hashPassword, validateSession } from "@/app/actions/auth";
 
 import { db } from "@/db";
 import { usersTable } from "@/db/schema/users";
-import { validateSession, hashPassword } from "@/app/actions/auth";
 
 export async function getUserInfo() {
   const { user } = await validateSession();

@@ -1,16 +1,20 @@
 import type { ReactNode } from "react";
+
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
-import { Toaster } from "sonner";
-import ProgressbarProvider from "@/components/Progressbar";
 import Script from "next/script";
 
-import { cn } from "@/libs/utils";
-import { BASE_URL, SEO_TITLE, SEO_DESCRIPTION, SEO_KEYWORDS } from "@/config";
+import { Toaster } from "sonner";
+
+import { BASE_URL, SEO_DESCRIPTION, SEO_KEYWORDS, SEO_TITLE } from "@/config";
 import env from "@/env";
 
-import "./globals.css";
+import ProgressbarProvider from "@/components/Progressbar";
 import { ThemeProvider } from "@/components/theme-provider";
+
+import { cn } from "@/libs/utils";
+
+import "./globals.css";
 
 const fontSans = FontSans({
   subsets: ["latin"],

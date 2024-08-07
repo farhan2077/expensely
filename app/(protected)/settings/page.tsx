@@ -1,5 +1,6 @@
-import UserInfoForm from "@/app/(protected)/settings/UserInfoForm";
 import { getUserInfo } from "@/app/actions/user";
+
+import UserInfoForm from "@/app/(protected)/settings/UserInfoForm";
 
 export default async function Page() {
   const result = await getUserInfo();

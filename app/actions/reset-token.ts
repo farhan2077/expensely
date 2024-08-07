@@ -1,9 +1,10 @@
 "use server";
 
 import { randomBytes } from "crypto";
+import { eq } from "drizzle-orm";
+
 import { db } from "@/db";
 import { resetTokensTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
 
 const TOKEN_TTL = 1000 * 60 * 10; // 10 min
 

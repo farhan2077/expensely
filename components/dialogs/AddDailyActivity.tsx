@@ -1,36 +1,34 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+
+import { useFieldArray, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  endOfDay,
   format,
-  startOfMonth,
   isAfter,
   isBefore,
-  endOfDay,
   isSameDay,
+  startOfMonth,
   startOfTomorrow,
   subMonths,
 } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { toast } from "sonner";
+import { z } from "zod";
+
+import { addDailyAcitivities } from "@/app/actions/daily-activity";
+
+import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
-import { z } from "zod";
-import { toast } from "sonner";
-
-import { Icons } from "@/components/icons";
 import {
   Form,
   FormControl,
@@ -39,11 +37,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { dailyActivityFormSchema } from "@/libs/validations/daily-activity";
+
 import { cn } from "@/libs/utils";
-import { Calendar } from "@/components/ui/calendar";
-import { addDailyAcitivities } from "@/app/actions/daily-activity";
+import { dailyActivityFormSchema } from "@/libs/validations/daily-activity";
 
 export default function AddDailyActivity({
   open,

@@ -1,17 +1,21 @@
 "use client";
 
+import { Fragment } from "react";
+
 import { ColumnDef } from "@tanstack/react-table";
 import { format, isFriday } from "date-fns";
+
 import type { DailyActivityOutputData } from "@/app/actions/daily-activity";
-import { cn } from "@/libs/utils";
+
+import UpdateDailyActivityButton from "@/components/tables/daily-activities/UpdateDailyActivityButton";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Fragment } from "react";
-import UpdateDailyActivityButton from "@/components/tables/daily-activities/UpdateDailyActivityButton";
+
+import { cn } from "@/libs/utils";
 
 export type DailyActivityRow = {
   date: string;

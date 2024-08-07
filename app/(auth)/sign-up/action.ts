@@ -1,12 +1,15 @@
 "use server";
 
-import { randomBytes } from "crypto";
 import { cookies } from "next/headers";
+
+import { randomBytes } from "crypto";
+
+import { getUserByEmail, hashPassword } from "@/app/actions/auth";
 
 import { db } from "@/db";
 import { usersTable } from "@/db/schema/users";
+
 import { lucia } from "@/libs/auth";
-import { hashPassword, getUserByEmail } from "@/app/actions/auth";
 import { Response } from "@/libs/types";
 
 export async function createUser(

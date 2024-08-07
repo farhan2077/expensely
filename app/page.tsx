@@ -1,9 +1,10 @@
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
-import { Icons } from "@/components/icons";
-import AnimatedElement from "@/components/AnimatedElement";
 import { APP_NAME } from "@/config";
+
+import AnimatedElement from "@/components/AnimatedElement";
+import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (

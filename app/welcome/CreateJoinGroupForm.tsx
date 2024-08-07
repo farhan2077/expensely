@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
 import CreateGroup from "@/components/dialogs/CreateGroup";
 import JoinGroup from "@/components/dialogs/JoinGroup";
+import { Button } from "@/components/ui/button";
+
 import type { SafeUser } from "@/db/schema/users";
 
 function CreateJoinGroupForm({ userInfoData }: { userInfoData: SafeUser }) {

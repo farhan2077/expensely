@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "sonner";
+
 import { Clipboard, ClipboardCheck } from "lucide-react";
+import { toast } from "sonner";
 
 export function ViewGroupCode({ groupCode }: { groupCode: number }) {
   const [isCopied, setIsCopied] = useState<boolean>(false);

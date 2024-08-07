@@ -1,12 +1,15 @@
 "use server";
 
+import { randomBytes } from "crypto";
+import { eq } from "drizzle-orm";
+
+import { hashPassword } from "@/app/actions/auth";
 import { getPasswordResetToken } from "@/app/actions/reset-token";
+
 import { db } from "@/db";
 import { resetTokensTable, sessionsTable, usersTable } from "@/db/schema";
+
 import { Response } from "@/libs/types";
-import { eq } from "drizzle-orm";
-import { randomBytes } from "crypto";
-import { hashPassword } from "@/app/actions/auth";
 
 export async function changePassword(
   token: string,

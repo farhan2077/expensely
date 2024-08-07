@@ -1,23 +1,27 @@
-import { CheckCircle2, PlusCircleIcon, PenLine } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { isEmpty, cn, isEqual, calculateTotalUtilities } from "@/libs/utils";
-import AddMonthlyActivitiesButton from "@/app/(protected)/dashboard/[id]/utilities/AddMonthlyActivitiesButton";
+import { notFound } from "next/navigation";
 
+import { endOfMonth, format, startOfMonth, subMonths } from "date-fns";
+import { CheckCircle2, PlusCircleIcon } from "lucide-react";
+
+import { getDailyActivities } from "@/app/actions/daily-activity";
 import {
   getMonthlyActivities,
   type MonthlyActivityOutputData,
 } from "@/app/actions/monthly-activity";
-import { getDailyActivities } from "@/app/actions/daily-activity";
-import { endOfMonth, format, startOfMonth, subMonths } from "date-fns";
 import { MonthlyUtilityOutputData } from "@/app/actions/monthly-utility";
+
 import {
+  type AllTotals,
   calculateMembersTotals,
   calculateTotals,
   type MemberTotal,
-  type AllTotals,
 } from "@/app/(protected)/dashboard/[id]/page";
-import { notFound } from "next/navigation";
+import AddMonthlyActivitiesButton from "@/app/(protected)/dashboard/[id]/utilities/AddMonthlyActivitiesButton";
 import EditMonthlyActivityButton from "@/app/(protected)/dashboard/[id]/utilities/EditMonthlyActivityButton";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { calculateTotalUtilities, cn, isEmpty, isEqual } from "@/libs/utils";
 
 type MembersBillsDetailsCardT = {
   id: string;
@@ -224,6 +228,7 @@ export default async function MembersBills({
     notFound();
   }
 
+  // eslint-disable-next-line no-unused-vars
   const { totalMeal, totalGrocery, avgMealRate }: AllTotals = calculateTotals(
     dailyActivities.data
   );
@@ -233,6 +238,7 @@ export default async function MembersBills({
   const lastMonthAvgMealRate = avgMealRate;
 
   const membersCount = groupMembers.length;
+  // eslint-disable-next-line no-unused-vars
   const { total, originalAvg, formattedAvg } = calculateTotalUtilities(
     monthlyUtilitiesData,
     membersCount

@@ -1,14 +1,18 @@
 "use client";
 
 import { useState } from "react";
+
 import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import { z } from "zod";
+
+import { signupAction } from "@/app/(auth)/sign-up/action";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -17,10 +21,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 import { signupFormSchema } from "@/libs/validations/auth";
-import { signupAction } from "@/app/(auth)/sign-up/action";
-import { toast } from "sonner";
 
 export function SignupForm() {
   const router = useRouter();

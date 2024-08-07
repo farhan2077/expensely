@@ -2,9 +2,11 @@
 
 import { cookies } from "next/headers";
 
-import { lucia } from "@/libs/auth";
+import { getUserByEmail, hashPassword } from "@/app/actions/auth";
+
 import { User } from "@/db/schema/users";
-import { hashPassword, getUserByEmail } from "@/app/actions/auth";
+
+import { lucia } from "@/libs/auth";
 import { Response } from "@/libs/types";
 
 export async function verifyPassword(user: User, password: string) {

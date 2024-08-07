@@ -1,10 +1,13 @@
 import React from "react";
+
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Icons } from "@/components/icons";
 import { Trash } from "lucide-react";
+import { toast } from "sonner";
+
 import { deleteEmptyAndResetOrder } from "@/app/actions/group-order";
+
+import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
 
 export function RemoveEmptySlots({ groupId }: { groupId: string }) {
   const {

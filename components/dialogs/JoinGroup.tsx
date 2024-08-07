@@ -1,6 +1,18 @@
 "use client";
 
+import { useState } from "react";
+
 import { type Route } from "next";
+import { useRouter } from "next/navigation";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { z } from "zod";
+
+import { joinGroupAction } from "@/app/actions/group";
+
+import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,17 +21,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { toast } from "sonner";
-import type { SafeUser } from "@/db/schema/users";
-
-import { Icons } from "@/components/icons";
 import {
   Form,
   FormControl,
@@ -28,9 +29,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+import type { SafeUser } from "@/db/schema/users";
 
 import { groupFormSchema } from "@/libs/validations/group";
-import { joinGroupAction } from "@/app/actions/group";
 
 function JoinGroup({
   open,
@@ -38,6 +41,7 @@ function JoinGroup({
   userInfoData,
 }: {
   open: boolean;
+  // eslint-disable-next-line no-unused-vars
   setOpen: (open: boolean) => void;
   userInfoData: SafeUser;
 }) {

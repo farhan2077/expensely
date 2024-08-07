@@ -1,9 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
-import type { Metadata } from "next";
+import { APP_NAME } from "@/config";
 
 import { SigninForm } from "@/app/(auth)/sign-in/SigninForm";
-import { APP_NAME } from "@/config";
 
 export const metadata: Metadata = {
   title: "Sign in",

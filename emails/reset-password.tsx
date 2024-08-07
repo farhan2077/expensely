@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import {
   Body,
   Button,
@@ -6,12 +8,10 @@ import {
   Html,
   Img,
   Preview,
-  Section,
   Text,
 } from "@react-email/components";
-import * as React from "react";
 
-import { BASE_URL, BRAND_COLOR, APP_NAME } from "@/config";
+import { APP_NAME, BASE_URL, BRAND_COLOR } from "@/config";
 
 interface ResetPasswordEmailProps {
   userName: string;

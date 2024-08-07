@@ -1,15 +1,18 @@
 "use server";
 
-import { db } from "@/db";
-
-import { and, eq, count, asc, like } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { Response } from "@/libs/types";
-import {
-  groupsOrdersTable,
-  type GroupsOrders,
-} from "@/db/schema/groups-orders";
+
+import { and, asc, count, eq, like } from "drizzle-orm";
+
 import { EMPTY_MAIL_SUFFIX } from "@/config";
+
+import { db } from "@/db";
+import {
+  type GroupsOrders,
+  groupsOrdersTable,
+} from "@/db/schema/groups-orders";
+
+import { Response } from "@/libs/types";
 
 export async function getGroupOrderInfo(
   groupId: string
@@ -139,7 +142,7 @@ export async function deleteEmptyAndResetOrder(
     // Start a transaction
     return await db.transaction(async (tx) => {
       // 1. Delete rows with empty email and matching group ID
-      const deleteResult = await tx
+      await tx
         .delete(groupsOrdersTable)
         .where(
           and(
@@ -156,13 +159,13 @@ export async function deleteEmptyAndResetOrder(
         .orderBy(asc(groupsOrdersTable.order));
 
       // 3. Update the order of remaining rows
-      let updatedCount = 0;
+      // let updatedCount = 0;
       for (let i = 0; i < remainingRows.length; i++) {
         await tx
           .update(groupsOrdersTable)
           .set({ order: i })
           .where(eq(groupsOrdersTable.id, remainingRows[i].id));
-        updatedCount++;
+        // updatedCount++;
       }
 
       // deletedCount: deleteResult.rowsAffected,

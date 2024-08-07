@@ -1,7 +1,20 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+
+import { useFieldArray, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
+import { toast } from "sonner";
+import { z } from "zod";
+
+import {
+  type DailyActivityOutputData,
+  updateDailyActivity,
+} from "@/app/actions/daily-activity";
+
+import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,14 +22,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
-import { z } from "zod";
-import { toast } from "sonner";
-
-import { Icons } from "@/components/icons";
 import {
   Form,
   FormControl,
@@ -25,12 +30,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { updateDailyActivityFormSchema } from "@/libs/validations/daily-activity";
-import {
-  updateDailyActivity,
-  type DailyActivityOutputData,
-} from "@/app/actions/daily-activity";
 
 export type FormType = z.infer<typeof updateDailyActivityFormSchema>;
 

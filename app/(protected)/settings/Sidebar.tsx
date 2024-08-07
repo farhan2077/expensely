@@ -1,8 +1,9 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import Link from "next/link";
 import type { Route } from "next";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 import { User, Users } from "lucide-react";
 
 import { cn } from "@/libs/utils";

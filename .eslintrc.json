@@ -1,10 +1,38 @@
 {
   "extends": ["next", "eslint:recommended", "prettier"],
+  "plugins": ["simple-import-sort"],
   "rules": {
     "no-unused-vars": "warn",
     "no-debugger": "error",
     "no-duplicate-imports": "warn",
     "no-unreachable": "warn",
-    "no-console": "warn"
-  }
+    "no-console": "warn",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^react", "^react-dom"],
+          ["^next"],
+          ["^react?-\\w", "^@?\\w"],
+          ["@/"],
+          ["@/app/actions/*"],
+          ["@/app/*"],
+          ["@/components/*"],
+          ["@/db/*"],
+          ["@/libs/*"],
+          ["^@/public/.*"],
+          ["@/emails/*"],
+          ["^[./]"]
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["components/ui/**"],
+      "rules": {
+        "simple-import-sort/imports": "off"
+      }
+    }
+  ]
 }
