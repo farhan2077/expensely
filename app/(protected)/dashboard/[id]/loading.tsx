@@ -3,9 +3,9 @@ export default function Loading() {
     <div className="grid gap-4">
       <section>
         <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">
+        <div className="text-muted-foreground">
           <div className="h-[24px] w-[400px] animate-pulse rounded-md bg-muted"></div>
-        </p>
+        </div>
       </section>
       <hr className="text-muted-foreground" />
       <section className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-6">

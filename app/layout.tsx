@@ -65,7 +65,8 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" dir="ltr">
+    <html lang="en" dir="ltr" suppressHydrationWarning>
+      {/* suppressHydrationWarning only works one level down, so it won't suppress any other hydration error */}
       {process.env.NODE_ENV === "production" ? (
         <Script
           src="https://cloud.umami.is/script.js"
