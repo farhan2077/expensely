@@ -1,6 +1,7 @@
-import { relations, type InferSelectModel } from "drizzle-orm";
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
+import { type InferSelectModel, relations } from "drizzle-orm";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+
 import { monthlyUtilitiesTable } from "@/db/schema/monthly-utilities";
 import { usersTable } from "@/db/schema/users";
 

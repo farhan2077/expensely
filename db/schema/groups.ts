@@ -1,12 +1,12 @@
-import { relations, type InferSelectModel } from "drizzle-orm";
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
+import { type InferSelectModel, relations } from "drizzle-orm";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-import { usersGroupsTable } from "@/db/schema/users-groups";
 import { dailyActivitiesTable } from "@/db/schema/daily-activities";
-import { usersTable } from "@/db/schema/users";
-import { monthlyUtilitiesTable } from "@/db/schema/monthly-utilities";
 import { groupsOrdersTable } from "@/db/schema/groups-orders";
+import { monthlyUtilitiesTable } from "@/db/schema/monthly-utilities";
+import { usersTable } from "@/db/schema/users";
+import { usersGroupsTable } from "@/db/schema/users-groups";
 
 const groupsTable = sqliteTable("groups", {
   id: text("id")

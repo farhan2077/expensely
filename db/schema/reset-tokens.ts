@@ -1,7 +1,7 @@
+import { createId } from "@paralleldrive/cuid2";
 import { type InferSelectModel } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-import { createId } from "@paralleldrive/cuid2";
 import { usersTable } from "@/db/schema";
 
 const resetTokensTable = sqliteTable("reset_tokens", {
