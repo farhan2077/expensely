@@ -11,7 +11,11 @@ import { addGroupOrder } from "@/app/actions/group-order";
 import { db } from "@/db";
 import { groupsOrdersTable } from "@/db/schema";
 import { type Groups, groupsTable } from "@/db/schema/groups";
-import { type UsersGroups, usersGroupsTable } from "@/db/schema/users-groups";
+import {
+  UserGroupTypeT,
+  type UsersGroups,
+  usersGroupsTable,
+} from "@/db/schema/users-groups";
 
 import { Response } from "@/libs/types";
 
@@ -248,7 +252,7 @@ export async function getUsersGroups(): Promise<Response> {
 
 export type GroupMember = {
   id: string;
-  type: "super_admin" | "admin" | "editor" | "member";
+  type: UserGroupTypeT;
   user: {
     id: string;
     name: string;
@@ -341,6 +345,45 @@ export async function removeMemberFromGroup(
     return {
       success: true,
       message: "Removed member",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong",
+      data: error,
+    };
+  }
+}
+
+export async function updateUserRole(
+  id: string,
+  groupId: string,
+  newType: "editor" | "member"
+) {
+  try {
+    const res = await db
+      .update(usersGroupsTable)
+      .set({
+        type: newType,
+      })
+      .where(
+        and(eq(usersGroupsTable.id, id), eq(usersGroupsTable.groupId, groupId))
+      )
+      .returning();
+
+    revalidatePath("/(protected)/dashboard/[id]", "layout");
+    revalidatePath("/(protected)/settings", "layout");
+
+    if (!res) {
+      return {
+        success: false,
+        message: "Could not updated member role",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Updated member role",
     };
   } catch (error) {
     return {

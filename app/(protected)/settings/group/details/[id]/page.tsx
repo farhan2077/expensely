@@ -112,8 +112,8 @@ export default async function Page({ params }: { params: { id: string } }) {
                   ) : null}
                 </TableCell>
                 <TableCell>
-                  <Badge variant="secondary">
-                    {isMemberAdmin ? "Owner" : "Member"}
+                  <Badge variant="secondary" className="capitalize">
+                    {isMemberAdmin ? "Owner" : member.type}
                   </Badge>
                 </TableCell>
                 <TableCell className="w-fit text-right">
@@ -122,6 +122,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                       id={member.id}
                       name={member.user.name}
                       groupId={member.group.id}
+                      currentType={member.type}
                     />
                   ) : null}
                 </TableCell>

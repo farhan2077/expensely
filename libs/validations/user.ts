@@ -7,4 +7,8 @@ const userInfoFormSchema = z.object({
   name: nameSchema,
 });
 
-export { userInfoFormSchema };
+const userRoleUpdateFormSchema = z.object({
+  role: z.enum(["editor", "member"]),
+});
+
+export { userInfoFormSchema, userRoleUpdateFormSchema };
