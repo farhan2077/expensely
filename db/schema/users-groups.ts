@@ -11,7 +11,7 @@ const usersGroupsTable = sqliteTable("users_groups", {
     .primaryKey(),
   isActive: integer("active", { mode: "boolean" }).notNull(),
   type: text("type", {
-    enum: ["super_admin", "admin", "editor", "member"],
+    enum: ["admin", "editor", "member"],
   }).notNull(),
   userId: text("user_id")
     .notNull()
@@ -33,5 +33,6 @@ const usersGroupsRelations = relations(usersGroupsTable, ({ one }) => ({
 }));
 
 type UsersGroups = InferSelectModel<typeof usersGroupsTable>;
+export type UserGroupTypeT = UsersGroups["type"];
 
 export { usersGroupsTable, usersGroupsRelations, type UsersGroups };
