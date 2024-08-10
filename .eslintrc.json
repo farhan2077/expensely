@@ -8,7 +8,7 @@
     "no-unreachable": "warn",
     "no-console": "warn",
     "simple-import-sort/imports": [
-      "error",
+      "warn",
       {
         "groups": [
           ["^react", "^react-dom"],

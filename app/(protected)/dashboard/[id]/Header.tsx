@@ -109,7 +109,7 @@ function Header({
           </li>
         </ul>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-4">
         {isDashboardActive ? (
           <GroupPicker userInfoData={userInfoData} usersGroups={usersGroups} />
         ) : null}

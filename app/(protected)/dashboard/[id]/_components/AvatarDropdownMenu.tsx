@@ -62,7 +62,10 @@ export default function AvatarDropdownMenu({
               <span>Home page</span>
             </DropdownMenuItem>
           </Link>
-          <DropdownMenuItem onClick={() => setOpenDialog(true)}>
+          <DropdownMenuItem
+            onClick={() => setOpenDialog(true)}
+            className="text-destructive hover:!bg-destructive/10 hover:!text-destructive"
+          >
             <LogOut className="mr-2 h-4 w-4" />
             <span>Log out</span>
           </DropdownMenuItem>

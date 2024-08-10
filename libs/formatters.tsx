@@ -25,7 +25,7 @@ export function PrettyJSONFormatter({ data }: { data: any }) {
 
   return (
     <pre
-      className="w-fit rounded border bg-neutral-50 p-4 font-mono text-xs"
+      className="w-fit rounded border bg-muted/50 p-4 font-mono text-xs"
       dangerouslySetInnerHTML={{ __html: coloredJSON }}
     />
   );
