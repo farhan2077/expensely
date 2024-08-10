@@ -253,6 +253,15 @@ async function Page({ params, searchParams }: PageProps) {
   const months = extractUniqueMonths(sortedMonths);
 
   const isAdmin = isEqual(user.id, groupDetails.data.groupInfo.ownerId);
+  const foundMember = groupDetails.data.groupMembers.find(
+    (member) => member.user.id === user.id
+  );
+
+  const isEditor = !foundMember
+    ? false
+    : foundMember.type === "editor"
+      ? true
+      : false;
 
   return (
     <div className="grid gap-4">
@@ -317,7 +326,7 @@ async function Page({ params, searchParams }: PageProps) {
       )}
       <div className="mt-4 flex flex-col items-start justify-end gap-4 sm:flex-row">
         {isEmpty(months) ? null : <MonthPicker months={months} />}
-        {isAdmin ? (
+        {isAdmin || isEditor ? (
           <AddDailyActivityButton
             groupMembers={groupDetails.data.groupMembers}
             disabledDates={disabledDates}

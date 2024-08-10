@@ -248,6 +248,7 @@ export async function getUsersGroups(): Promise<Response> {
 
 export type GroupMember = {
   id: string;
+  type: "super_admin" | "admin" | "editor" | "member";
   user: {
     id: string;
     name: string;
@@ -278,6 +279,7 @@ export async function getGroupDetails(
     ),
     columns: {
       id: true,
+      type: true,
     },
     with: {
       user: {

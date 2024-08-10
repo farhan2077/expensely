@@ -43,12 +43,14 @@ function MonthlyUtilitiesDetails({
   groupId,
   currentMonth,
   isAdmin,
+  isEditor,
 }: {
   monthlyUtilitiesData: MonthlyUtilityOutputData;
   membersCount: number;
   groupId: string;
   currentMonth: string;
   isAdmin: boolean;
+  isEditor: boolean;
 }) {
   const { total, originalAvg, formattedAvg } = calculateTotalUtilities(
     monthlyUtilitiesData,
@@ -132,7 +134,7 @@ function MonthlyUtilitiesDetails({
               ) : null}
             </p>
           </div>
-          {isAdmin ? (
+          {isAdmin || isEditor ? (
             <UpsertUtilitiesButton
               type="update"
               groupId={groupId}
@@ -165,6 +167,16 @@ export default async function Page({ params }: { params: { id: string } }) {
     ? true
     : false;
 
+  const foundMember = groupDetails.data.groupMembers.find(
+    (member) => member.user.id === user.id
+  );
+
+  const isEditor = !foundMember
+    ? false
+    : foundMember.type === "editor"
+      ? true
+      : false;
+
   return (
     <>
       <h1 className="text-2xl font-semibold tracking-tight">Utilities</h1>
@@ -176,7 +188,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         {isEmpty(monthlyUtilities.data) || !monthlyUtilities.data ? (
           <section className="text-center">
             <h2 className="text-lg font-medium">Utilities</h2>
-            {isAdmin ? (
+            {isAdmin || isEditor ? (
               <>
                 <p className="mb-4 mt-1 text-balance text-sm text-muted-foreground">
                   Shared equally amongst group members
@@ -202,6 +214,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               groupId={groupId}
               currentMonth={currentMonth}
               isAdmin={isAdmin}
+              isEditor={isEditor}
             />
             <MembersBills
               currentSessionUserId={user.id}
