@@ -60,3 +60,7 @@ export function calculateTotalUtilities(
 
   return { total, originalAvg, formattedAvg };
 }
+
+export function getFirstName(fullName: string): string {
+  return fullName.split(" ")[0];
+}

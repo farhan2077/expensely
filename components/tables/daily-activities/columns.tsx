@@ -15,7 +15,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { cn } from "@/libs/utils";
+import { cn, getFirstName } from "@/libs/utils";
 
 export type DailyActivityRow = {
   date: string;
@@ -67,8 +67,8 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
                 <Fragment key={user.id}>
                   {user.grocery === 0 ? (
                     <div className="flex items-center rounded bg-slate-200 ring-2 ring-slate-200 dark:bg-slate-800 dark:ring-slate-800">
-                      <span className="rounded bg-background px-2 py-1">
-                        {user.user.name}
+                      <span className="rounded bg-background px-2 py-1 lowercase first-letter:capitalize">
+                        {getFirstName(user.user.name)}
                       </span>
                       <span
                         className={cn(
@@ -86,8 +86,8 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
                       <Tooltip>
                         <TooltipTrigger>
                           <div className="flex items-center overflow-hidden rounded ring-2 ring-primary">
-                            <span className="bg-background px-2 py-1">
-                              {user.user.name}
+                            <span className="bg-background px-2 py-1 lowercase first-letter:capitalize">
+                              {getFirstName(user.user.name)}
                             </span>
                             <span
                               className={cn(

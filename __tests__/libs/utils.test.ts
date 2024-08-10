@@ -1,17 +1,23 @@
 /* eslint-disable no-console */
 
 import {
-  describe,
-  test,
-  expect,
+  afterAll,
+  afterEach,
   beforeAll,
   beforeEach,
-  afterEach,
-  afterAll,
+  describe,
+  expect,
+  test,
   vi,
 } from "vitest";
 
-import { cn, isEmpty, logRuntimeType, isEqual } from "../../libs/utils";
+import {
+  cn,
+  getFirstName,
+  isEmpty,
+  isEqual,
+  logRuntimeType,
+} from "../../libs/utils";
 
 describe("-------------------- cn --------------------", () => {
   test("combines class names correctly", () => {
@@ -171,5 +177,11 @@ describe("-------------------- isEqual --------------------", () => {
     // @ts-expect-error
     expect(isEqual("abcd", 5)).toBe(false);
     expect(isEqual(5, 6)).toBe(false);
+  });
+});
+
+describe("-------------------- getFirstName --------------------", () => {
+  test("return first name", () => {
+    expect(getFirstName("Farhan Bin Amin")).toBe("Farhan");
   });
 });
