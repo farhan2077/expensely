@@ -7,9 +7,6 @@ export default async function GroupMembersCount({
 }: {
   groupId: string;
 }) {
-  // artificially delaying the response
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
   const groupDetails = await getGroupDetails(groupId);
 
   if (!groupDetails.success || !groupDetails.data) {
