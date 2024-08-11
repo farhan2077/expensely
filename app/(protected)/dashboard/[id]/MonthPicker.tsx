@@ -68,7 +68,7 @@ export default function MonthPicker({
           onClick={() => setOpen(true)}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {fromSP ? monthFromSP : <span>Pick a month</span>}
+          {fromSP ? format(fromSP, "MMMM yyyy") : <span>Pick a month</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-[200px] p-0">
