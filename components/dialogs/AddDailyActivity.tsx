@@ -213,7 +213,7 @@ export default function AddDailyActivity({
                     </FormItem>
                   )}
                 />
-                <hr className="mb-3 mt-4 border-b border-muted" />
+                <hr className="mb-2 mt-2 border-b border-muted" />
                 <div className="divide-y-2 divide-muted *:pb-4 *:pt-3 first:*:pt-0 last:*:pb-0">
                   {fields.map((field, index) => (
                     <div className="grid grid-cols-1" key={field.id}>
@@ -233,13 +233,13 @@ export default function AddDailyActivity({
                           name={`groups.${index}.meal`}
                           render={({ field }) => (
                             <FormItem className="col-start-5 col-end-9 space-y-1">
-                              <FormLabel>Meal(s)</FormLabel>
+                              <FormLabel>Meals</FormLabel>
                               <FormControl>
                                 <Input
                                   className="placeholder:tracking-tight"
                                   type="number"
                                   inputMode="numeric" // display numeric keyboard on mobile
-                                  placeholder="Number of meal"
+                                  placeholder="Number of meals"
                                   autoComplete="meal"
                                   {...field}
                                 />

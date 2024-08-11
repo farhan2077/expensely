@@ -99,7 +99,7 @@ export default function UpdateDailyActivity({
             <DialogHeader className="mb-4">
               <DialogTitle>Update meal and grocery cost</DialogTitle>
               <DialogDescription>
-                You are updating data for {format(restData[0].date, "PP")}
+                You are updating data for {format(restData[0].date, "PPP")}
               </DialogDescription>
             </DialogHeader>
             <Form {...form}>
@@ -110,7 +110,7 @@ export default function UpdateDailyActivity({
                       <div className="grid grid-cols-12 gap-4">
                         <div className="col-start-1 col-end-5">
                           <p className="mt-1 flex items-center text-ellipsis text-sm font-medium leading-none">
-                            <span className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded bg-muted-foreground/20 text-xs tabular-nums text-black/80">
+                            <span className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded bg-muted-foreground/20 text-xs tabular-nums text-foreground/80">
                               {index + 1}
                             </span>
                             <span>{restData[index].user.name}</span>
@@ -121,13 +121,13 @@ export default function UpdateDailyActivity({
                           name={`groups.${index}.meal`}
                           render={({ field }) => (
                             <FormItem className="col-start-5 col-end-9 space-y-1">
-                              <FormLabel>Meal(s)</FormLabel>
+                              <FormLabel>Meals</FormLabel>
                               <FormControl>
                                 <Input
                                   className="placeholder:tracking-tight"
                                   type="number"
                                   inputMode="numeric" // display numeric keyboard on mobile
-                                  placeholder="Number of meal"
+                                  placeholder="Number of meals"
                                   autoComplete="meal"
                                   {...field}
                                 />
