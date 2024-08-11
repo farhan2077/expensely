@@ -45,7 +45,7 @@ import {
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import { cn } from "@/libs/utils";
+import { cn, getFirstName } from "@/libs/utils";
 import { dailyActivityFormSchema } from "@/libs/validations/daily-activity";
 
 export default function AddDailyActivity({
@@ -220,10 +220,12 @@ export default function AddDailyActivity({
                       <div className="grid grid-cols-12 gap-4">
                         <div className="col-start-1 col-end-5">
                           <p className="mt-1 flex items-center text-ellipsis text-sm font-medium leading-none">
-                            <span className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded bg-muted-foreground/20 text-xs tabular-nums text-black/80">
+                            <span className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded bg-muted-foreground/20 text-xs tabular-nums text-foreground/80">
                               {index + 1}
                             </span>
-                            <span>{groupMembers[index].user.name}</span>
+                            <span>
+                              {getFirstName(groupMembers[index].user.name)}
+                            </span>
                           </p>
                         </div>
                         <FormField
