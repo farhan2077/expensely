@@ -22,6 +22,7 @@ import EditMonthlyActivityButton from "@/app/(protected)/dashboard/[id]/utilitie
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { calculateTotalUtilities, cn, isEmpty, isEqual } from "@/libs/utils";
+import Section from "@/components/Section";
 
 type MembersBillsDetailsCardT = {
   id: string;
@@ -164,14 +165,11 @@ function MembersBillsDetails({
   return (
     <>
       <hr />
-      <section className="flex gap-8">
-        <div className="-ml-3 w-[250px] shrink-0 px-3">
-          <h2 className="text-lg font-medium">Group members&apos; bills</h2>
-          <p className="mt-1 text-balance text-sm text-muted-foreground">
-            Track each members&apos; payment for {currentMonth}
-          </p>
-        </div>
-        <div className="grid w-full grid-cols-4 gap-4">
+      <Section
+        header={`Group members' bills`}
+        description={`Track each memberss payment for ${currentMonth}`}
+      >
+        <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {membersBillsArray.map((member) => {
             return (
               <MembersBillsDetailsCard
@@ -188,7 +186,7 @@ function MembersBillsDetails({
             );
           })}
         </div>
-      </section>
+      </Section>
     </>
   );
 }

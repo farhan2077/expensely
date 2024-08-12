@@ -1,13 +1,27 @@
 "use client";
 
+import { useState } from "react";
+
 import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { PanelRightOpen } from "lucide-react";
 
 import AvatarDropdownMenu from "@/app/(protected)/dashboard/[id]/_components/AvatarDropdownMenu";
 import GroupPicker from "@/app/(protected)/dashboard/[id]/_components/GroupPicker";
 
 import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { ToggleTheme } from "@/components/ui/toggle-theme";
 
 import type { SafeUser } from "@/db/schema/users";
@@ -56,6 +70,76 @@ function Header({
     });
   }
 
+  function MobileSheet() {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetTrigger asChild>
+          <Button size="sm" className="aspect-square px-0" variant="outline">
+            <PanelRightOpen className="w-full stroke-[1.5]" />
+          </Button>
+        </SheetTrigger>
+        <SheetHeader>
+          <VisuallyHidden.Root>
+            <SheetTitle>Sidebar</SheetTitle>
+          </VisuallyHidden.Root>
+          <VisuallyHidden.Root>
+            <SheetDescription>Links to other pages</SheetDescription>
+          </VisuallyHidden.Root>
+        </SheetHeader>
+        <SheetContent className="flex min-h-screen flex-col justify-between">
+          <div className="mt-8">
+            <ul className="grid place-items-start gap-4">
+              {/* menu - 1 */}
+              <li
+                onClick={() => setOpen(false)}
+                className={getMenuClassName(
+                  isDashboardActive && !isUtilitiesActive && !isOrderActive
+                )}
+              >
+                <Link className="capitalize" href={OVERVIEW_LINK as Route}>
+                  overview
+                </Link>
+              </li>
+              {/* menu - 2 */}
+              <li
+                onClick={() => setOpen(false)}
+                className={getMenuClassName(isUtilitiesActive)}
+              >
+                <Link className="capitalize" href={UTILITIES_LINK as Route}>
+                  utilities
+                </Link>
+              </li>
+              {/* menu - 3 */}
+              <li
+                onClick={() => setOpen(false)}
+                className={getMenuClassName(isOrderActive)}
+              >
+                <Link className="capitalize" href={ORDER_LINK as Route}>
+                  order
+                </Link>
+              </li>
+              {/* menu - 4 */}
+              <li
+                onClick={() => setOpen(false)}
+                className={getMenuClassName(isSettingsActive)}
+              >
+                <Link className="capitalize" href={SETTINGS_LINK as Route}>
+                  settings
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="mb-4 flex items-center justify-between">
+            <ToggleTheme />
+            <AvatarDropdownMenu userInfoData={userInfoData} />
+          </div>
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
   return (
     <div className="flex items-center justify-between border-b px-6 shadow-sm">
       <div className="flex h-[4rem] gap-8">
@@ -64,6 +148,7 @@ function Header({
             <Icons.logo className="h-8 w-8 text-foreground opacity-100 transition-opacity group-hover:opacity-75" />
           </Link>
         </div>
+        {/* pc */}
         <ul className="hidden h-[101.5%] items-start justify-center gap-2 md:flex">
           {/* menu - 1 */}
           <li
@@ -110,11 +195,20 @@ function Header({
         </ul>
       </div>
       <div className="flex items-center gap-4">
+        {/* pc */}
         {isDashboardActive ? (
           <GroupPicker userInfoData={userInfoData} usersGroups={usersGroups} />
         ) : null}
-        <ToggleTheme />
-        <AvatarDropdownMenu userInfoData={userInfoData} />
+        <div className="hidden md:flex">
+          <ToggleTheme />
+        </div>
+        <div className="hidden md:flex">
+          <AvatarDropdownMenu userInfoData={userInfoData} />
+        </div>
+        {/* mobile */}
+        <div className="block md:hidden">
+          <MobileSheet />
+        </div>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="-ml-3 grid gap-1">
+    <div className="ml-0 flex flex-row gap-1 lg:-ml-3 lg:flex-col">
       {SIDEBAR_LINKS.map((menu) => {
         const Icon = menu.icon;
 
@@ -26,7 +26,7 @@ export default function Sidebar() {
             key={menu.name}
             href={menu.href as Route}
             className={cn(
-              "flex w-[250px] items-center gap-2 rounded-md bg-muted px-3 py-2 text-sm font-medium capitalize",
+              "flex w-fit items-center gap-2 rounded-md bg-muted px-3 py-2 text-sm font-medium capitalize lg:w-[250px]",
               {
                 "bg-muted": menu.href === pathname,
                 "bg-background text-muted-foreground": menu.href !== pathname,

@@ -43,7 +43,7 @@ export function RemoveEmptySlots({ groupId }: { groupId: string }) {
         ) : (
           <Trash className="h-4 w-4" />
         )}
-        {isSubmitting ? "" : "Delete all empty slots"}
+        {isSubmitting ? "" : "Delete empty slots"}
       </Button>
     </form>
   );

@@ -18,7 +18,7 @@ export default async function Page() {
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
         <div>
           <h2 className="text-lg font-medium">Group</h2>
           <p className="text-sm text-muted-foreground">

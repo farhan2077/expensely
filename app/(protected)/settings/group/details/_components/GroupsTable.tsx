@@ -43,7 +43,7 @@ export default function GroupsTable({
       <TableHeader>
         <TableRow>
           <TableHead>Group name</TableHead>
-          <TableHead className="w-44">Total members</TableHead>
+          <TableHead className="w-44">Members</TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
@@ -53,7 +53,7 @@ export default function GroupsTable({
 
           return (
             <ClientSideTableRow key={grp.id} groupId={grp.groupId}>
-              <TableCell>
+              <TableCell className="flex items-center whitespace-nowrap">
                 {grp.group.name}
                 {isAdmin ? (
                   <Badge variant="secondary" className="ml-2">

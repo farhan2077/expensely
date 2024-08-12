@@ -120,7 +120,7 @@ export function SortableOrder({
             <div className="grid gap-2">
               {fields.map((field, index) => (
                 <SortableItem key={field.id} value={field.id} asChild>
-                  <div className="flex w-[400px] items-center gap-2">
+                  <div className="flex w-full items-center gap-2">
                     <FormField
                       control={form.control}
                       name={`data.${index}.name`}
@@ -145,7 +145,7 @@ export function SortableOrder({
                     <SortableDragHandle
                       variant="outline"
                       size="icon"
-                      className="size-10 shrink-0"
+                      className="hidden size-10 shrink-0 lg:flex"
                     >
                       <GripVertical className="size-4" aria-hidden="true" />
                     </SortableDragHandle>
@@ -164,7 +164,7 @@ export function SortableOrder({
           </div>
         </form>
       </Form>
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-4 lg:flex-row">
         <AddEmptySlot groupId={groupId} />
         {emptyItemFound ? <RemoveEmptySlots groupId={groupId} /> : null}
       </div>

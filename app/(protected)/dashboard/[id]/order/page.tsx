@@ -12,6 +12,8 @@ import { getGroupOrderInfo } from "@/app/actions/group-order";
 
 import { SortableOrder } from "@/app/(protected)/dashboard/[id]/order/SortableOrder";
 
+import PageIntro from "@/components/PageIntro";
+import Section from "@/components/Section";
 import { Input } from "@/components/ui/input";
 
 import { cn } from "@/libs/utils";
@@ -73,46 +75,37 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">
-        Responsibilities
-      </h1>
-      <p className="text-muted-foreground">See who is in charge</p>
-      <hr className="my-4 text-muted-foreground" />
-      <div className="grid space-y-8">
-        <section className="flex gap-8">
-          <div className="-ml-3 w-[250px] shrink-0 px-3">
-            <h2 className="text-lg font-medium">Order for {currentMonth}</h2>
-            <p className="mt-1 text-balance text-sm text-muted-foreground">
-              See who is currently in charge
-            </p>
-          </div>
-          <div className="flex gap-4">
-            <div className="flex shrink-0 flex-col gap-2">
-              {monthSegments.map((segment) => {
-                const text = segment.range.start + " to " + segment.range.end;
+      <PageIntro header="Responsibilities" description="See who is in charge" />
+      <Section
+        header={`Order for ${currentMonth}`}
+        description={`See who is currently in charge`}
+      >
+        <div className="flex gap-4 overflow-scroll">
+          <div className="flex w-1/2 shrink-0 flex-col gap-2 sm:w-fit">
+            {monthSegments.map((segment) => {
+              const text = segment.range.start + " to " + segment.range.end;
 
-                return (
-                  <div key={segment.index} className="w-fit">
-                    <Input
-                      defaultValue={text}
-                      className={cn("cursor-auto focus-visible:ring-0", {
-                        "border-primary/80 bg-primary-foreground":
-                          segment.index === activeIdx,
-                      })}
-                      readOnly
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <SortableOrder
-              groupId={groupId}
-              groupOrderInfoData={groupOrderInfo.data}
-              activeIdx={activeIdx}
-            />
+              return (
+                <div key={segment.index}>
+                  <Input
+                    defaultValue={text}
+                    className={cn("cursor-auto focus-visible:ring-0", {
+                      "border-primary/80 bg-primary-foreground":
+                        segment.index === activeIdx,
+                    })}
+                    readOnly
+                  />
+                </div>
+              );
+            })}
           </div>
-        </section>
-      </div>
+          <SortableOrder
+            groupId={groupId}
+            groupOrderInfoData={groupOrderInfo.data}
+            activeIdx={activeIdx}
+          />
+        </div>
+      </Section>
     </>
   );
 }

@@ -22,6 +22,8 @@ import MembersBills from "@/app/(protected)/dashboard/[id]/utilities/MembersBill
 import UpsertUtilitiesButton from "@/app/(protected)/dashboard/[id]/utilities/UpsertUtilitiesButton";
 
 import InfoCard from "@/components/InfoCard";
+import PageIntro from "@/components/PageIntro";
+import Section from "@/components/Section";
 import {
   Tooltip,
   TooltipContent,
@@ -58,93 +60,85 @@ function MonthlyUtilitiesDetails({
   );
 
   return (
-    <section className="flex gap-8">
-      <div className="-ml-3 w-[250px] shrink-0 px-3">
-        <h2 className="text-lg font-medium">{currentMonth}&apos;s utilities</h2>
-        <p className="mt-1 text-balance text-sm text-muted-foreground">
-          Shared equally amongst groups memebers
-        </p>
+    <Section
+      header={`${currentMonth}'s utilities`}
+      description={`Shared equally amongst groups memebers`}
+    >
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
+        <InfoCard
+          title="Electricity"
+          body={monthlyUtilitiesData.electricity}
+          bodyType="currency"
+          icon={Flashlight}
+        />
+        <InfoCard
+          title="Internet"
+          body={monthlyUtilitiesData.internet}
+          bodyType="currency"
+          icon={Wifi}
+        />
+        <InfoCard
+          title="Water"
+          body={monthlyUtilitiesData.water}
+          bodyType="currency"
+          icon={Droplet}
+        />
+        <InfoCard
+          title="Gas"
+          body={monthlyUtilitiesData.gas}
+          bodyType="currency"
+          icon={PillBottle}
+        />
+        <InfoCard
+          title="Cook"
+          body={monthlyUtilitiesData.cook}
+          bodyType="currency"
+          icon={ChefHat}
+        />
+        <InfoCard
+          title="Others"
+          body={monthlyUtilitiesData.otherUtils}
+          bodyType="currency"
+          icon={Bolt}
+        />
       </div>
-      <div className="w-full">
-        <div className="grid grid-cols-6 gap-4">
-          <InfoCard
-            title="Electricity"
-            body={monthlyUtilitiesData.electricity}
-            bodyType="currency"
-            icon={Flashlight}
-          />
-          <InfoCard
-            title="Internet"
-            body={monthlyUtilitiesData.internet}
-            bodyType="currency"
-            icon={Wifi}
-          />
-          <InfoCard
-            title="Water"
-            body={monthlyUtilitiesData.water}
-            bodyType="currency"
-            icon={Droplet}
-          />
-          <InfoCard
-            title="Gas"
-            body={monthlyUtilitiesData.gas}
-            bodyType="currency"
-            icon={PillBottle}
-          />
-          <InfoCard
-            title="Cook"
-            body={monthlyUtilitiesData.cook}
-            bodyType="currency"
-            icon={ChefHat}
-          />
-          <InfoCard
-            title="Others"
-            body={monthlyUtilitiesData.otherUtils}
-            bodyType="currency"
-            icon={Bolt}
-          />
+      <div className="mt-4">
+        <div className="mb-3 flex items-center text-sm">
+          <p className="inline">
+            This month&apos;s total utilities are {total}.{" "}
+            {membersCount > 1 ? (
+              <>
+                So everyone ({membersCount} members) will have to pay
+                <span className="font-medium">
+                  &nbsp;{formattedAvg} taka&nbsp;
+                </span>
+                each&nbsp;
+                {formattedAvg === originalAvg ? null : (
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild className="inline cursor-pointer">
+                        <Info className="mb-0.5 h-3 w-3" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Actual average utility is {originalAvg} BDT</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                )}
+              </>
+            ) : null}
+          </p>
         </div>
-        <div className="mt-4">
-          <div className="mb-3 flex items-center text-sm">
-            <p className="inline">
-              This month&apos;s total utilities are {total}.{" "}
-              {membersCount > 1 ? (
-                <>
-                  So everyone ({membersCount} members) will have to pay
-                  <span className="font-medium">
-                    &nbsp;{formattedAvg} taka&nbsp;
-                  </span>
-                  each&nbsp;
-                  {formattedAvg === originalAvg ? null : (
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger
-                          asChild
-                          className="inline cursor-pointer"
-                        >
-                          <Info className="mb-0.5 h-3 w-3" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Actual average utility is {originalAvg} BDT</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  )}
-                </>
-              ) : null}
-            </p>
-          </div>
-          {isAdmin || isEditor ? (
-            <UpsertUtilitiesButton
-              type="update"
-              groupId={groupId}
-              currentMonth={currentMonth}
-              monthlyUtilitiesData={monthlyUtilitiesData}
-            />
-          ) : null}
-        </div>
+        {isAdmin || isEditor ? (
+          <UpsertUtilitiesButton
+            type="update"
+            groupId={groupId}
+            currentMonth={currentMonth}
+            monthlyUtilitiesData={monthlyUtilitiesData}
+          />
+        ) : null}
       </div>
-    </section>
+    </Section>
   );
 }
 
@@ -179,11 +173,10 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">Utilities</h1>
-      <p className="text-muted-foreground">
-        Current month&apos;s electricity bill, internet bill and others
-      </p>
-      <hr className="my-4 text-muted-foreground" />
+      <PageIntro
+        header="Utilities"
+        description={`${currentMonth}'s electricity bill, internet bill and others`}
+      />
       <div className="grid space-y-8">
         {isEmpty(monthlyUtilities.data) || !monthlyUtilities.data ? (
           <section className="text-center">

@@ -106,7 +106,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <TableCell className="font-medium">
                   <p>{member.user.name}</p>
                   {isAdmin ? (
-                    <p className="text-sm font-normal text-muted-foreground">
+                    <p className="hidden text-sm font-normal text-muted-foreground md:block">
                       {member.user.email}
                     </p>
                   ) : null}

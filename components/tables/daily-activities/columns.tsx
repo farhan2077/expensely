@@ -1,7 +1,5 @@
 "use client";
 
-import { Fragment } from "react";
-
 import { ColumnDef } from "@tanstack/react-table";
 import { format, isFriday } from "date-fns";
 
@@ -35,7 +33,7 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
             "text-primary": isFriday(date),
           })}
         >
-          <span className="block lg:hidden">{format(date, "PP")}</span>
+          <span className="block lg:hidden">{format(date, "P")}</span>
           <span className="hidden lg:block">{format(date, "ccc, PPP")}</span>
         </p>
       );
@@ -64,7 +62,10 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
             // })
             .map((user) => {
               return (
-                <Fragment key={user.id}>
+                <div
+                  key={user.id}
+                  className="hidden items-center gap-2 lg:flex"
+                >
                   {user.grocery === 0 ? (
                     <div className="flex items-center rounded bg-slate-200 ring-2 ring-slate-200 dark:bg-slate-800 dark:ring-slate-800">
                       <span className="rounded bg-background px-2 py-1 lowercase first-letter:capitalize">
@@ -113,11 +114,13 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
                       </Tooltip>
                     </TooltipProvider>
                   )}
-                </Fragment>
+                </div>
               );
             })}
-          <p className="duration-50 text-sm opacity-0 transition-opacity group-hover:opacity-100">
-            Total meals <span className="font-semibold">{totalMeals}</span>
+          {/* <p className="duration-50 text-sm opacity-0 transition-opacity group-hover:opacity-100"> */}
+          <p className="custom__meal-cell flex items-center text-sm">
+            <span className="hidden md:block">Total meals&nbsp;</span>
+            <span className="font-semibold">{totalMeals}</span>
           </p>
         </div>
       );

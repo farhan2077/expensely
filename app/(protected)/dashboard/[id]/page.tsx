@@ -39,6 +39,7 @@ import {
 import { DataTable } from "@/components/tables/daily-activities/data-table";
 
 import { isEmpty, isEqual } from "@/libs/utils";
+import PageIntro from "@/components/PageIntro";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -264,77 +265,87 @@ async function Page({ params, searchParams }: PageProps) {
       : false;
 
   return (
-    <div className="grid gap-4">
-      <section>
-        <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Take a look at what&apos;s happening in{" "}
-          {groupDetails.data.groupInfo.name}
-        </p>
-      </section>
-      <hr className="text-muted-foreground" />
-      <section className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-        <InfoCard
-          title="Total grocery costs"
-          body={totals.totalGrocery}
-          bodyType="currency"
-          icon={DollarSign}
-        />
-        <InfoCard
-          title="Total meals"
-          body={totals.totalMeal}
-          bodyType="number"
-          icon={CookingPot}
-        />
-        <InfoCard
-          title="Meal rate"
-          body={totals.avgMealRate}
-          bodyType="number"
-          icon={Utensils}
-        />
-      </section>
-      {groupMembersTotals.length > 0 && (
-        <section>
-          <h2 className="my-4 text-lg font-bold leading-none">
-            Everyone&apos;s grocery costs and meals so far
-          </h2>
+    <>
+      <PageIntro
+        header="Dashboard"
+        description={`Take a look at what's happening in ${groupDetails.data.groupInfo.name}`}
+      />
+      <div className="grid gap-6">
+        <section className="grid w-full grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
+          <InfoCard
+            title="Total grocery costs"
+            body={totals.totalGrocery}
+            bodyType="currency"
+            icon={DollarSign}
+            hideOnSmallScreen={true}
+          />
+          <InfoCard
+            title="Total meals"
+            body={totals.totalMeal}
+            bodyType="number"
+            icon={CookingPot}
+            hideOnSmallScreen={true}
+          />
+          <InfoCard
+            title="Meal rate"
+            body={totals.avgMealRate}
+            bodyType="number"
+            icon={Utensils}
+          />
+        </section>
+        {groupMembersTotals.length > 0 && (
+          <section className="hidden lg:block">
+            <h2 className="mb-4 text-lg font-bold leading-none">
+              Everyone&apos;s grocery costs and meals so far
+            </h2>
 
-          <div className="flex divide-x-2 divide-border">
-            {groupMembersTotals.map((member) => {
-              return (
-                <div key={member.userId} className="px-8 first:pl-0 last:pr-0">
-                  <p className="text-sm font-medium">{member.name}</p>
-                  <div className="mt-1">
-                    <div className="flex items-center gap-2">
-                      <Banknote className="h-4 w-4" />
-                      <span className="text-sm">{member.totalGrocery} BDT</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <UtensilsCrossed className="h-4 w-4" />
-                      <span className="text-sm">
-                        {/* symbol source: https://www.toptal.com/designers/htmlarrows/arrows/, Wedge-Tailed Right Arrow */}
-                        {member.totalMeal} meals (&#10172;&nbsp;
-                        {Math.ceil(member.totalMeal * totals.avgMealRate)} BDT)
-                      </span>
+            <div className="flex divide-x-2 divide-border">
+              {groupMembersTotals.map((member) => {
+                return (
+                  <div
+                    key={member.userId}
+                    className="px-8 first:pl-0 last:pr-0"
+                  >
+                    <p className="text-sm font-medium">{member.name}</p>
+                    <div className="mt-1">
+                      <div className="flex items-center gap-2">
+                        <Banknote className="h-4 w-4" />
+                        <span className="text-sm">
+                          {member.totalGrocery} BDT
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <UtensilsCrossed className="h-4 w-4" />
+                        <span className="text-sm">
+                          {/* symbol source: https://www.toptal.com/designers/htmlarrows/arrows/, Wedge-Tailed Right Arrow */}
+                          {member.totalMeal} meals (&#10172;&nbsp;
+                          {Math.ceil(
+                            member.totalMeal * totals.avgMealRate
+                          )}{" "}
+                          BDT)
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+          </section>
+        )}
+        <div className="grid gap-4">
+          <div className="flex flex-col items-start justify-end gap-4 sm:flex-row">
+            {isEmpty(months) ? null : <MonthPicker months={months} />}
+            {isAdmin || isEditor ? (
+              <AddDailyActivityButton
+                groupMembers={groupDetails.data.groupMembers}
+                disabledDates={disabledDates}
+              />
+            ) : null}
           </div>
-        </section>
-      )}
-      <div className="mt-4 flex flex-col items-start justify-end gap-4 sm:flex-row">
-        {isEmpty(months) ? null : <MonthPicker months={months} />}
-        {isAdmin || isEditor ? (
-          <AddDailyActivityButton
-            groupMembers={groupDetails.data.groupMembers}
-            disabledDates={disabledDates}
-          />
-        ) : null}
+          <DataTable data={sortedActivities} columns={columns} />
+        </div>
       </div>
-      <DataTable data={sortedActivities} columns={columns} />
-    </div>
+    </>
   );
 }
 
