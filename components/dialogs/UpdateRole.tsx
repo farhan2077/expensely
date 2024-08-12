@@ -99,10 +99,10 @@ export function UpdateRole({
               name="role"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Role</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    defaultValue={currentType}
                   >
                     <FormControl>
                       <SelectTrigger className="capitalize">
@@ -115,7 +115,6 @@ export function UpdateRole({
                           <SelectItem
                             key={role}
                             value={role}
-                            defaultChecked={role === currentType}
                             className="capitalize"
                           >
                             {role}
