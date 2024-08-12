@@ -64,7 +64,7 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
               return (
                 <div
                   key={user.id}
-                  className="hidden items-center gap-2 lg:flex"
+                  className="hidden items-center gap-2 sm:flex"
                 >
                   {user.grocery === 0 ? (
                     <div className="flex items-center rounded bg-slate-200 ring-2 ring-slate-200 dark:bg-slate-800 dark:ring-slate-800">
@@ -154,12 +154,11 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
     id: "action",
     header: "",
     accessorFn: (row) => row.rest,
-    cell: ({ row }) => {
-      const restData = row.original.rest;
-
+    cell: function Cell({ row }) {
+      // ! IMPORTANT: Do not store value in a variable, like x = row.original.rest, instead just use it directly, otherwise it will load wrong data
       return (
         <div className="flex justify-end">
-          <UpdateDailyActivityButton restData={restData} />
+          <UpdateDailyActivityButton restData={row.original.rest} />
         </div>
       );
     },
