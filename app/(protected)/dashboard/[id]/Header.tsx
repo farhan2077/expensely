@@ -44,12 +44,12 @@ function Header({
     : firstGroupId;
 
   const OVERVIEW_LINK = `/dashboard/${groupId}`;
-  const UTILITIES_LINK = `/dashboard/${groupId}/utilities`;
+  const BILLS_LINK = `/dashboard/${groupId}/bills`;
   const ORDER_LINK = `/dashboard/${groupId}/order`;
   const SETTINGS_LINK = `/settings`;
 
   const isDashboardActive = pathname.startsWith("/dashboard");
-  const isUtilitiesActive = pathname.endsWith("/utilities");
+  const isBillsActive = pathname.endsWith("/bills");
   const isOrderActive = pathname.endsWith("/order");
   const isSettingsActive = pathname.startsWith("/settings");
 
@@ -95,7 +95,7 @@ function Header({
               <li
                 onClick={() => setOpen(false)}
                 className={getMenuClassName(
-                  isDashboardActive && !isUtilitiesActive && !isOrderActive
+                  isDashboardActive && !isBillsActive && !isOrderActive
                 )}
               >
                 <Link className="capitalize" href={OVERVIEW_LINK as Route}>
@@ -105,10 +105,10 @@ function Header({
               {/* menu - 2 */}
               <li
                 onClick={() => setOpen(false)}
-                className={getMenuClassName(isUtilitiesActive)}
+                className={getMenuClassName(isBillsActive)}
               >
-                <Link className="capitalize" href={UTILITIES_LINK as Route}>
-                  utilities
+                <Link className="capitalize" href={BILLS_LINK as Route}>
+                  bills
                 </Link>
               </li>
               {/* menu - 3 */}
@@ -153,25 +153,25 @@ function Header({
           {/* menu - 1 */}
           <li
             className={getMenuClassName(
-              isDashboardActive && !isUtilitiesActive && !isOrderActive
+              isDashboardActive && !isBillsActive && !isOrderActive
             )}
           >
             <Link
               href={OVERVIEW_LINK as Route}
               className={getLinkClassName(
-                isDashboardActive && !isUtilitiesActive && !isOrderActive
+                isDashboardActive && !isBillsActive && !isOrderActive
               )}
             >
               overview
             </Link>
           </li>
           {/* menu - 2 */}
-          <li className={getMenuClassName(isUtilitiesActive)}>
+          <li className={getMenuClassName(isBillsActive)}>
             <Link
-              href={UTILITIES_LINK as Route}
-              className={getLinkClassName(isUtilitiesActive)}
+              href={BILLS_LINK as Route}
+              className={getLinkClassName(isBillsActive)}
             >
-              utilities
+              bills
             </Link>
           </li>
           {/* menu - 3 */}

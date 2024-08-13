@@ -18,8 +18,8 @@ import {
   type MonthlyUtilityOutputData,
 } from "@/app/actions/monthly-utility";
 
-import MembersBills from "@/app/(protected)/dashboard/[id]/utilities/MembersBills";
-import UpsertUtilitiesButton from "@/app/(protected)/dashboard/[id]/utilities/UpsertUtilitiesButton";
+import MembersBills from "@/app/(protected)/dashboard/[id]/bills/MembersBills";
+import UpsertUtilitiesButton from "@/app/(protected)/dashboard/[id]/bills/UpsertUtilitiesButton";
 
 import InfoCard from "@/components/InfoCard";
 import PageIntro from "@/components/PageIntro";
@@ -174,7 +174,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <>
       <PageIntro
-        header="Utilities"
+        header="Bills"
         description={`${currentMonth}'s electricity bill, internet bill and others`}
       />
       <div className="grid space-y-8">

@@ -10,14 +10,14 @@ import {
 } from "@/app/actions/monthly-activity";
 import { MonthlyUtilityOutputData } from "@/app/actions/monthly-utility";
 
+import AddMonthlyActivitiesButton from "@/app/(protected)/dashboard/[id]/bills/AddMonthlyActivitiesButton";
+import EditMonthlyActivityButton from "@/app/(protected)/dashboard/[id]/bills/EditMonthlyActivityButton";
 import {
   type AllTotals,
   calculateMembersTotals,
   calculateTotals,
   type MemberTotal,
 } from "@/app/(protected)/dashboard/[id]/page";
-import AddMonthlyActivitiesButton from "@/app/(protected)/dashboard/[id]/utilities/AddMonthlyActivitiesButton";
-import EditMonthlyActivityButton from "@/app/(protected)/dashboard/[id]/utilities/EditMonthlyActivityButton";
 
 import Section from "@/components/Section";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

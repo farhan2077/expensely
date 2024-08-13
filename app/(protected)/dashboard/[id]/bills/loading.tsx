@@ -5,7 +5,7 @@ export default function Loading() {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold tracking-tight">Utilities</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">Bills</h1>
       <p className="text-muted-foreground">
         {currentMonth}&apos;s electricity bill, internet bill and others
       </p>
