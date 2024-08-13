@@ -88,7 +88,7 @@ function Header({
             <SheetDescription>Links to other pages</SheetDescription>
           </VisuallyHidden.Root>
         </SheetHeader>
-        <SheetContent className="flex min-h-screen flex-col justify-between">
+        <SheetContent className="flex h-dvh flex-col justify-between">
           <div className="mt-8">
             <ul className="grid place-items-start gap-4">
               {/* menu - 1 */}

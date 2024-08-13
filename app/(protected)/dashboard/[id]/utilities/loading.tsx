@@ -7,7 +7,7 @@ export default function Loading() {
     <>
       <h1 className="text-2xl font-semibold tracking-tight">Utilities</h1>
       <p className="text-muted-foreground">
-        Current month&apos;s electricity bill, internet bill and others
+        {currentMonth}&apos;s electricity bill, internet bill and others
       </p>
       <hr className="my-4 text-muted-foreground" />
       <section className="flex flex-col gap-4 lg:flex-row lg:gap-8">

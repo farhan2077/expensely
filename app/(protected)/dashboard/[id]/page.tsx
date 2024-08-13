@@ -32,6 +32,7 @@ import AddDailyActivityButton from "@/app/(protected)/dashboard/[id]/AddDailyAct
 import MonthPicker from "@/app/(protected)/dashboard/[id]/MonthPicker";
 
 import InfoCard from "@/components/InfoCard";
+import PageIntro from "@/components/PageIntro";
 import {
   columns,
   type DailyActivityRow,
@@ -39,7 +40,6 @@ import {
 import { DataTable } from "@/components/tables/daily-activities/data-table";
 
 import { isEmpty, isEqual } from "@/libs/utils";
-import PageIntro from "@/components/PageIntro";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -268,7 +268,7 @@ async function Page({ params, searchParams }: PageProps) {
     <>
       <PageIntro
         header="Dashboard"
-        description={`Take a look at what's happening in ${groupDetails.data.groupInfo.name}`}
+        description={`Daily activities of ${groupDetails.data.groupInfo.name}`}
       />
       <div className="grid gap-6">
         <section className="grid w-full grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">

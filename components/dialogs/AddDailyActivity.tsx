@@ -253,7 +253,12 @@ export default function AddDailyActivity({
                           name={`groups.${index}.grocery`}
                           render={({ field }) => (
                             <FormItem className="col-start-9 col-end-13 space-y-1">
-                              <FormLabel>Grocery expenses</FormLabel>
+                              <FormLabel>
+                                Grocery&nbsp;
+                                <span className="hidden sm:inline">
+                                  expenses
+                                </span>
+                              </FormLabel>
                               <FormControl>
                                 <Input
                                   className="placeholder:tracking-tight"

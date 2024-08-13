@@ -21,20 +21,20 @@ export default function Loading() {
           <div className="flex w-full gap-4 overflow-scroll">
             <div className="flex flex-row gap-2 sm:w-fit">
               <div className="flex flex-col gap-2">
-                <div className="h-[40px] w-[170px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
-                <div className="h-[40px] w-[170px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
-                <div className="h-[40px] w-[170px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
-                <div className="h-[40px] w-[170px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
-                <div className="h-[40px] w-[170px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
+                <div className="h-[40px] w-[150px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
+                <div className="h-[40px] w-[150px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
+                <div className="h-[40px] w-[150px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
+                <div className="h-[40px] w-[150px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
+                <div className="h-[40px] w-[150px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
               </div>
             </div>
             <div className="flex flex-row gap-2 sm:w-fit">
               <div className="flex flex-col gap-2">
-                <div className="h-[40px] w-[170px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
-                <div className="h-[40px] w-[170px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
-                <div className="h-[40px] w-[170px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
-                <div className="h-[40px] w-[170px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
-                <div className="h-[40px] w-[170px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
+                <div className="h-[40px] w-[150px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
+                <div className="h-[40px] w-[150px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
+                <div className="h-[40px] w-[150px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
+                <div className="h-[40px] w-[150px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
+                <div className="h-[40px] w-[150px] animate-pulse rounded-md bg-muted lg:w-[185px]"></div>
               </div>
             </div>
           </div>

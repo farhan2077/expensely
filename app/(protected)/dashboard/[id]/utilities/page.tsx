@@ -180,7 +180,9 @@ export default async function Page({ params }: { params: { id: string } }) {
       <div className="grid space-y-8">
         {isEmpty(monthlyUtilities.data) || !monthlyUtilities.data ? (
           <section className="text-center">
-            <h2 className="text-lg font-medium">Utilities</h2>
+            <h2 className="text-lg font-medium">
+              {currentMonth}&apos;s utilities
+            </h2>
             {isAdmin || isEditor ? (
               <>
                 <p className="mb-4 mt-1 text-balance text-sm text-muted-foreground">

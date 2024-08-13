@@ -19,10 +19,10 @@ import {
 import AddMonthlyActivitiesButton from "@/app/(protected)/dashboard/[id]/utilities/AddMonthlyActivitiesButton";
 import EditMonthlyActivityButton from "@/app/(protected)/dashboard/[id]/utilities/EditMonthlyActivityButton";
 
+import Section from "@/components/Section";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { calculateTotalUtilities, cn, isEmpty, isEqual } from "@/libs/utils";
-import Section from "@/components/Section";
 
 type MembersBillsDetailsCardT = {
   id: string;
