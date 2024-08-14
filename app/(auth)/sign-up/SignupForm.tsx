@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -29,6 +30,21 @@ export function SignupForm() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [passwordFieldType, setPasswordFieldType] = useState("password");
+  const [confirmPasswordFieldType, setConfirmPasswordFieldType] =
+    useState("password");
+
+  function togglePasswordFieldType() {
+    setPasswordFieldType((prevType) =>
+      prevType === "password" ? "text" : "password"
+    );
+  }
+
+  function toggleConfirmPasswordFieldType() {
+    setConfirmPasswordFieldType((prevType) =>
+      prevType === "password" ? "text" : "password"
+    );
+  }
 
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
@@ -108,12 +124,29 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Must include both numbers and characters"
-                  autoComplete="new-password"
-                  {...field}
-                />
+                <div className="flex items-center gap-2">
+                  <Input
+                    type={passwordFieldType}
+                    placeholder="Must include both numbers and characters"
+                    autoComplete="new-password"
+                    {...field}
+                  />
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="shrink-0"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      togglePasswordFieldType();
+                    }}
+                  >
+                    {passwordFieldType === "password" ? (
+                      <Eye className="h-4 w-4" />
+                    ) : (
+                      <EyeOff className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -126,12 +159,29 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Confirm password</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Re-enter password"
-                  autoComplete="confirm-password"
-                  {...field}
-                />
+                <div className="flex items-center gap-2">
+                  <Input
+                    type={confirmPasswordFieldType}
+                    placeholder="Re-enter password"
+                    autoComplete="confirm-password"
+                    {...field}
+                  />
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="shrink-0"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleConfirmPasswordFieldType();
+                    }}
+                  >
+                    {confirmPasswordFieldType === "password" ? (
+                      <Eye className="h-4 w-4" />
+                    ) : (
+                      <EyeOff className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

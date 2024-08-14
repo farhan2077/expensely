@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -34,6 +35,13 @@ export function SigninForm() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [passwordFieldType, setPasswordFieldType] = useState("password");
+
+  function togglePasswordFieldType() {
+    setPasswordFieldType((prevType) =>
+      prevType === "password" ? "text" : "password"
+    );
+  }
 
   const form = useForm<z.infer<typeof signinFormSchema>>({
     resolver: zodResolver(signinFormSchema),
@@ -130,7 +138,7 @@ export function SigninForm() {
               <div className="flex items-center justify-between">
                 <FormLabel>Password</FormLabel>
                 <Link
-                  tabIndex={3}
+                  tabIndex={5}
                   href="/forgot-password"
                   className="text-sm leading-none text-muted-foreground hover:underline"
                 >
@@ -138,20 +146,43 @@ export function SigninForm() {
                 </Link>
               </div>
               <FormControl>
-                <Input
-                  tabIndex={2}
-                  type="password"
-                  placeholder="Must include both numbers and characters"
-                  autoComplete="password"
-                  {...field}
-                />
+                <div className="flex items-center gap-2">
+                  <Input
+                    tabIndex={2}
+                    type={passwordFieldType}
+                    placeholder="Must include both numbers and characters"
+                    autoComplete="password"
+                    {...field}
+                  />
+                  <Button
+                    tabIndex={3}
+                    variant="secondary"
+                    size="icon"
+                    className="shrink-0"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      togglePasswordFieldType();
+                    }}
+                  >
+                    {passwordFieldType === "password" ? (
+                      <Eye className="h-4 w-4" />
+                    ) : (
+                      <EyeOff className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <div className="pt-2">
-          <Button disabled={isLoading} type="submit" className="w-full">
+          <Button
+            tabIndex={4}
+            disabled={isLoading}
+            type="submit"
+            className="w-full"
+          >
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
