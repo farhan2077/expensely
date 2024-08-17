@@ -38,12 +38,8 @@ export function ActionButtonDropdown({
             <Ellipsis className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className="w-48"
-          align="start"
-          onClick={() => setUpdateMemberRole(true)}
-        >
-          <DropdownMenuItem>
+        <DropdownMenuContent className="w-48" align="start">
+          <DropdownMenuItem onClick={() => setUpdateMemberRole(true)}>
             <UserPen className="mr-2 h-4 w-4" />
             <span>Update role</span>
           </DropdownMenuItem>
