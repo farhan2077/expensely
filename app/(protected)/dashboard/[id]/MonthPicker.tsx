@@ -6,7 +6,7 @@ import type { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { endOfMonth, format, isValid, parse, startOfMonth } from "date-fns";
+import { endOfMonth, format, parse, startOfMonth } from "date-fns";
 import { CalendarIcon, Check } from "lucide-react";
 
 import type { UniqueMonthOutput } from "@/app/(protected)/dashboard/[id]/page";
@@ -50,10 +50,7 @@ export default function MonthPicker({
 
   let fromSP = searchParams.get("from");
   const parsedFromSP = !fromSP ? new Date() : fromSP;
-
-  const monthFromSP = isValid(parsedFromSP)
-    ? format(parsedFromSP, "MMMM yyyy")
-    : format(new Date(), "MMMM yyyy");
+  const formattedFromSP = format(parsedFromSP, "MMMM yyyy");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -98,8 +95,8 @@ export default function MonthPicker({
               >
                 <Check
                   className={cn("mr-2 h-4 w-4 shrink-0", {
-                    "opacity-100": each.month === monthFromSP,
-                    "opacity-0": each.month !== monthFromSP,
+                    "opacity-100": each.month === formattedFromSP,
+                    "opacity-0": each.month !== formattedFromSP,
                   })}
                 />
                 {each.month}
