@@ -85,15 +85,15 @@ export default function GroupPicker({
                     onSelect={() => {
                       const OVERVIEW_LINK =
                         `/dashboard/${group.groupId}` as Route;
-                      const UTILITIES_LINK =
-                        `/dashboard/${group.groupId}/utilities` as Route;
+                      const BILLS_LINK =
+                        `/dashboard/${group.groupId}/bills` as Route;
                       const ORDER_LINK =
                         `/dashboard/${group.groupId}/order` as Route;
 
                       setOpen(false);
                       router.push(
-                        pathname.endsWith("/utilities")
-                          ? UTILITIES_LINK
+                        pathname.endsWith("/bills")
+                          ? BILLS_LINK
                           : pathname.endsWith("/order")
                             ? ORDER_LINK
                             : OVERVIEW_LINK
