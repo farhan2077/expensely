@@ -5,6 +5,7 @@ import { format, isFriday } from "date-fns";
 
 import type { DailyActivityOutputData } from "@/app/actions/daily-activity";
 
+import { Icons } from "@/components/icons";
 import UpdateDailyActivityButton from "@/components/tables/daily-activities/UpdateDailyActivityButton";
 import {
   Tooltip,
@@ -139,12 +140,11 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
 
       return (
         <p
-          className={cn("whitespace-nowrap", {
+          className={cn("flex items-center gap-0.5 whitespace-nowrap", {
             "text-muted-foreground": totalGroceryCost === 0,
           })}
         >
-          {/* symbol source: https://www.toptal.com/designers/htmlarrows/currency/, Bengali Taka */}
-          <span className="mr-0.5 text-base">&#2547;</span>
+          <Icons.bdt className="size-2.5 stroke-1" />
           {totalGroceryCost}
         </p>
       );

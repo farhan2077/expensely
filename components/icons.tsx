@@ -31,4 +31,20 @@ export const Icons = {
       <path d="M21 12a9 9 0 1 1-6.219-8.56" />
     </svg>
   ),
+  bdt: (props: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M21 12.946c.018 3.472-.894 6.232-2.637 7.983A7.267 7.267 0 0 1 13 23h-3a3 3 0 0 1-3-3v-8H4.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5H7V4a1 1 0 0 0-1-1H3.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5H6a3 3 0 0 1 3 3v6h2.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H9v8a1 1 0 0 0 1 1h3a5.346 5.346 0 0 0 3.946-1.481c1.339-1.347 2.069-3.677 2.054-6.562A.984.984 0 0 0 18 12h-2.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5H18a2.989 2.989 0 0 1 3 2.946Z" />
+    </svg>
+  ),
 };

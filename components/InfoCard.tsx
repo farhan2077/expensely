@@ -1,5 +1,6 @@
 import { LucideIcon } from "lucide-react";
 
+import { Icons } from "@/components/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { cn } from "@/libs/utils";
@@ -36,14 +37,9 @@ export default function InfoCard({
         <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">
-          {bodyType === "currency" && (
-            <span className="mr-0.5 text-[1.6875rem] font-semibold">
-              {/* symbol source: https://www.toptal.com/designers/htmlarrows/currency/, Bengali Taka */}
-              &#2547;
-            </span>
-          )}
-          {formattedBody}
+        <div className="flex items-center">
+          {bodyType === "currency" && <Icons.bdt className="size-[1.125rem]" />}
+          <span className="text-2xl font-bold">{formattedBody}</span>
         </div>
         {description && (
           <p className="text-xs text-muted-foreground">{description}</p>
