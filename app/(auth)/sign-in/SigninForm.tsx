@@ -156,6 +156,7 @@ export function SigninForm() {
                   />
                   <Button
                     tabIndex={3}
+                    type="button"
                     variant="secondary"
                     size="icon"
                     className="shrink-0"

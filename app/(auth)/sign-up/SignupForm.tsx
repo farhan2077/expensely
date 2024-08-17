@@ -132,6 +132,7 @@ export function SignupForm() {
                     {...field}
                   />
                   <Button
+                    type="button"
                     variant="secondary"
                     size="icon"
                     className="shrink-0"
@@ -167,6 +168,7 @@ export function SignupForm() {
                     {...field}
                   />
                   <Button
+                    type="button"
                     variant="secondary"
                     size="icon"
                     className="shrink-0"
