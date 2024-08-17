@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { Plus } from "lucide-react";
+
 import AddDailyActivity from "@/components/dialogs/AddDailyActivity";
 import { Button } from "@/components/ui/button";
 
@@ -21,7 +23,9 @@ export default function AddDailyActivityButton({
         onClick={() => {
           setOpenModal(true);
         }}
+        // className="flex items-center"
       >
+        <Plus className="mr-1.5 size-4" />
         Add meals and expenses
       </Button>
       <AddDailyActivity

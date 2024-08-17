@@ -42,6 +42,8 @@ export default function UserInfoForm({ userInfo }: { userInfo: any }) {
     },
   });
 
+  const { isDirty } = form.formState;
+
   async function onSubmit(formValues: z.infer<typeof userInfoFormSchema>) {
     setIsLoading(true);
 
@@ -105,7 +107,7 @@ export default function UserInfoForm({ userInfo }: { userInfo: any }) {
           </p>
         </div>
         <div className="pt-2">
-          <Button disabled={isLoading} type="submit">
+          <Button disabled={isLoading || !isDirty} type="submit">
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}

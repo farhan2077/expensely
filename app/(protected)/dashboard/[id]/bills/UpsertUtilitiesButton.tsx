@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { PenLine, Plus } from "lucide-react";
+
 import { type MonthlyUtilityOutputData } from "@/app/actions/monthly-utility";
 
 import AddUtilities from "@/components/dialogs/AddUtilities";
@@ -27,9 +29,16 @@ export default function UpsertUtilitiesButton({
           setOpenModal(true);
         }}
       >
-        {type === "insert"
-          ? `Add ${currentMonth}'s utilities`
-          : `Update ${currentMonth}'s utilities`}
+        {type === "insert" ? (
+          <>
+            <Plus className="mr-2 size-4" /> Add {currentMonth}&apos;s utilities
+          </>
+        ) : (
+          <>
+            <PenLine className="mr-2 size-4" />
+            Update {currentMonth}&apos;s utilities
+          </>
+        )}
       </Button>
       <AddUtilities
         open={openModal}

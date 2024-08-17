@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { Plus } from "lucide-react";
+
 import AddMonthlyActivities from "@/components/dialogs/AddMonthlyActivities";
 import { Button } from "@/components/ui/button";
 
@@ -21,6 +23,7 @@ export default function AddMonthlyActivitiesButton({
           setOpenModal(true);
         }}
       >
+        <Plus className="mr-2 size-4" />
         Add members&apos; bills
       </Button>
       <AddMonthlyActivities
