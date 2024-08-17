@@ -1,0 +1,86 @@
+"use client";
+
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+
+import { NotepadText } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+export default function Note({ currentGroupId }: { currentGroupId: string }) {
+  const textId = "text" + currentGroupId;
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [text, setText] = useState(() => localStorage.getItem(textId) || "");
+  const [typingTimeout, setTypingTimeout] = useState<ReturnType<
+    typeof setTimeout
+  > | null>(null);
+
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value);
+
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+
+    setTypingTimeout(
+      setTimeout(() => {
+        localStorage.setItem(textId, e.target.value);
+      }, 1000)
+    );
+  };
+
+  const placeCursorToEnd = () => {
+    const textarea = textareaRef.current;
+
+    if (textarea) {
+      textarea.focus();
+      const end = textarea.value.length;
+      textarea.setSelectionRange(end, end);
+    }
+  };
+
+  useEffect(() => {
+    placeCursorToEnd();
+
+    return () => {
+      if (typingTimeout) {
+        clearTimeout(typingTimeout);
+      }
+    };
+  }, [typingTimeout]);
+
+  return (
+    <Popover
+      onOpenChange={(open) => {
+        if (open) {
+          setTimeout(placeCursorToEnd, 0);
+        }
+      }}
+    >
+      <PopoverTrigger asChild>
+        <Button variant="outline" size="icon" className="size-9 shrink-0">
+          <NotepadText className="h-4 w-4" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-72 bg-muted">
+        <textarea
+          id="note-textarea"
+          ref={textareaRef}
+          rows={5}
+          className="w-full rounded-sm border-border bg-muted text-sm focus-visible:outline-none focus-visible:ring-0"
+          onChange={handleChange}
+          placeholder="Type anything"
+        >
+          {text}
+        </textarea>
+        <p className="text-xs text-foreground/50">
+          Notes are autosaved locally
+        </p>
+      </PopoverContent>
+    </Popover>
+  );
+}
