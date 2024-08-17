@@ -22,7 +22,13 @@ import {
 import Section from "@/components/Section";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { calculateTotalUtilities, cn, isEmpty, isEqual } from "@/libs/utils";
+import {
+  calculateTotalUtilities,
+  cn,
+  getFirstName,
+  isEmpty,
+  isEqual,
+} from "@/libs/utils";
 
 type MembersBillsDetailsCardT = {
   id: string;
@@ -99,13 +105,10 @@ function MembersBillsDetailsCard({
       })}
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
-        <CardTitle className="flex items-center gap-1.5">
-          <p className="text-base font-medium">{name}</p>
-          {hasPaidLess ? (
-            <PlusCircleIcon className="h-6 w-6 rotate-45 fill-destructive text-background" />
-          ) : (
-            <CheckCircle2 className="h-6 w-6 fill-green-500 text-background" />
-          )}
+        <CardTitle>
+          <p className="text-base font-medium lowercase first-letter:capitalize">
+            {getFirstName(name)}
+          </p>
         </CardTitle>
         <EditMonthlyActivityButton
           id={id}
@@ -146,7 +149,14 @@ function MembersBillsDetailsCard({
               "text-destructive": hasPaidLess,
             })}
           >
-            <span className="font-medium">Paid</span>
+            <div className="flex items-center gap-1">
+              <span className="font-medium">Paid</span>
+              {hasPaidLess ? (
+                <PlusCircleIcon className="h-5 w-5 rotate-45 fill-destructive text-background" />
+              ) : (
+                <CheckCircle2 className="h-5 w-5 fill-green-500 text-background" />
+              )}
+            </div>
             <span className="font-medium">{paid === 0 ? "Not yet" : paid}</span>
           </div>
         </div>
@@ -167,7 +177,7 @@ function MembersBillsDetails({
       <hr />
       <Section
         header={`Group members' bills`}
-        description={`Track each memberss payment for ${currentMonth}`}
+        description={`Track each members' payment for ${currentMonth}`}
       >
         <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {membersBillsArray.map((member) => {

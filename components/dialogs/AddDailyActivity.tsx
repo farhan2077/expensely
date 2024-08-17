@@ -223,7 +223,7 @@ export default function AddDailyActivity({
                             <span className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded bg-muted-foreground/20 text-xs tabular-nums text-foreground/80">
                               {index + 1}
                             </span>
-                            <span>
+                            <span className="lowercase first-letter:capitalize">
                               {getFirstName(groupMembers[index].user.name)}
                             </span>
                           </p>
