@@ -112,3 +112,7 @@ input[type="number"] {
 .custom__animate-spin-infinite {
   animation: spin 25s linear infinite;
 }
+
+.custom__no_resize {
+  resize: none;
+}

@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
-import { NotepadText } from "lucide-react";
+import { Info, NotepadText } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -66,20 +66,22 @@ export default function Note({ currentGroupId }: { currentGroupId: string }) {
           <NotepadText className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-72 bg-muted">
+      <PopoverContent className="w-72  bg-muted">
         <textarea
           id="note-textarea"
           ref={textareaRef}
           rows={5}
-          className="w-full rounded-sm border-border bg-muted text-sm focus-visible:outline-none focus-visible:ring-0"
+          className="custom__no_resize w-full rounded-sm border-border bg-muted text-sm focus-visible:outline-none focus-visible:ring-0"
           onChange={handleChange}
+          value={text}
           placeholder="Type anything"
-        >
-          {text}
-        </textarea>
-        <p className="text-xs text-foreground/50">
-          Notes are autosaved locally
-        </p>
+        />
+        <div className="flex items-center gap-1">
+          <Info className="h-3 w-3 text-foreground/50" />
+          <span className="select-none text-xs text-foreground/50">
+            Notes are autosaved locally
+          </span>
+        </div>
       </PopoverContent>
     </Popover>
   );
