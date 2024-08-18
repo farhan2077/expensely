@@ -21,7 +21,7 @@ import {
 import MembersBills from "@/app/(protected)/dashboard/[id]/bills/MembersBills";
 import UpsertUtilitiesButton from "@/app/(protected)/dashboard/[id]/bills/UpsertUtilitiesButton";
 
-import InfoCard from "@/components/InfoCard";
+import BillInfoCard from "@/components/BillInfoCard";
 import PageIntro from "@/components/PageIntro";
 import Section from "@/components/Section";
 import {
@@ -65,40 +65,34 @@ function MonthlyUtilitiesDetails({
       description={`Shared equally amongst groups memebers`}
     >
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
-        <InfoCard
+        <BillInfoCard
           title="Electricity"
-          body={monthlyUtilitiesData.electricity}
-          bodyType="currency"
+          value={monthlyUtilitiesData.electricity}
           icon={Flashlight}
         />
-        <InfoCard
+        <BillInfoCard
           title="Internet"
-          body={monthlyUtilitiesData.internet}
-          bodyType="currency"
+          value={monthlyUtilitiesData.internet}
           icon={Wifi}
         />
-        <InfoCard
+        <BillInfoCard
           title="Water"
-          body={monthlyUtilitiesData.water}
-          bodyType="currency"
+          value={monthlyUtilitiesData.water}
           icon={Droplet}
         />
-        <InfoCard
+        <BillInfoCard
           title="Gas"
-          body={monthlyUtilitiesData.gas}
-          bodyType="currency"
+          value={monthlyUtilitiesData.gas}
           icon={PillBottle}
         />
-        <InfoCard
+        <BillInfoCard
           title="Cook"
-          body={monthlyUtilitiesData.cook}
-          bodyType="currency"
+          value={monthlyUtilitiesData.cook}
           icon={ChefHat}
         />
-        <InfoCard
+        <BillInfoCard
           title="Others"
-          body={monthlyUtilitiesData.otherUtils}
-          bodyType="currency"
+          value={monthlyUtilitiesData.otherUtils}
           icon={Bolt}
         />
       </div>

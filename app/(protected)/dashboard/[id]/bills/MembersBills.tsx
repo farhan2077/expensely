@@ -140,24 +140,20 @@ function MembersBillsDetailsCard({
             </span>
           </div>
           <hr className="my-0.5" />
-          <div className="flex justify-between text-sm text-muted-foreground">
-            <span className="font-medium">Total</span>
-            <span className="font-medium">{totalToPay}</span>
-          </div>
           <div
             className={cn("flex justify-between text-sm", {
-              "text-destructive": hasPaidLess,
+              "text-destructive": hasPaidLess || hasPaidMore,
             })}
           >
             <div className="flex items-center gap-1">
-              <span className="font-medium">Paid</span>
-              {hasPaidLess ? (
+              <span className="font-semibold">Total</span>
+              {hasPaidLess || hasPaidMore ? (
                 <PlusCircleIcon className="h-5 w-5 rotate-45 fill-destructive text-background" />
               ) : (
                 <CheckCircle2 className="h-5 w-5 fill-green-500 text-background" />
               )}
             </div>
-            <span className="font-medium">{paid === 0 ? "Not yet" : paid}</span>
+            <span className="font-semibold">{totalToPay}</span>
           </div>
         </div>
       </CardContent>
