@@ -9,13 +9,7 @@ import {
   startOfMonth,
   subMonths,
 } from "date-fns";
-import {
-  Banknote,
-  CookingPot,
-  DollarSign,
-  Utensils,
-  UtensilsCrossed,
-} from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 import { APP_NAME } from "@/config";
 
@@ -31,8 +25,8 @@ import { getGroupDetails } from "@/app/actions/group";
 import AddDailyActivityButton from "@/app/(protected)/dashboard/[id]/AddDailyActivityButton";
 import MonthPicker from "@/app/(protected)/dashboard/[id]/MonthPicker";
 
-import InfoCard from "@/components/InfoCard";
 import PageIntro from "@/components/PageIntro";
+import Stat from "@/components/Stat";
 import {
   columns,
   type DailyActivityRow,
@@ -241,6 +235,9 @@ async function Page({ params, searchParams }: PageProps) {
   // daily activities
   const totals = calculateTotals(dailyActivities.data);
   const groupMembersTotals = calculateMembersTotals(dailyActivities.data);
+  const ownTotalsData = groupMembersTotals.find(
+    (member) => member.userId === user.id
+  );
 
   const transformedActivities = transformDailyActivities(dailyActivities.data);
   const sortedActivities = sortByDate(transformedActivities, "desc");
@@ -270,68 +267,54 @@ async function Page({ params, searchParams }: PageProps) {
         header="Dashboard"
         description={`Daily activities of ${groupDetails.data.groupInfo.name}`}
       />
-      <div className="grid gap-6">
-        <section className="grid w-full grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
-          <InfoCard
-            title="Total grocery costs"
-            body={totals.totalGrocery}
-            bodyType="currency"
-            icon={DollarSign}
-            hideOnSmallScreen={true}
-          />
-          <InfoCard
-            title="Total meals"
-            body={totals.totalMeal}
-            bodyType="number"
-            icon={CookingPot}
-            hideOnSmallScreen={true}
-          />
-          <InfoCard
-            title="Meal rate"
-            body={totals.avgMealRate}
-            bodyType="number"
-            icon={Utensils}
-          />
-        </section>
-        {groupMembersTotals.length > 0 && (
-          <section className="hidden lg:block">
-            <h2 className="mb-4 text-lg font-bold leading-none">
-              Everyone&apos;s grocery costs and meals so far
-            </h2>
-
-            <div className="flex divide-x-2 divide-border">
-              {groupMembersTotals.map((member) => {
-                return (
-                  <div
-                    key={member.userId}
-                    className="px-8 first:pl-0 last:pr-0"
-                  >
-                    <p className="text-sm font-medium">{member.name}</p>
-                    <div className="mt-1">
-                      <div className="flex items-center gap-2">
-                        <Banknote className="h-4 w-4" />
-                        <span className="text-sm">
-                          {member.totalGrocery} BDT
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <UtensilsCrossed className="h-4 w-4" />
-                        <span className="text-sm">
-                          {/* symbol source: https://www.toptal.com/designers/htmlarrows/arrows/, Wedge-Tailed Right Arrow */}
-                          {member.totalMeal} meals (&#10172;&nbsp;
-                          {Math.ceil(
-                            member.totalMeal * totals.avgMealRate
-                          )}{" "}
-                          BDT)
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+      <div className="grid gap-4">
+        <section className="flex justify-between">
+          <div className="flex w-full flex-col gap-4 lg:flex-row lg:gap-20">
+            <div className="flex gap-20">
+              <Stat
+                title="Groceries"
+                value={totals.totalGrocery}
+                helperText="bdt"
+                wrapperClassName="hidden lg:block"
+              />
+              <Stat
+                title="Meals"
+                value={totals.totalMeal}
+                helperText="total"
+                wrapperClassName="hidden lg:block"
+              />
+              <Stat
+                title="Meal rate"
+                value={totals.avgMealRate}
+                helperText="/meal"
+              />
             </div>
-          </section>
-        )}
+            <hr className="block lg:hidden" />
+            <div
+              aria-hidden="true"
+              className="hidden h-full w-0.5 bg-foreground lg:block"
+            ></div>
+            <div className="flex gap-20">
+              <Stat
+                title="My groceries"
+                value={ownTotalsData?.totalGrocery ?? 0}
+                helperText="bdt"
+              />
+              <Stat
+                title="My meals"
+                value={ownTotalsData?.totalMeal ?? 0}
+                helperText="total"
+              />
+            </div>
+          </div>
+          <div className="hidden shrink-0 flex-col lg:flex">
+            <button className="-mr-1 flex items-center place-self-end text-primary hover:underline">
+              <span className="text-sm">See full breakdown</span>
+              <ChevronRight className="size-4" />
+            </button>
+          </div>
+        </section>
+        <hr className="text-muted-foreground" />
         <div className="grid gap-4">
           <div className="flex flex-col items-start justify-end gap-4 sm:flex-row">
             {isEmpty(months) ? null : <MonthPicker months={months} />}

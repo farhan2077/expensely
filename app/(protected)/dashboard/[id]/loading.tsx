@@ -8,10 +8,19 @@ export default function Loading() {
         </div>
       </section>
       <hr className="my-4 text-muted-foreground" />
-      <section className="grid w-full grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
-        <div className="h-[110px] animate-pulse rounded-md bg-muted"></div>
-        <div className="hidden h-[110px] animate-pulse rounded-md bg-muted md:block"></div>
-        <div className="hidden h-[110px] animate-pulse rounded-md bg-muted md:block"></div>
+      <section className="flex gap-20">
+        <div>
+          <div className="mb-3.5 mt-0.5 h-[20px] w-[80px] animate-pulse rounded-md bg-muted"></div>
+          <div className="h-[20px] w-[100px] animate-pulse rounded-md bg-muted"></div>
+        </div>
+        <div className="hidden md:block">
+          <div className="mb-3.5 mt-0.5 h-[20px] w-[50px] animate-pulse rounded-md bg-muted"></div>
+          <div className="h-[20px] w-[70px] animate-pulse rounded-md bg-muted"></div>
+        </div>
+        <div className="hidden md:block">
+          <div className="mb-3.5 mt-0.5 h-[20px] w-[80px] animate-pulse rounded-md bg-muted"></div>
+          <div className="h-[20px] w-[100px] animate-pulse rounded-md bg-muted"></div>
+        </div>
       </section>
     </>
   );
