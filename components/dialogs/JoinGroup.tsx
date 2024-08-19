@@ -12,6 +12,7 @@ import { z } from "zod";
 
 import { joinGroupAction } from "@/app/actions/group";
 
+import ScanQRCode from "@/components/dialogs/ScanQRCode";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,6 +48,7 @@ function JoinGroup({
 }) {
   const router = useRouter();
 
+  const [openScanQRCode, setOpenScanQRCode] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof groupFormSchema>>({
@@ -148,6 +150,19 @@ function JoinGroup({
             </div>
           </form>
         </Form>
+        <div className="relative flex w-full items-center">
+          <div className="border-ay-lightgray flex-grow border-t"></div>
+          <span className="mx-4 flex-shrink">or</span>
+          <div className="border-ay-lightgray flex-grow border-t"></div>
+        </div>
+        <Button onClick={() => setOpenScanQRCode(true)} variant={"secondary"}>
+          Scan QR code and join
+        </Button>
+        <ScanQRCode
+          open={openScanQRCode}
+          setOpen={setOpenScanQRCode}
+          form={form}
+        />
       </DialogContent>
     </Dialog>
   );

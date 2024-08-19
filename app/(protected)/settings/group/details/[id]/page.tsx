@@ -6,6 +6,7 @@ import { validateSession } from "@/app/actions/auth";
 import { getGroupDetails, type GroupMember } from "@/app/actions/group";
 
 import { ActionButtonDropdown } from "@/app/(protected)/settings/group/details/[id]/ActionButtonDropdown";
+import ShowQRCodeButton from "@/app/(protected)/settings/group/details/[id]/ShowQRCodeButton";
 import { ViewGroupCode } from "@/app/(protected)/settings/group/details/[id]/ViewGroupCode";
 
 import { Badge } from "@/components/ui/badge";
@@ -60,24 +61,30 @@ export default async function Page({ params }: { params: { id: string } }) {
           </div>
         </div>
 
-        {isAdmin ? (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <div className="relative h-fit">
-                  <BadgeIcon
-                    strokeWidth={1.1}
-                    className="custom__animate-spin-infinite h-12 w-12 animate-spin fill-primary/10 text-primary"
-                  />
-                  <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-xs font-bold text-primary">
-                    own
-                  </p>
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>You created this group</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        ) : null}
+        <div className="flex items-center gap-4">
+          <ShowQRCodeButton
+            groupName={groupDetails.data.groupInfo.name}
+            groupCode={groupDetails.data.groupInfo.code}
+          />
+          {isAdmin ? (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <div className="relative h-fit">
+                    <BadgeIcon
+                      strokeWidth={1.1}
+                      className="custom__animate-spin-infinite h-12 w-12 animate-spin fill-primary/10 text-primary"
+                    />
+                    <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-xs font-bold text-primary">
+                      own
+                    </p>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>You created this group</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          ) : null}
+        </div>
       </div>
 
       <hr className="my-4 text-muted-foreground" />
