@@ -9,7 +9,6 @@ import {
   startOfMonth,
   subMonths,
 } from "date-fns";
-import { ChevronRight } from "lucide-react";
 
 import { APP_NAME } from "@/config";
 
@@ -24,6 +23,7 @@ import { getGroupDetails } from "@/app/actions/group";
 
 import AddDailyActivityButton from "@/app/(protected)/dashboard/[id]/AddDailyActivityButton";
 import MonthPicker from "@/app/(protected)/dashboard/[id]/MonthPicker";
+import SeeBreakdownButton from "@/app/(protected)/dashboard/SeeBreakdownButton";
 
 import PageIntro from "@/components/PageIntro";
 import Stat from "@/components/Stat";
@@ -307,11 +307,11 @@ async function Page({ params, searchParams }: PageProps) {
               />
             </div>
           </div>
-          <div className="hidden shrink-0 flex-col lg:flex">
-            <button className="-mr-1 flex items-center place-self-end text-primary hover:underline">
-              <span className="text-sm">See full breakdown</span>
-              <ChevronRight className="size-4" />
-            </button>
+          <div className="-mr-1 hidden shrink-0 flex-col lg:flex">
+            <SeeBreakdownButton
+              groupMembersTotals={groupMembersTotals}
+              avgMealRate={totals.avgMealRate}
+            />
           </div>
         </section>
         <hr className="text-muted-foreground" />

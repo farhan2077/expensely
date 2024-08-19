@@ -121,15 +121,15 @@ function MembersBillsDetailsCard({
       <CardContent className="-mt-2 ">
         <div className="grid gap-2">
           <div className="flex justify-between text-sm">
-            <span>Rent</span>
+            <span className="text-muted-foreground">Rent</span>
             <span className="tabular-nums">{rent}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span>Utilities</span>
+            <span className="text-muted-foreground">Utilities</span>
             <span className="tabular-nums">{utility}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span>Due (prev month)</span>
+            <span className="text-muted-foreground">Due (prev month)</span>
             <span
               className={cn("font-medium tabular-nums", {
                 "text-destructive": hasPrevDue,
