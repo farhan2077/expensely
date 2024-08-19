@@ -60,39 +60,37 @@ function Breakdown({
                 const isUnder = mealCost <= member.totalGrocery;
 
                 return (
-                  <>
-                    <TableRow>
-                      <TableCell>
-                        <div className="font-medium lowercase first-letter:capitalize">
-                          {getFirstName(member.name)}
-                        </div>
-                      </TableCell>
-                      <TableCell className="hidden items-center gap-0.5 tabular-nums sm:flex">
+                  <TableRow key={member.userId}>
+                    <TableCell>
+                      <div className="font-medium lowercase first-letter:capitalize">
+                        {getFirstName(member.name)}
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden items-center gap-0.5 tabular-nums sm:flex">
+                      <Icons.bdt className="size-3 stroke-[0.5px]" />
+                      {member.totalGrocery}
+                    </TableCell>
+                    <TableCell className="hidden tabular-nums sm:table-cell">
+                      {member.totalMeal}
+                    </TableCell>
+                    <TableCell className="flex items-center justify-end gap-3">
+                      <div className="flex items-center gap-0.5">
                         <Icons.bdt className="size-3 stroke-[0.5px]" />
-                        {member.totalGrocery}
-                      </TableCell>
-                      <TableCell className="hidden tabular-nums sm:table-cell">
-                        {member.totalMeal}
-                      </TableCell>
-                      <TableCell className="flex items-center justify-end gap-3">
-                        <div className="flex items-center gap-0.5">
-                          <Icons.bdt className="size-3 stroke-[0.5px]" />
-                          <span className="tabular-nums">{mealCost}</span>
-                        </div>
-                        {isUnder ? (
-                          <span
-                            className="size-2 shrink-0 rounded-full bg-green-600 ring-4 ring-green-100 dark:bg-green-500 dark:ring-green-950"
-                            aria-hidden="true"
-                          ></span>
-                        ) : (
-                          <span
-                            className="size-2 shrink-0 rounded-full bg-destructive ring-4 ring-red-100 dark:ring-red-950"
-                            aria-hidden="true"
-                          ></span>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  </>
+                        <span className="tabular-nums">{mealCost}</span>
+                      </div>
+                      {isUnder ? (
+                        <span
+                          className="size-2 shrink-0 rounded-full bg-green-600 ring-4 ring-green-100 dark:bg-green-500 dark:ring-green-950"
+                          aria-hidden="true"
+                        ></span>
+                      ) : (
+                        <span
+                          className="size-2 shrink-0 rounded-full bg-destructive ring-4 ring-red-100 dark:ring-red-950"
+                          aria-hidden="true"
+                        ></span>
+                      )}
+                    </TableCell>
+                  </TableRow>
                 );
               })}
             </TableBody>

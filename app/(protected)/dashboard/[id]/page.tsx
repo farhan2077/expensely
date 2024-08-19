@@ -276,35 +276,45 @@ async function Page({ params, searchParams }: PageProps) {
                 value={totals.totalGrocery}
                 helperText="bdt"
                 wrapperClassName="hidden lg:block"
+                titleAccentColor="bg-primary"
+                titleColor="text-primary"
               />
               <Stat
                 title="Meals"
                 value={totals.totalMeal}
                 helperText="total"
                 wrapperClassName="hidden lg:block"
+                titleAccentColor="bg-primary"
+                titleColor="text-primary"
               />
               <Stat
                 title="Meal rate"
                 value={totals.avgMealRate}
                 helperText="/meal"
+                titleAccentColor="bg-primary"
+                titleColor="text-primary"
               />
             </div>
             <hr className="block lg:hidden" />
             <div
               aria-hidden="true"
-              className="hidden h-full w-0.5 bg-foreground lg:block"
+              className="hidden w-0.5 bg-muted-foreground lg:block"
             ></div>
             <div className="flex gap-20">
               <Stat
                 title="My groceries"
                 value={ownTotalsData?.totalGrocery ?? 0}
                 helperText="bdt"
+                titleAccentColor="bg-teal-600"
+                titleColor="text-teal-600 dark:text-teal-400"
               />
               <Stat
                 title="My meals"
                 value={ownTotalsData?.totalMeal ?? 0}
                 helperText="total"
                 wrapperClassName="hidden lg:block"
+                titleAccentColor="bg-teal-600"
+                titleColor="text-teal-600 dark:text-teal-400"
               />
               <Stat
                 title="My meal bill"
@@ -314,6 +324,8 @@ async function Page({ params, searchParams }: PageProps) {
                     : 0 * totals.avgMealRate
                 )}
                 helperText="bdt"
+                titleAccentColor="bg-teal-600"
+                titleColor="text-teal-600 dark:text-teal-400"
               />
             </div>
           </div>

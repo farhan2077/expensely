@@ -13,7 +13,7 @@ import AvatarDropdownMenu from "@/app/(protected)/dashboard/[id]/_components/Ava
 import GroupPicker from "@/app/(protected)/dashboard/[id]/_components/GroupPicker";
 
 import { Icons } from "@/components/icons";
-import Note from "@/components/Note";
+// import Note from "@/components/Note";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -197,7 +197,7 @@ function Header({
       </div>
       <div className="flex items-center gap-4">
         {/* pc */}
-        {isDashboardActive ? <Note currentGroupId={currentGroupId} /> : null}
+        {/* {isDashboardActive ? <Note currentGroupId={currentGroupId} /> : null} */}
         {isDashboardActive ? (
           <GroupPicker userInfoData={userInfoData} usersGroups={usersGroups} />
         ) : null}
