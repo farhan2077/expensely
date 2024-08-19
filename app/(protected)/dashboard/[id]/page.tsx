@@ -304,6 +304,16 @@ async function Page({ params, searchParams }: PageProps) {
                 title="My meals"
                 value={ownTotalsData?.totalMeal ?? 0}
                 helperText="total"
+                wrapperClassName="hidden lg:block"
+              />
+              <Stat
+                title="My meal bill"
+                value={Math.ceil(
+                  ownTotalsData
+                    ? ownTotalsData.totalMeal * totals.avgMealRate
+                    : 0 * totals.avgMealRate
+                )}
+                helperText="bdt"
               />
             </div>
           </div>
