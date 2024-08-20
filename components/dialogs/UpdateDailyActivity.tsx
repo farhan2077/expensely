@@ -34,6 +34,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { updateDailyActivityFormSchema } from "@/libs/validations/daily-activity";
+import { getFirstName } from "@/libs/utils";
 
 export type FormType = z.infer<typeof updateDailyActivityFormSchema>;
 
@@ -118,7 +119,9 @@ export default function UpdateDailyActivity({
                             <span className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded bg-muted-foreground/20 text-xs tabular-nums text-foreground/80">
                               {index + 1}
                             </span>
-                            {field.user.name}
+                            <span className="lowercase first-letter:capitalize">
+                              {getFirstName(field.user.name)}
+                            </span>
                           </p>
                         </div>
                         <FormField
@@ -146,7 +149,12 @@ export default function UpdateDailyActivity({
                           name={`groups.${index}.grocery`}
                           render={({ field }) => (
                             <FormItem className="col-start-9 col-end-13 space-y-1">
-                              <FormLabel>Grocery expenses</FormLabel>
+                              <FormLabel>
+                                Grocery&nbsp;
+                                <span className="hidden sm:inline">
+                                  expenses
+                                </span>
+                              </FormLabel>
                               <FormControl>
                                 <Input
                                   className="placeholder:tracking-tight"
