@@ -140,7 +140,11 @@ export async function addDailyAcitivities(
   }
 }
 
-type UpdateFormValue = { id: string; meal: number; grocery: number };
+type UpdateFormValue = {
+  id: string;
+  meal: number;
+  grocery: number;
+};
 
 export async function updateDailyActivity({
   formValues,

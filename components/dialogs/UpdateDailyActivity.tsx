@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -61,12 +61,17 @@ export default function UpdateDailyActivity({
     name: "groups",
   });
 
+  useEffect(() => {
+    form.setValue("groups", restData);
+  }, [form, restData]);
+
   async function onSubmit(formValues: FormType) {
     setIsLoading(true);
 
-    const formattedFormValues = formValues.groups.map((group, index) => ({
-      ...group,
-      id: restData[index].id,
+    const formattedFormValues = formValues.groups.map((group) => ({
+      id: group.id,
+      meal: group.meal,
+      grocery: group.grocery,
     }));
 
     try {
@@ -113,7 +118,7 @@ export default function UpdateDailyActivity({
                             <span className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded bg-muted-foreground/20 text-xs tabular-nums text-foreground/80">
                               {index + 1}
                             </span>
-                            <span>{restData[index].user.name}</span>
+                            {field.user.name}
                           </p>
                         </div>
                         <FormField

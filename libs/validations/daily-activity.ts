@@ -33,8 +33,12 @@ const dailyActivityFormSchema = z.object({
 const updateDailyActivityFormSchema = z.object({
   groups: z.array(
     z.object({
+      id: z.string(),
       meal: mealSchema,
       grocery: grocerySchema,
+      user: z.object({
+        name: z.string(),
+      }),
     })
   ),
 });
