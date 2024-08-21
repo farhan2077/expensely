@@ -19,10 +19,12 @@ export default function Stat({
     <div className={wrapperClassName}>
       <div className="mb-1.5 flex items-center gap-1.5">
         <span
-          className={cn("size-2.5 rounded-[2px]", titleAccentColor)}
+          className={cn("size-2.5 shrink-0 rounded-[2px]", titleAccentColor)}
           aria-hidden="true"
         ></span>
-        <p className={cn("font-medium", titleColor)}>{title}</p>
+        <p className={cn("whitespace-nowrap font-medium", titleColor)}>
+          {title}
+        </p>
       </div>
       <div className="flex h-9 items-end gap-1.5">
         <span className="text-3xl font-bold tracking-wide">{value}</span>

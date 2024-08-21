@@ -129,7 +129,14 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
   },
   {
     id: "grocery-cost",
-    header: "Total grocery cost",
+    header: () => {
+      return (
+        <>
+          <span className="block lg:hidden">Groceries</span>
+          <span className="hidden lg:block">Total grocery cost</span>
+        </>
+      );
+    },
     accessorFn: (row) => row.rest,
     cell: ({ row }) => {
       const users = row.original.rest;
@@ -152,10 +159,11 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
   },
   {
     id: "action",
-    header: "",
+    header: () => {
+      return <span className="flex justify-end">Action</span>;
+    },
     accessorFn: (row) => row.rest,
     cell: function Cell({ row }) {
-      // ! IMPORTANT: Do not store value in a variable, like x = row.original.rest, instead just use it directly, otherwise it will load wrong data
       return (
         <div className="flex justify-end">
           <UpdateDailyActivityButton restData={row.original.rest} />

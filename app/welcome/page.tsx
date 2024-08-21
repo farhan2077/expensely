@@ -36,14 +36,16 @@ async function Page() {
   return (
     <main className="relative">
       <div className="absolute right-7 top-6">
-        <div className="flex h-4 items-center space-x-3">
+        <div className="flex h-4 flex-col items-end space-x-3 space-y-3 md:flex-row md:items-center md:space-y-0">
           <p className="text-sm">
-            You are logged in using{" "}
+            <span className="hidden sm:inline">
+              You are logged in using&nbsp;
+            </span>
             <span className="font-medium">{userInfo.data.email}</span>
           </p>
           <Separator
             orientation="vertical"
-            className="bg-muted-foreground/50"
+            className="hidden bg-muted-foreground/50 md:block"
           />
           <Logout />
         </div>

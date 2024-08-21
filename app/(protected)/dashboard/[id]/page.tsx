@@ -329,6 +329,7 @@ async function Page({ params, searchParams }: PageProps) {
               />
             </div>
           </div>
+          {/* pc */}
           <div className="-mr-1 hidden shrink-0 flex-col lg:flex">
             <SeeBreakdownButton
               groupMembersTotals={groupMembersTotals}
@@ -336,6 +337,13 @@ async function Page({ params, searchParams }: PageProps) {
             />
           </div>
         </section>
+        {/* mobile */}
+        <div className="flex lg:hidden">
+          <SeeBreakdownButton
+            groupMembersTotals={groupMembersTotals}
+            avgMealRate={totals.avgMealRate}
+          />
+        </div>
         <hr className="text-muted-foreground" />
         <div className="grid gap-4">
           <div className="flex flex-col items-start justify-end gap-4 sm:flex-row">

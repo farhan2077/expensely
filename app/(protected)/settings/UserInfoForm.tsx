@@ -106,14 +106,10 @@ export default function UserInfoForm({ userInfo }: { userInfo: any }) {
             You can manage verified email addresses in your email settings.
           </p>
         </div>
-        <div className="pt-2">
-          <Button disabled={isLoading || !isDirty} type="submit">
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            {isLoading ? "Updating profile" : "Update profile"}
-          </Button>
-        </div>
+        <Button disabled={isLoading || !isDirty} type="submit">
+          {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+          {isLoading ? "Updating profile" : "Update profile"}
+        </Button>
       </form>
     </Form>
   );
