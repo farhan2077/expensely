@@ -16,18 +16,22 @@ function CreateJoinGroupForm({ userInfoData }: { userInfoData: SafeUser }) {
 
   return (
     <>
-      <div className="flex w-full items-center justify-center gap-10">
+      <div className="flex w-full items-center justify-center gap-4">
         <div className="flex flex-col items-center">
-          <div className="mb-4 flex items-center justify-center">
-            <Shapes className="h-10 w-10 stroke-[1.5px]" />
-          </div>
-          <Button onClick={() => setOpenCreateModal(true)}>Create group</Button>
+          <Button onClick={() => setOpenCreateModal(true)} className="gap-2">
+            <Shapes className="h-4 w-4" />
+            Create group
+          </Button>
         </div>
         <div className="flex flex-col items-center">
-          <div className="mb-4 flex items-center justify-center">
-            <Users className="h-10 w-10 stroke-[1.5px]" />
-          </div>
-          <Button onClick={() => setOpenJoinModal(true)}>Join group</Button>
+          <Button
+            variant={"outline"}
+            onClick={() => setOpenJoinModal(true)}
+            className="gap-2"
+          >
+            <Users className="h-4 w-4" />
+            Join group
+          </Button>
         </div>
       </div>
       <CreateGroup

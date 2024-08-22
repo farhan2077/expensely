@@ -30,7 +30,7 @@ function AddJoinGroup({
         <DialogHeader className="mb-2">
           <DialogTitle>Add or join group</DialogTitle>
           <DialogDescription>
-            Start using {APP_NAME} after this step
+            One person can create or join upto 5 groups
           </DialogDescription>
         </DialogHeader>
         <CreateJoinGroupForm userInfoData={userInfoData} />

@@ -203,9 +203,11 @@ function Header({
             <div className="hidden md:block">
               <Note currentGroupId={currentGroupId} />
             </div>
-            <div className="hidden sm:block">
-              <AddJoinGroupButton userInfoData={userInfoData} />
-            </div>
+            {usersGroups.length <= 5 ? (
+              <div className="hidden sm:block">
+                <AddJoinGroupButton userInfoData={userInfoData} />
+              </div>
+            ) : null}
             <GroupPicker
               userInfoData={userInfoData}
               usersGroups={usersGroups}

@@ -64,7 +64,7 @@ export default function GroupsTable({
               <TableCell>
                 <Suspense
                   fallback={
-                    <div className="h-5 w-6 animate-pulse rounded bg-gray-200"></div>
+                    <div className="h-5 w-6 animate-pulse rounded bg-muted"></div>
                   }
                 >
                   <GroupMembersCount groupId={grp.groupId} />
