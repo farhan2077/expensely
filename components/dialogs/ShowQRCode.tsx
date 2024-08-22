@@ -29,8 +29,13 @@ function ShowQRCode({
         <DialogHeader>
           <DialogTitle>Join {groupName}</DialogTitle>
         </DialogHeader>
-        <div className="mt-2 flex w-full justify-center">
-          <QRCodeSVG value={qrCodeValue} size={200} />
+        <div className="flex justify-center">
+          <div className="w-fit rounded bg-white p-4">
+            <QRCodeSVG value={qrCodeValue} size={238} />
+            {/* how 238? */}
+            {/* `ShowQRCode` > 270px */}
+            {/* QRCodeSVG should be x + 32 = 270; x = 238px (padding 4rem on both left and write > 8rem = 16*2px) */}
+          </div>
         </div>
       </DialogContent>
     </Dialog>
