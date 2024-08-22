@@ -1,14 +1,27 @@
 import type { ReactNode } from "react";
 
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { APP_NAME } from "@/config";
 
+import { getUsersGroups } from "@/app/actions/group";
+
 import { Icons } from "@/components/icons";
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
+  const result = await getUsersGroups();
+
+  if (result.success && result.data.length !== 0) {
+    redirect(`/dashboard/${result.data[0].groupId}`);
+  }
+
+  if (result.success && result.data.length === 0) {
+    redirect(`/welcome`);
+  }
+
   return (
     <main className="container relative grid h-dvh flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="relative hidden h-full flex-col bg-foreground p-10 dark:border-r lg:flex">

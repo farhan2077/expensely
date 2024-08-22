@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { APP_NAME } from "@/config";
@@ -54,7 +55,10 @@ async function Page() {
         <div className="flex flex-col items-center">
           <div className="flex items-center">
             <h1 className="text-3xl font-semibold tracking-tight">
-              Welcome to {APP_NAME}
+              Welcome to{" "}
+              <Link href={"/"} className="text-primary">
+                {APP_NAME}
+              </Link>
             </h1>
           </div>
           <div className="mt-8">

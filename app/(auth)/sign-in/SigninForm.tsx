@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { type Route } from "next";
 import Link from "next/link";
@@ -28,7 +28,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { isEmpty } from "@/libs/utils";
 import { signinFormSchema } from "@/libs/validations/auth";
 
 export function SigninForm() {
@@ -36,6 +35,30 @@ export function SigninForm() {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [passwordFieldType, setPasswordFieldType] = useState("password");
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  useEffect(() => {
+    async function handleSuccessfulSignIn() {
+      try {
+        const { data: groups } = await getUsersGroups();
+
+        if (groups.length === 0) {
+          router.push("/welcome");
+          return;
+        }
+
+        const targetGroupId = groups[0].groupId;
+        const OVERVIEW_LINK = `/dashboard/${targetGroupId}` as Route;
+        router.push(OVERVIEW_LINK);
+      } catch (error) {
+        toast.error("Could not fetch room data");
+      }
+    }
+
+    if (isSignedIn) {
+      handleSuccessfulSignIn();
+    }
+  }, [isSignedIn, router]);
 
   function togglePasswordFieldType() {
     setPasswordFieldType((prevType) =>
@@ -68,37 +91,20 @@ export function SigninForm() {
 
       toast.success(message);
       form.reset();
-      await handleSuccessfulSignIn();
+      setIsSignedIn(true);
     } catch (error) {
       setIsLoading(false);
       handleError(error);
     }
   }
 
-  async function handleSuccessfulSignIn() {
-    try {
-      const { data: groups } = await getUsersGroups();
+  // function getTargetGroupId(groups: any[]) {
+  //   const ownedGroups = groups.filter(
+  //     (item) => item.userId === item.group.ownerId
+  //   );
 
-      if (isEmpty(groups)) {
-        router.push("/welcome");
-        return;
-      }
-
-      const targetGroupId = getTargetGroupId(groups);
-      const OVERVIEW_LINK = `/dashboard/${targetGroupId}` as Route;
-      router.push(OVERVIEW_LINK);
-    } catch (error) {
-      toast.error("Could not fetch room data");
-    }
-  }
-
-  function getTargetGroupId(groups: any[]) {
-    const ownedGroups = groups.filter(
-      (item) => item.userId === item.group.ownerId
-    );
-
-    return ownedGroups.length > 0 ? ownedGroups[0].groupId : groups[0].groupId;
-  }
+  //   return ownedGroups.length > 0 ? ownedGroups[0].groupId : groups[0].groupId;
+  // }
 
   function handleError(error: unknown) {
     const errorMessage =
