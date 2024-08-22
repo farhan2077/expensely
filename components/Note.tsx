@@ -24,7 +24,11 @@ export default function Note({ currentGroupId }: { currentGroupId: string }) {
     if (isOpen) {
       const storedText = localStorage.getItem(textId);
       setText(storedText || "");
-      placeCursorToEnd();
+
+      // `requestAnimationFrame` ensures that the function is called after the browser has finished updating the DOM
+      requestAnimationFrame(() => {
+        placeCursorToEnd();
+      });
     }
   }, [isOpen, textId]);
 
