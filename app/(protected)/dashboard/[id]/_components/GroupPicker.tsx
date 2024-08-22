@@ -5,7 +5,7 @@ import { useState } from "react";
 import { type Route } from "next";
 import { useParams, usePathname, useRouter } from "next/navigation";
 
-import { Check, ChevronsUpDown, Plus, Users } from "lucide-react";
+import { Check, ChevronsUpDown, Shapes, Users } from "lucide-react";
 
 import CreateGroup from "@/components/dialogs/CreateGroup";
 import JoinGroup from "@/components/dialogs/JoinGroup";
@@ -127,7 +127,7 @@ export default function GroupPicker({
               variant="ghost"
               className="h-8 w-full justify-start rounded px-2 text-sm font-normal hover:bg-accent"
             >
-              <Plus className="mr-2 h-4 w-4" />
+              <Shapes className="mr-2 h-4 w-4" />
               Create group
             </Button>
             <Button

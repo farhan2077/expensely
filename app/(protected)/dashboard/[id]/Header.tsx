@@ -11,9 +11,10 @@ import { PanelRightOpen } from "lucide-react";
 
 import AvatarDropdownMenu from "@/app/(protected)/dashboard/[id]/_components/AvatarDropdownMenu";
 import GroupPicker from "@/app/(protected)/dashboard/[id]/_components/GroupPicker";
+import AddJoinGroupButton from "@/app/(protected)/dashboard/[id]/AddJoinGroupButton";
 
 import { Icons } from "@/components/icons";
-// import Note from "@/components/Note";
+import Note from "@/components/Note";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -197,9 +198,21 @@ function Header({
       </div>
       <div className="flex items-center gap-4">
         {/* pc */}
-        {/* {isDashboardActive ? <Note currentGroupId={currentGroupId} /> : null} */}
         {isDashboardActive ? (
-          <GroupPicker userInfoData={userInfoData} usersGroups={usersGroups} />
+          <>
+            <div className="hidden md:block">
+              <Note currentGroupId={currentGroupId} />
+            </div>
+            {usersGroups.length <= 5 ? (
+              <div className="hidden sm:block">
+                <AddJoinGroupButton userInfoData={userInfoData} />
+              </div>
+            ) : null}
+            <GroupPicker
+              userInfoData={userInfoData}
+              usersGroups={usersGroups}
+            />
+          </>
         ) : null}
         <div className="hidden md:flex">
           <ToggleTheme />

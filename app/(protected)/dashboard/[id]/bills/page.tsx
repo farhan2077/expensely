@@ -169,7 +169,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     <>
       <PageIntro
         header="Bills"
-        description={`${currentMonth}'s electricity bill, internet bill and others`}
+        description={`Utility and other bills for  ${currentMonth}`}
       />
       <div className="grid space-y-8">
         {isEmpty(monthlyUtilities.data) || !monthlyUtilities.data ? (

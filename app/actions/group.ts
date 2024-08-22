@@ -230,7 +230,10 @@ export async function joinGroupAction(
 export async function getUsersGroups(): Promise<Response> {
   const { user } = await validateSession();
   if (!user) {
-    redirect("/sign-in");
+    return {
+      success: false,
+      message: "Invalid session",
+    };
   }
 
   const result = await db.query.usersGroupsTable.findMany({

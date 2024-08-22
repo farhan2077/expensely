@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 export default async function Page() {
   return (
     <main className="relative">
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-dvh items-center justify-center">
         <div className="flex flex-col items-center">
           <AnimatedElement delay={false} direction="up">
             <div className="flex items-center">

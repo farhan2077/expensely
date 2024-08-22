@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "analyze": "ANALYZE=true npm run build",
     "typecheck": "tsc",
     "lint": "next lint --max-warnings 0",
     "lint:fix": "next lint --fix",
@@ -70,6 +71,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^14.2.5",
     "@testing-library/react": "^16.0.0",
     "@types/node": "^20.14.9",
     "@types/react": "^18.3.3",

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { APP_NAME } from "@/config";
@@ -36,14 +37,16 @@ async function Page() {
   return (
     <main className="relative">
       <div className="absolute right-7 top-6">
-        <div className="flex h-4 items-center space-x-3">
+        <div className="flex h-4 flex-col items-end space-x-3 space-y-3 md:flex-row md:items-center md:space-y-0">
           <p className="text-sm">
-            You are logged in using{" "}
+            <span className="hidden sm:inline">
+              You are logged in using&nbsp;
+            </span>
             <span className="font-medium">{userInfo.data.email}</span>
           </p>
           <Separator
             orientation="vertical"
-            className="bg-muted-foreground/50"
+            className="hidden bg-muted-foreground/50 md:block"
           />
           <Logout />
         </div>
@@ -52,7 +55,10 @@ async function Page() {
         <div className="flex flex-col items-center">
           <div className="flex items-center">
             <h1 className="text-3xl font-semibold tracking-tight">
-              Welcome to {APP_NAME}
+              Welcome to{" "}
+              <Link href={"/"} className="text-primary">
+                {APP_NAME}
+              </Link>
             </h1>
           </div>
           <div className="mt-8">
