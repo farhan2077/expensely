@@ -17,10 +17,6 @@ export default function SeeBreakdownButton({
 }) {
   const [open, setOpen] = useState<boolean>(false);
 
-  if (groupMembersTotals.length === 0) {
-    return null;
-  }
-
   return (
     <>
       <button
