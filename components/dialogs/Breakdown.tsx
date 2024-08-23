@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowDown, ArrowUp } from "lucide-react";
+
 import type { MemberTotal } from "@/app/(protected)/dashboard/[id]/page";
 
 import { Icons } from "@/components/icons";
@@ -78,21 +80,15 @@ function Breakdown({
                       <span className="tabular-nums">{member.totalMeal}</span>
                     </TableCell>
                     <TableCell className="table-cell">
-                      <div className="flex items-center justify-end gap-3">
+                      <div className="flex items-center justify-end gap-1.5">
                         <div className="flex items-center gap-0.5">
                           <Icons.bdt className="size-3 stroke-[0.5px]" />
                           <span className="tabular-nums">{mealCost}</span>
                         </div>
                         {isUnder ? (
-                          <span
-                            className="size-2 shrink-0 rounded-full bg-green-600 ring-4 ring-green-100 dark:bg-green-500 dark:ring-green-950"
-                            aria-hidden="true"
-                          ></span>
+                          <ArrowDown className="size-4 shrink-0 text-green-600" />
                         ) : (
-                          <span
-                            className="size-2 shrink-0 rounded-full bg-destructive ring-4 ring-red-100 dark:ring-red-950"
-                            aria-hidden="true"
-                          ></span>
+                          <ArrowUp className="size-4 shrink-0 text-destructive" />
                         )}
                       </div>
                     </TableCell>
