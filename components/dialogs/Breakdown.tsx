@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 
 import type { MemberTotal } from "@/app/(protected)/dashboard/[id]/page";
 
@@ -23,18 +23,21 @@ import {
 } from "@/components/ui/table";
 
 import { getFirstName } from "@/libs/utils";
+import { Badge } from "@/components/ui/badge";
 
 function Breakdown({
   open,
   setOpen,
   groupMembersTotals,
   avgMealRate,
+  groupOwnerId,
 }: {
   open: boolean;
   // eslint-disable-next-line no-unused-vars
   setOpen: (open: boolean) => void;
   groupMembersTotals: MemberTotal[];
   avgMealRate: number;
+  groupOwnerId: string;
 }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -62,14 +65,17 @@ function Breakdown({
                 const isUnder = mealCost <= member.totalGrocery;
 
                 return (
-                  <TableRow key={member.userId}>
+                  <TableRow
+                    key={member.userId}
+                    className={`${groupOwnerId === member.userId ? "bg-muted/50" : ""}`}
+                  >
                     <TableCell>
-                      <div className="font-medium lowercase first-letter:capitalize">
+                      <div className="font-semibold lowercase first-letter:capitalize">
                         {getFirstName(member.name)}
                       </div>
                     </TableCell>
                     <TableCell className="table-cell">
-                      <div className="flex items-center gap-0.5">
+                      <div className="flex items-center gap-[0.5px]">
                         <Icons.bdt className="size-3 stroke-[0.5px]" />
                         <span className="tabular-nums">
                           {member.totalGrocery}
@@ -80,15 +86,15 @@ function Breakdown({
                       <span className="tabular-nums">{member.totalMeal}</span>
                     </TableCell>
                     <TableCell className="table-cell">
-                      <div className="flex items-center justify-end gap-1.5">
-                        <div className="flex items-center gap-0.5">
+                      <div className="flex items-center justify-end gap-1">
+                        <div className="flex items-center gap-[0.5px]">
                           <Icons.bdt className="size-3 stroke-[0.5px]" />
                           <span className="tabular-nums">{mealCost}</span>
                         </div>
                         {isUnder ? (
                           <ArrowDown className="size-4 shrink-0 text-green-600" />
                         ) : (
-                          <ArrowUp className="size-4 shrink-0 text-destructive" />
+                          <ArrowDown className="size-4 shrink-0 rotate-180 text-destructive" />
                         )}
                       </div>
                     </TableCell>

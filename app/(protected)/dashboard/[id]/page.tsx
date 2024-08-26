@@ -250,7 +250,8 @@ async function Page({ params, searchParams }: PageProps) {
   const sortedMonths = sortByDate(transformedMonths, "desc");
   const months = extractUniqueMonths(sortedMonths);
 
-  const isAdmin = isEqual(user.id, groupDetails.data.groupInfo.ownerId);
+  const groupOwnerId = groupDetails.data.groupInfo.ownerId;
+  const isAdmin = isEqual(user.id, groupOwnerId);
   const foundMember = groupDetails.data.groupMembers.find(
     (member) => member.user.id === user.id
   );
@@ -260,6 +261,15 @@ async function Page({ params, searchParams }: PageProps) {
     : foundMember.type === "editor"
       ? true
       : false;
+
+  const ownMealBill = Math.ceil(
+    ownTotalsData
+      ? ownTotalsData.totalMeal * totals.avgMealRate
+      : 0 * totals.avgMealRate
+  );
+
+  const ownTotalGrocery = ownTotalsData?.totalGrocery ?? 0;
+  const ownTotalMeal = ownTotalsData?.totalMeal ?? 0;
 
   return (
     <>
@@ -303,14 +313,14 @@ async function Page({ params, searchParams }: PageProps) {
             <div className="flex gap-20">
               <Stat
                 title="My groceries"
-                value={ownTotalsData?.totalGrocery ?? 0}
+                value={ownTotalGrocery}
                 helperText="bdt"
                 titleAccentColor="bg-teal-600"
                 titleColor="text-teal-600 dark:text-teal-400"
               />
               <Stat
                 title="My meals"
-                value={ownTotalsData?.totalMeal ?? 0}
+                value={ownTotalMeal}
                 helperText="total"
                 wrapperClassName="hidden lg:block"
                 titleAccentColor="bg-teal-600"
@@ -318,11 +328,9 @@ async function Page({ params, searchParams }: PageProps) {
               />
               <Stat
                 title="My meal bill"
-                value={Math.ceil(
-                  ownTotalsData
-                    ? ownTotalsData.totalMeal * totals.avgMealRate
-                    : 0 * totals.avgMealRate
-                )}
+                value={ownMealBill}
+                isGood={ownMealBill <= ownTotalGrocery}
+                showComparator={ownMealBill === 0 ? false : true}
                 helperText="bdt"
                 titleAccentColor="bg-teal-600"
                 titleColor="text-teal-600 dark:text-teal-400"
@@ -335,6 +343,7 @@ async function Page({ params, searchParams }: PageProps) {
               <SeeBreakdownButton
                 groupMembersTotals={groupMembersTotals}
                 avgMealRate={totals.avgMealRate}
+                groupOwnerId={groupOwnerId}
               />
             </div>
           )}
@@ -345,6 +354,7 @@ async function Page({ params, searchParams }: PageProps) {
             <SeeBreakdownButton
               groupMembersTotals={groupMembersTotals}
               avgMealRate={totals.avgMealRate}
+              groupOwnerId={groupOwnerId}
             />
           </div>
         )}

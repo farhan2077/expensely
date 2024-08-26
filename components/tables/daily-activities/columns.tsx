@@ -147,11 +147,11 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
 
       return (
         <p
-          className={cn("flex items-center gap-0.5 whitespace-nowrap", {
+          className={cn("flex items-center gap-[0.5px] whitespace-nowrap", {
             "text-muted-foreground": totalGroceryCost === 0,
           })}
         >
-          <Icons.bdt className="size-2.5 stroke-1" />
+          <Icons.bdt className="size-3 stroke-[0.5px]" />
           {totalGroceryCost}
         </p>
       );
