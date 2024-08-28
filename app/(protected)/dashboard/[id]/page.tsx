@@ -339,7 +339,7 @@ async function Page({ params, searchParams }: PageProps) {
           </div>
           {/* pc */}
           {groupMembersTotals.length === 0 ? null : (
-            <div className="-mr-1 hidden shrink-0 flex-col lg:flex">
+            <div className="-mr-1.5 hidden shrink-0 flex-col lg:flex">
               <SeeBreakdownButton
                 groupMembersTotals={groupMembersTotals}
                 avgMealRate={totals.avgMealRate}

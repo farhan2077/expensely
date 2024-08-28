@@ -23,10 +23,10 @@ export default function SeeBreakdownButton({
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center place-self-end text-primary hover:underline"
+        className="group flex items-center place-self-end text-primary underline underline-offset-2"
       >
         <span className="text-sm">See full breakdown</span>
-        <ChevronRight className="size-4" />
+        <ChevronRight className="size-4 translate-x-0 transition-transform duration-200 ease-out group-hover:translate-x-[2px]" />
       </button>
       <Breakdown
         open={open}
