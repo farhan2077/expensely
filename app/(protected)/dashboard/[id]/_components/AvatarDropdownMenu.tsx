@@ -29,7 +29,8 @@ export default function AvatarDropdownMenu({
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        {/* focus styles are from button */}
+        <DropdownMenuTrigger className="rounded-md ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
           <Avatar size={35} name={userInfoData.email} variant="beam" />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" side="bottom">
