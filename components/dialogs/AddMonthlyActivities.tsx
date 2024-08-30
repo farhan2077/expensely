@@ -185,17 +185,29 @@ export default function AddMonthlyActivities({
               </div>
 
               <div className="mt-4 flex gap-4">
-                <Button
-                  variant={"outline"}
-                  className="w-full"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    fillEmptyFields();
-                  }}
-                >
-                  Fill empty fields
-                </Button>
-                <Button disabled={isLoading} type="submit" className="w-full">
+                <div className="flex w-1/2 gap-4">
+                  <Button
+                    variant={"outline"}
+                    className="w-1/2 hover:border-destructive/20 hover:bg-destructive/10 hover:text-destructive focus-visible:border-destructive/20 focus-visible:bg-destructive/10 focus-visible:ring-destructive"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      form.reset();
+                    }}
+                  >
+                    Clear all
+                  </Button>
+                  <Button
+                    variant={"secondary"}
+                    className="w-1/2"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      fillEmptyFields();
+                    }}
+                  >
+                    Fill rest
+                  </Button>
+                </div>
+                <Button disabled={isLoading} type="submit" className="w-1/2">
                   {isLoading && (
                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                   )}
