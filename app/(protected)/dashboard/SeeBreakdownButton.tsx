@@ -11,11 +11,11 @@ import Breakdown from "@/components/dialogs/Breakdown";
 export default function SeeBreakdownButton({
   groupMembersTotals,
   avgMealRate,
-  groupOwnerId,
+  userId,
 }: {
   groupMembersTotals: MemberTotal[];
   avgMealRate: number;
-  groupOwnerId: string;
+  userId: string;
 }) {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -33,7 +33,7 @@ export default function SeeBreakdownButton({
         setOpen={setOpen}
         groupMembersTotals={groupMembersTotals}
         avgMealRate={avgMealRate}
-        groupOwnerId={groupOwnerId}
+        userId={userId}
       />
     </>
   );

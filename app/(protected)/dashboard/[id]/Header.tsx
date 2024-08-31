@@ -146,7 +146,12 @@ function Header({
     <div className="flex items-center justify-between border-b px-6 shadow-sm">
       <div className="flex h-[4rem] gap-8">
         <div className="flex h-[101.5%] items-center justify-center">
-          <Link href={OVERVIEW_LINK as Route} passHref className="group">
+          <Link
+            href={OVERVIEW_LINK as Route}
+            passHref
+            // focus styles are from button
+            className="group rounded-md ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
             <Icons.logo className="h-8 w-8 text-foreground opacity-100 transition-opacity group-hover:opacity-75" />
           </Link>
         </div>

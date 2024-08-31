@@ -23,21 +23,20 @@ import {
 } from "@/components/ui/table";
 
 import { getFirstName } from "@/libs/utils";
-import { Badge } from "@/components/ui/badge";
 
 function Breakdown({
   open,
   setOpen,
   groupMembersTotals,
   avgMealRate,
-  groupOwnerId,
+  userId,
 }: {
   open: boolean;
   // eslint-disable-next-line no-unused-vars
   setOpen: (open: boolean) => void;
   groupMembersTotals: MemberTotal[];
   avgMealRate: number;
-  groupOwnerId: string;
+  userId: string;
 }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -67,7 +66,7 @@ function Breakdown({
                 return (
                   <TableRow
                     key={member.userId}
-                    className={`${groupOwnerId === member.userId ? "bg-muted/50" : ""}`}
+                    className={`${userId === member.userId ? "bg-muted/50" : ""}`}
                   >
                     <TableCell>
                       <div className="font-semibold lowercase first-letter:capitalize">
