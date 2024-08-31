@@ -343,7 +343,7 @@ async function Page({ params, searchParams }: PageProps) {
               <SeeBreakdownButton
                 groupMembersTotals={groupMembersTotals}
                 avgMealRate={totals.avgMealRate}
-                groupOwnerId={groupOwnerId}
+                userId={user.id}
               />
             </div>
           )}
@@ -354,7 +354,7 @@ async function Page({ params, searchParams }: PageProps) {
             <SeeBreakdownButton
               groupMembersTotals={groupMembersTotals}
               avgMealRate={totals.avgMealRate}
-              groupOwnerId={groupOwnerId}
+              userId={user.id}
             />
           </div>
         )}
