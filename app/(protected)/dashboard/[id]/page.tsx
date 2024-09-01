@@ -279,13 +279,13 @@ async function Page({ params, searchParams }: PageProps) {
       />
       <div className="grid gap-4">
         <section className="flex justify-between">
-          <div className="flex w-full flex-col gap-4 lg:flex-row lg:gap-20">
-            <div className="flex gap-20">
+          <div className="flex w-full flex-col gap-4 lg:flex-row lg:gap-12">
+            <div className="flex lg:gap-12">
               <Stat
                 title="Groceries"
                 value={totals.totalGrocery}
                 helperText="bdt"
-                wrapperClassName="hidden lg:block"
+                wrapperClassName="w-1/2 md:w-1/3 lg:w-auto"
                 titleAccentColor="bg-primary"
                 titleColor="text-primary"
               />
@@ -293,7 +293,7 @@ async function Page({ params, searchParams }: PageProps) {
                 title="Meals"
                 value={totals.totalMeal}
                 helperText="total"
-                wrapperClassName="hidden lg:block"
+                wrapperClassName="hidden md:block md:w-1/3 lg:w-auto"
                 titleAccentColor="bg-primary"
                 titleColor="text-primary"
               />
@@ -301,20 +301,22 @@ async function Page({ params, searchParams }: PageProps) {
                 title="Meal rate"
                 value={totals.avgMealRate}
                 helperText="/meal"
+                wrapperClassName="w-1/2 md:w-1/3 lg:w-auto"
                 titleAccentColor="bg-primary"
                 titleColor="text-primary"
               />
             </div>
-            <hr className="block lg:hidden" />
+            <hr className="block text-muted-foreground lg:hidden" />
             <div
               aria-hidden="true"
-              className="hidden w-0.5 bg-muted-foreground lg:block"
+              className="hidden w-[0.5px] bg-muted-foreground/50 lg:block"
             ></div>
-            <div className="flex gap-20">
+            <div className="flex lg:gap-12">
               <Stat
                 title="My groceries"
                 value={ownTotalGrocery}
                 helperText="bdt"
+                wrapperClassName="w-1/2 md:w-1/3 lg:w-auto"
                 titleAccentColor="bg-teal-600"
                 titleColor="text-teal-600 dark:text-teal-400"
               />
@@ -322,7 +324,7 @@ async function Page({ params, searchParams }: PageProps) {
                 title="My meals"
                 value={ownTotalMeal}
                 helperText="total"
-                wrapperClassName="hidden lg:block"
+                wrapperClassName="hidden md:block md:w-1/3 lg:w-auto"
                 titleAccentColor="bg-teal-600"
                 titleColor="text-teal-600 dark:text-teal-400"
               />
@@ -332,6 +334,7 @@ async function Page({ params, searchParams }: PageProps) {
                 isGood={ownMealBill <= ownTotalGrocery}
                 showComparator={ownMealBill === 0 ? false : true}
                 helperText="bdt"
+                wrapperClassName="w-1/2 md:w-1/3 lg:w-auto"
                 titleAccentColor="bg-teal-600"
                 titleColor="text-teal-600 dark:text-teal-400"
               />
@@ -339,7 +342,7 @@ async function Page({ params, searchParams }: PageProps) {
           </div>
           {/* pc */}
           {groupMembersTotals.length === 0 ? null : (
-            <div className="-mr-1.5 hidden shrink-0 flex-col lg:flex">
+            <div className="-mr-1.5 hidden shrink-0 flex-col xl:flex">
               <SeeBreakdownButton
                 groupMembersTotals={groupMembersTotals}
                 avgMealRate={totals.avgMealRate}
@@ -350,7 +353,7 @@ async function Page({ params, searchParams }: PageProps) {
         </section>
         {/* mobile */}
         {groupMembersTotals.length === 0 ? null : (
-          <div className="flex lg:hidden">
+          <div className="flex xl:hidden">
             <SeeBreakdownButton
               groupMembersTotals={groupMembersTotals}
               avgMealRate={totals.avgMealRate}
