@@ -281,6 +281,7 @@ export default function AddDailyActivity({
               <div className="mt-4 flex gap-4">
                 <div className="flex w-1/2 gap-4">
                   <Button
+                    type="button"
                     variant={"outline"}
                     className="w-1/2 hover:border-destructive/20 hover:bg-destructive/10 hover:text-destructive focus-visible:border-destructive/20 focus-visible:bg-destructive/10 focus-visible:ring-destructive"
                     onClick={(e) => {
@@ -291,6 +292,7 @@ export default function AddDailyActivity({
                     Clear all
                   </Button>
                   <Button
+                    type="button"
                     variant={"secondary"}
                     className="w-1/2"
                     onClick={(e) => {

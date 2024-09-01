@@ -259,6 +259,7 @@ export default function AddUtilities({
               </div>
               <div className="mt-4 flex gap-4">
                 <Button
+                  type="button"
                   variant={"outline"}
                   className="w-1/2 hover:border-destructive/20 hover:bg-destructive/10 hover:text-destructive focus-visible:border-destructive/20 focus-visible:bg-destructive/10 focus-visible:ring-destructive"
                   onClick={(e) => {
