@@ -27,7 +27,6 @@ import {
   cn,
   getFirstName,
   isEmpty,
-  isEqual,
 } from "@/libs/utils";
 
 type MembersBillsDetailsCardT = {
@@ -198,19 +197,19 @@ function MembersBillsDetails({
 }
 
 export default async function MembersBills({
-  currentSessionUserId,
-  groupOwnerId,
   groupId,
   monthlyUtilitiesData,
   groupMembers,
   currentMonth,
+  isAdmin,
+  isEditor,
 }: {
-  currentSessionUserId: string;
-  groupOwnerId: string;
   groupId: string;
   monthlyUtilitiesData: MonthlyUtilityOutputData;
   groupMembers: any;
   currentMonth: string;
+  isAdmin: boolean;
+  isEditor: boolean;
 }) {
   const monthlyActivities = await getMonthlyActivities(monthlyUtilitiesData.id);
   const utilDate = monthlyUtilitiesData.date;
@@ -256,8 +255,6 @@ export default async function MembersBills({
     currentMonthAvgUtilities
   );
 
-  const isAdmin = isEqual(currentSessionUserId, groupOwnerId);
-
   return (
     <>
       {!monthlyActivities ||
@@ -267,7 +264,7 @@ export default async function MembersBills({
           <hr />
           <section className="text-center">
             <h2 className="text-lg font-medium">Group members&apos; bills</h2>
-            {isAdmin ? (
+            {isAdmin || isEditor ? (
               <>
                 <p className="mb-4 mt-1 text-balance text-sm text-muted-foreground">
                   Track each members&apos; payment for {currentMonth}

@@ -206,12 +206,12 @@ export default async function Page({ params }: { params: { id: string } }) {
               isEditor={isEditor}
             />
             <MembersBills
-              currentSessionUserId={user.id}
-              groupOwnerId={groupDetails.data.groupInfo.ownerId}
               groupId={groupId}
               monthlyUtilitiesData={monthlyUtilities.data}
               groupMembers={groupDetails.data.groupMembers}
               currentMonth={currentMonth}
+              isAdmin={isAdmin}
+              isEditor={isEditor}
             />
           </>
         )}
