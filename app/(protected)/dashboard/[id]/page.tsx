@@ -32,6 +32,7 @@ import {
   type DailyActivityRow,
 } from "@/components/tables/daily-activities/columns";
 import { DataTable } from "@/components/tables/daily-activities/data-table";
+import { Separator } from "@/components/ui/separator";
 
 import { isEmpty, isEqual } from "@/libs/utils";
 
@@ -271,78 +272,111 @@ async function Page({ params, searchParams }: PageProps) {
   const ownTotalGrocery = ownTotalsData?.totalGrocery ?? 0;
   const ownTotalMeal = ownTotalsData?.totalMeal ?? 0;
 
+  const currentMonth = format(new Date(), "MMMM");
+
   return (
     <>
       <PageIntro
         header="Dashboard"
         description={`Daily activities of ${groupDetails.data.groupInfo.name}`}
       />
-      <div className="grid gap-4">
-        <section className="flex justify-between">
-          <div className="flex w-full flex-col gap-4 lg:flex-row lg:gap-12">
-            <div className="flex lg:gap-12">
-              <Stat
-                title="Groceries"
-                value={totals.totalGrocery}
-                helperText="bdt"
-                wrapperClassName="w-1/2 md:w-1/3 lg:w-auto"
-                titleAccentColor="bg-primary"
-                titleColor="text-primary"
+      {dailyActivities.data.length === 0 ? (
+        <section className="text-center">
+          <h2 className="text-lg font-medium">
+            No data for {currentMonth} yet
+          </h2>
+          {isAdmin || isEditor ? (
+            <>
+              <p className="mb-4 mt-1 text-balance text-sm text-muted-foreground">
+                More details will be available once data is available
+              </p>
+
+              <AddDailyActivityButton
+                groupMembers={groupDetails.data.groupMembers}
+                disabledDates={disabledDates}
               />
-              <Stat
-                title="Meals"
-                value={totals.totalMeal}
-                helperText="total"
-                wrapperClassName="hidden md:block md:w-1/3 lg:w-auto"
-                titleAccentColor="bg-primary"
-                titleColor="text-primary"
-              />
-              <Stat
-                title="Meal rate"
-                value={totals.avgMealRate}
-                helperText="/meal"
-                wrapperClassName="w-1/2 md:w-1/3 lg:w-auto"
-                titleAccentColor="bg-primary"
-                titleColor="text-primary"
-              />
+            </>
+          ) : (
+            <p className="mb-4 mt-1 text-balance text-sm text-muted-foreground">
+              Will be available once group owner updates utilities
+            </p>
+          )}
+        </section>
+      ) : (
+        <div className="grid gap-4">
+          <section className="flex justify-between">
+            <div className="flex w-full flex-col gap-4 lg:flex-row lg:gap-12">
+              <div className="flex lg:gap-12">
+                <Stat
+                  title="Groceries"
+                  value={totals.totalGrocery}
+                  helperText="bdt"
+                  wrapperClassName="w-1/2 md:w-1/3 lg:w-auto"
+                  titleAccentColor="bg-primary"
+                  titleColor="text-primary"
+                />
+                <Stat
+                  title="Meals"
+                  value={totals.totalMeal}
+                  helperText="total"
+                  wrapperClassName="hidden md:block md:w-1/3 lg:w-auto"
+                  titleAccentColor="bg-primary"
+                  titleColor="text-primary"
+                />
+                <Stat
+                  title="Meal rate"
+                  value={totals.avgMealRate}
+                  helperText="/meal"
+                  wrapperClassName="w-1/2 md:w-1/3 lg:w-auto"
+                  titleAccentColor="bg-primary"
+                  titleColor="text-primary"
+                />
+              </div>
+              <hr className="block text-muted-foreground lg:hidden" />
+              <Separator orientation="vertical" />
+              <div className="flex lg:gap-12">
+                <Stat
+                  title="My groceries"
+                  value={ownTotalGrocery}
+                  helperText="bdt"
+                  wrapperClassName="w-1/2 md:w-1/3 lg:w-auto"
+                  titleAccentColor="bg-teal-600"
+                  titleColor="text-teal-600 dark:text-teal-400"
+                />
+                <Stat
+                  title="My meals"
+                  value={ownTotalMeal}
+                  helperText="total"
+                  wrapperClassName="hidden md:block md:w-1/3 lg:w-auto"
+                  titleAccentColor="bg-teal-600"
+                  titleColor="text-teal-600 dark:text-teal-400"
+                />
+                <Stat
+                  title="My meal bill"
+                  value={ownMealBill}
+                  isGood={ownMealBill <= ownTotalGrocery}
+                  showComparator={ownMealBill === 0 ? false : true}
+                  helperText="bdt"
+                  wrapperClassName="w-1/2 md:w-1/3 lg:w-auto"
+                  titleAccentColor="bg-teal-600"
+                  titleColor="text-teal-600 dark:text-teal-400"
+                />
+              </div>
             </div>
-            <hr className="block text-muted-foreground lg:hidden" />
-            <div
-              aria-hidden="true"
-              className="hidden w-[0.5px] bg-muted-foreground/50 lg:block"
-            ></div>
-            <div className="flex lg:gap-12">
-              <Stat
-                title="My groceries"
-                value={ownTotalGrocery}
-                helperText="bdt"
-                wrapperClassName="w-1/2 md:w-1/3 lg:w-auto"
-                titleAccentColor="bg-teal-600"
-                titleColor="text-teal-600 dark:text-teal-400"
-              />
-              <Stat
-                title="My meals"
-                value={ownTotalMeal}
-                helperText="total"
-                wrapperClassName="hidden md:block md:w-1/3 lg:w-auto"
-                titleAccentColor="bg-teal-600"
-                titleColor="text-teal-600 dark:text-teal-400"
-              />
-              <Stat
-                title="My meal bill"
-                value={ownMealBill}
-                isGood={ownMealBill <= ownTotalGrocery}
-                showComparator={ownMealBill === 0 ? false : true}
-                helperText="bdt"
-                wrapperClassName="w-1/2 md:w-1/3 lg:w-auto"
-                titleAccentColor="bg-teal-600"
-                titleColor="text-teal-600 dark:text-teal-400"
-              />
-            </div>
-          </div>
-          {/* pc */}
+            {/* pc */}
+            {groupMembersTotals.length === 0 ? null : (
+              <div className="-mr-1.5 hidden shrink-0 flex-col xl:flex">
+                <SeeBreakdownButton
+                  groupMembersTotals={groupMembersTotals}
+                  avgMealRate={totals.avgMealRate}
+                  userId={user.id}
+                />
+              </div>
+            )}
+          </section>
+          {/* mobile */}
           {groupMembersTotals.length === 0 ? null : (
-            <div className="-mr-1.5 hidden shrink-0 flex-col xl:flex">
+            <div className="flex xl:hidden">
               <SeeBreakdownButton
                 groupMembersTotals={groupMembersTotals}
                 avgMealRate={totals.avgMealRate}
@@ -350,31 +384,21 @@ async function Page({ params, searchParams }: PageProps) {
               />
             </div>
           )}
-        </section>
-        {/* mobile */}
-        {groupMembersTotals.length === 0 ? null : (
-          <div className="flex xl:hidden">
-            <SeeBreakdownButton
-              groupMembersTotals={groupMembersTotals}
-              avgMealRate={totals.avgMealRate}
-              userId={user.id}
-            />
+          <hr className="text-muted-foreground" />
+          <div className="grid gap-4">
+            <div className="flex flex-col items-start justify-end gap-4 sm:flex-row">
+              {isEmpty(months) ? null : <MonthPicker months={months} />}
+              {isAdmin || isEditor ? (
+                <AddDailyActivityButton
+                  groupMembers={groupDetails.data.groupMembers}
+                  disabledDates={disabledDates}
+                />
+              ) : null}
+            </div>
+            <DataTable data={sortedActivities} columns={columns} />
           </div>
-        )}
-        <hr className="text-muted-foreground" />
-        <div className="grid gap-4">
-          <div className="flex flex-col items-start justify-end gap-4 sm:flex-row">
-            {isEmpty(months) ? null : <MonthPicker months={months} />}
-            {isAdmin || isEditor ? (
-              <AddDailyActivityButton
-                groupMembers={groupDetails.data.groupMembers}
-                disabledDates={disabledDates}
-              />
-            ) : null}
-          </div>
-          <DataTable data={sortedActivities} columns={columns} />
         </div>
-      </div>
+      )}
     </>
   );
 }
