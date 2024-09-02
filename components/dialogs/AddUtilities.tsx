@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -72,6 +72,34 @@ export default function AddUtilities({
         : monthlyUtilitiesData.otherUtils,
     },
   });
+
+  useEffect(() => {
+    if (open && !isMonthlyUtilsDataEmpty) {
+      form.clearErrors("cook");
+      form.clearErrors("electricity");
+      form.clearErrors("gas");
+      form.clearErrors("internet");
+      form.clearErrors("otherUtils");
+      form.clearErrors("water");
+
+      form.setValue("cook", monthlyUtilitiesData.cook);
+      form.setValue("electricity", monthlyUtilitiesData.electricity);
+      form.setValue("gas", monthlyUtilitiesData.gas);
+      form.setValue("internet", monthlyUtilitiesData.internet);
+      form.setValue("otherUtils", monthlyUtilitiesData.otherUtils);
+      form.setValue("water", monthlyUtilitiesData.water);
+    }
+  }, [
+    open,
+    form,
+    isMonthlyUtilsDataEmpty,
+    monthlyUtilitiesData?.cook,
+    monthlyUtilitiesData?.electricity,
+    monthlyUtilitiesData?.gas,
+    monthlyUtilitiesData?.internet,
+    monthlyUtilitiesData?.otherUtils,
+    monthlyUtilitiesData?.water,
+  ]);
 
   async function onSubmit(
     formValues: z.infer<typeof monthlyUtilityFormSchema>

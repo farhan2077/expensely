@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -58,9 +58,19 @@ function EditMonthlyActivity({
     resolver: zodResolver(editMonthlyActivityFormSchema),
     defaultValues: {
       rent: prevRent,
-      paid: prevPaid === 0 ? undefined : prevPaid,
+      paid: prevPaid,
     },
   });
+
+  useEffect(() => {
+    if (open) {
+      form.clearErrors("paid");
+      form.clearErrors("rent");
+
+      form.setValue("paid", prevPaid);
+      form.setValue("rent", prevRent);
+    }
+  }, [open, form, prevRent, prevPaid]);
 
   async function onSubmit(formValues: EditMonthlyActivityFormType) {
     setIsLoading(true);

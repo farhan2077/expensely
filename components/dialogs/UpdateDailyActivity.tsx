@@ -63,8 +63,12 @@ export default function UpdateDailyActivity({
   });
 
   useEffect(() => {
-    form.setValue("groups", restData);
-  }, [form, restData]);
+    if (open) {
+      form.clearErrors("groups");
+
+      form.setValue("groups", restData);
+    }
+  }, [open, form, restData]);
 
   async function onSubmit(formValues: FormType) {
     setIsLoading(true);
