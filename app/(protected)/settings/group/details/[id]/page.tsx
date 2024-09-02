@@ -26,7 +26,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { isEqual } from "@/libs/utils";
+import { isEqual, maskEmail } from "@/libs/utils";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { user } = await validateSession();
@@ -107,16 +107,19 @@ export default async function Page({ params }: { params: { id: string } }) {
         <TableBody>
           {groupDetails.data.groupMembers.map((member: GroupMember) => {
             const isMemberAdmin = ownerId === member.user.id;
+            const isSelf = user.id === member.user.id;
 
             return (
               <TableRow key={member.id}>
                 <TableCell className="font-medium">
                   <p>{member.user.name}</p>
-                  {isAdmin ? (
-                    <p className="hidden text-sm font-normal text-muted-foreground md:block">
-                      {member.user.email}
-                    </p>
-                  ) : null}
+                  <p className="hidden text-sm font-normal text-muted-foreground md:block">
+                    {isAdmin || isSelf ? (
+                      member.user.email
+                    ) : (
+                      <>{maskEmail(member.user.email)}</>
+                    )}
+                  </p>
                 </TableCell>
                 <TableCell>
                   <Badge variant="secondary" className="capitalize">

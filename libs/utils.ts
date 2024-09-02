@@ -64,3 +64,7 @@ export function calculateTotalUtilities(
 export function getFirstName(fullName: string): string {
   return fullName.split(" ")[0];
 }
+
+export function maskEmail(email: string) {
+  return "∗".repeat(email.length);
+}

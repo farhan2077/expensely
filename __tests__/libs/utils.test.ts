@@ -17,6 +17,7 @@ import {
   isEmpty,
   isEqual,
   logRuntimeType,
+  maskEmail,
 } from "../../libs/utils";
 
 describe("-------------------- cn --------------------", () => {
@@ -183,5 +184,17 @@ describe("-------------------- isEqual --------------------", () => {
 describe("-------------------- getFirstName --------------------", () => {
   test("return first name", () => {
     expect(getFirstName("Farhan Bin Amin")).toBe("Farhan");
+  });
+});
+
+describe("-------------------- maskEmail --------------------", () => {
+  test("should return empty string for empty input", () => {
+    const result = maskEmail("");
+    expect(result).toBe("");
+  });
+
+  test("should return the correct number of asterisks for emails with different lengths", () => {
+    expect(maskEmail("John")).toBe("∗∗∗∗");
+    expect(maskEmail("ABC")).toBe("∗∗∗");
   });
 });
