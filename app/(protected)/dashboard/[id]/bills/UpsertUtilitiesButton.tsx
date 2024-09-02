@@ -6,7 +6,7 @@ import { PenLine, Plus } from "lucide-react";
 
 import { type MonthlyUtilityOutputData } from "@/app/actions/monthly-utility";
 
-import AddUtilities from "@/components/dialogs/AddUtilities";
+import UpsertUtilities from "@/components/dialogs/UpsertUtilities";
 import { Button } from "@/components/ui/button";
 
 export default function UpsertUtilitiesButton({
@@ -40,7 +40,7 @@ export default function UpsertUtilitiesButton({
           </>
         )}
       </Button>
-      <AddUtilities
+      <UpsertUtilities
         open={openModal}
         setOpen={setOpenModal}
         groupId={groupId}

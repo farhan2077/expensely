@@ -37,7 +37,7 @@ import { Input } from "@/components/ui/input";
 import { isEmpty } from "@/libs/utils";
 import { monthlyUtilityFormSchema } from "@/libs/validations/monthly-utility";
 
-export default function AddUtilities({
+export default function UpsertUtilities({
   open,
   setOpen,
   groupId,
