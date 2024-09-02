@@ -148,7 +148,7 @@ export default function AddDailyActivity({
         aria-describedby={undefined} // this is needed to remove the `DialogDescription` entirely since `DialogDescription` is not used here
       >
         <DialogHeader>
-          <DialogTitle>Add info</DialogTitle>
+          <DialogTitle>Add meals and groceries</DialogTitle>
         </DialogHeader>
         <ScrollAreaNoFocus>
           <Form {...form}>

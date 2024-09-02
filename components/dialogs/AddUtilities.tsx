@@ -116,7 +116,7 @@ export default function AddUtilities({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-lg">
-        <DialogHeader className="mb-4">
+        <DialogHeader>
           <DialogTitle>
             {isMonthlyUtilsDataEmpty ? "Add" : "Update"} Utilities
           </DialogTitle>

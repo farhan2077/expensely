@@ -7,7 +7,7 @@ interface ScrollAreaNoFocusProps {
 
 const ScrollAreaNoFocus: React.FC<ScrollAreaNoFocusProps> = ({
   children,
-  maxHeight = "max-h-[70vh]",
+  maxHeight = "max-h-[80vh]",
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 

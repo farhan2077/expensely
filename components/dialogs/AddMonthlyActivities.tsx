@@ -112,7 +112,7 @@ export default function AddMonthlyActivities({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-lg">
-        <DialogHeader className="mb-4">
+        <DialogHeader>
           <DialogTitle>Add info</DialogTitle>
           <DialogDescription>
             Add group members&apos; rent and paid amount
