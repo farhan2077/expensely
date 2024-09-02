@@ -22,7 +22,7 @@ function SigninPage() {
             </Link>
           </h1>
           <p className="text-sm text-muted-foreground">
-            Enter your email and password below to sign in to your account
+            Enter your credentials to access your account
           </p>
         </div>
         <SigninForm />

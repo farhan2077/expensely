@@ -84,7 +84,7 @@ export function ForgotPasswordForm() {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            {isLoading ? "" : "Send mail"}
+            {isLoading ? "" : "Get password reset link"}
           </Button>
         </div>
       </form>

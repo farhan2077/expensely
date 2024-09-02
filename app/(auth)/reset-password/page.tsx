@@ -25,7 +25,7 @@ function ResetPasswordPage({
             Reset password
           </h1>
           <p className="text-sm text-muted-foreground">
-            Please enter your new password
+            Set your new password, just don&apos;t forget this one! 😉
           </p>
         </div>
         <ResetPasswordForm token={token} />
