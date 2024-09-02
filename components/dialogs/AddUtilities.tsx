@@ -115,29 +115,23 @@ export default function AddUtilities({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent
-        // <DialogContent /> has p-6 by default
-        // but <ScrollAreaNoFocus /> is cutting the input field ring due to overflow-hidden, so p-2 here (scrollbar will also be present inside this p-2)
-        // and additional p-4 is applied later, in p-4 this scrollbar is placed so it is not placed on top of the content on the dialog
-        className="max-w-lg overflow-hidden p-2"
-      >
-        {/* <ScrollArea /> from shadcn/ui or radix-ui is not used here due to focus trapping issues, instead custom one is used here which is without focus trap */}
-        <ScrollAreaNoFocus className="max-h-[85vh] overflow-y-auto p-4">
-          <DialogHeader className="mb-4">
-            <DialogTitle>
-              {isMonthlyUtilsDataEmpty ? "Add" : "Update"} Utilities
-            </DialogTitle>
-            <DialogDescription>
-              {isMonthlyUtilsDataEmpty ? (
-                <>Add data for {format(new Date(), "MMMM yyyy")}</>
-              ) : (
-                <>
-                  You&apos;re updating data for{" "}
-                  {format(monthlyUtilitiesData.date, "MMMM yyyy")}
-                </>
-              )}
-            </DialogDescription>
-          </DialogHeader>
+      <DialogContent className="max-w-lg">
+        <DialogHeader className="mb-4">
+          <DialogTitle>
+            {isMonthlyUtilsDataEmpty ? "Add" : "Update"} Utilities
+          </DialogTitle>
+          <DialogDescription>
+            {isMonthlyUtilsDataEmpty ? (
+              <>Add data for {format(new Date(), "MMMM yyyy")}</>
+            ) : (
+              <>
+                You&apos;re updating data for{" "}
+                {format(monthlyUtilitiesData.date, "MMMM yyyy")}
+              </>
+            )}
+          </DialogDescription>
+        </DialogHeader>
+        <ScrollAreaNoFocus>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-3">

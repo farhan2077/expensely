@@ -2,12 +2,12 @@ import React, { ReactNode, useEffect, useRef } from "react";
 
 interface ScrollAreaNoFocusProps {
   children: ReactNode;
-  className?: string;
+  maxHeight?: string;
 }
 
 const ScrollAreaNoFocus: React.FC<ScrollAreaNoFocusProps> = ({
   children,
-  className = "",
+  maxHeight = "max-h-[70vh]",
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -39,7 +39,10 @@ const ScrollAreaNoFocus: React.FC<ScrollAreaNoFocusProps> = ({
   return (
     <div
       ref={scrollContainerRef}
-      className={`${className}`}
+      className={`${maxHeight} -mx-4 overflow-y-auto px-4`}
+      // why -mx-4 and px-4?
+      // <ScrollAreaNoFocus /> was cutting the input field ring due to overflow-hidden
+      // scrollbar was on top of the input fields
       style={{ scrollbarWidth: "thin" }}
     >
       {children}

@@ -96,20 +96,14 @@ export default function UpdateDailyActivity({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent
-        // <DialogContent /> has p-6 by default
-        // but <ScrollAreaNoFocus /> is cutting the input field ring due to overflow-hidden, so p-2 here (scrollbar will also be present inside this p-2)
-        // and additional p-4 is applied later, in p-4 this scrollbar is placed so it is not placed on top of the content on the dialog
-        className="max-w-lg overflow-hidden p-2"
-      >
-        {/* <ScrollArea /> from shadcn/ui or radix-ui is not used here due to focus trapping issues, instead custom one is used here which is without focus trap */}
-        <ScrollAreaNoFocus className="max-h-[85vh] overflow-y-auto p-4">
-          <DialogHeader className="mb-4">
-            <DialogTitle>Update meal and grocery cost</DialogTitle>
-            <DialogDescription>
-              You are updating data for {format(restData[0].date, "PPP")}
-            </DialogDescription>
-          </DialogHeader>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Update meal and grocery cost</DialogTitle>
+          <DialogDescription>
+            You are updating data for {format(restData[0].date, "PPP")}
+          </DialogDescription>
+        </DialogHeader>
+        <ScrollAreaNoFocus>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="divide-y-2 divide-muted *:pb-4 *:pt-3 first:*:pt-0 last:*:pb-0">
