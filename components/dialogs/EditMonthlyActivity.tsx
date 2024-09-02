@@ -108,7 +108,6 @@ function EditMonthlyActivity({
                   <FormLabel>Rent</FormLabel>
                   <FormControl>
                     <Input
-                      autoFocus
                       placeholder="Enter rent amount"
                       autoComplete="rent"
                       inputMode="numeric" // display numeric keyboard on mobile

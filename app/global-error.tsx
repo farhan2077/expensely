@@ -1,8 +1,10 @@
 "use client"; // Error components must be Client Components
 
-import * as Sentry from "@sentry/nextjs";
-import Error from "next/error";
 import { useEffect } from "react";
+
+import Error from "next/error";
+
+import * as Sentry from "@sentry/nextjs";
 
 // global-error.tsx is only enabled in production. In development, our error overlay will show instead.
 export default function GlobalError({

@@ -1,7 +1,5 @@
 "use client";
 
-import { APP_NAME } from "@/config";
-
 import CreateJoinGroupForm from "@/app/welcome/CreateJoinGroupForm";
 
 import {
