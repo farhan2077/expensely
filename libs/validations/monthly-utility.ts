@@ -1,14 +1,17 @@
 import { z } from "zod";
 
 // INDIVIDUAL schema
-const numberSchema = z.coerce
-  .number({
-    required_error: "Number is required",
-    invalid_type_error: "Input must be a number",
-  })
-  .nonnegative({
-    message: "Number must be positive",
-  });
+const numberSchema = z.preprocess(
+  (val) => (val === "" ? undefined : Number(val)),
+  z
+    .number({
+      required_error: "Input is required",
+      invalid_type_error: "Input must be a number",
+    })
+    .nonnegative({
+      message: "Input number must be positive",
+    })
+);
 
 // FORM schema
 const monthlyUtilityFormSchema = z.object({

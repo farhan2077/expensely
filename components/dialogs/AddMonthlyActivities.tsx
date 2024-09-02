@@ -49,7 +49,7 @@ export default function AddMonthlyActivities({
 
   const formDefaultValue = {
     rent: undefined,
-    paid: undefined,
+    paid: 0,
   };
 
   const formDefaultValueArr = Array(groupMembers.length)
@@ -72,7 +72,7 @@ export default function AddMonthlyActivities({
     const currentGroupValues = form.getValues().formGroups;
 
     const updatedGroupValues = currentGroupValues.map((group) => ({
-      paid: group.paid || 0,
+      paid: group.paid,
       rent: group.rent || 0,
     }));
     form.setValue("formGroups", updatedGroupValues);
@@ -133,7 +133,7 @@ export default function AddMonthlyActivities({
                     <div className="grid grid-cols-12 gap-4">
                       <div className="col-start-1 col-end-5">
                         <p className="mt-1 flex items-center text-ellipsis text-sm font-medium leading-none">
-                          <span className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded bg-muted-foreground/20 text-xs tabular-nums text-black/80">
+                          <span className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded bg-muted-foreground/20 text-xs tabular-nums text-foreground/80">
                             {index + 1}
                           </span>
                           <span>{groupMembers[index].user.name}</span>
@@ -167,12 +167,14 @@ export default function AddMonthlyActivities({
                             <FormLabel>Paid</FormLabel>
                             <FormControl>
                               <Input
+                                disabled
                                 className="placeholder:tracking-tight"
                                 type="number"
                                 inputMode="numeric" // display numeric keyboard on mobile
                                 placeholder="Paid amount"
                                 autoComplete="paid"
                                 {...field}
+                                value={0}
                               />
                             </FormControl>
                             <FormMessage className="text-xs" />
@@ -198,6 +200,7 @@ export default function AddMonthlyActivities({
                     Clear all
                   </Button>
                   <Button
+                    type="button"
                     variant={"secondary"}
                     className="w-1/2"
                     onClick={(e) => {

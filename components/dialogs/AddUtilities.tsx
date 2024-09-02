@@ -149,12 +149,15 @@ export default function AddUtilities({
                       <FormLabel>Electricity bill</FormLabel>
                       <FormControl>
                         <Input
-                          autoFocus
                           type="number"
                           inputMode="numeric" // display numeric keyboard on mobile
                           placeholder="Enter elctricity bill"
                           autoComplete="electricity"
                           {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === "" ? "" : Number(value));
+                          }}
                         />
                       </FormControl>
                       <FormMessage className="text-xs" />
@@ -174,6 +177,10 @@ export default function AddUtilities({
                           placeholder="Enter internet bill"
                           autoComplete="internet"
                           {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === "" ? "" : Number(value));
+                          }}
                         />
                       </FormControl>
                       <FormMessage className="text-xs" />
@@ -193,6 +200,10 @@ export default function AddUtilities({
                           placeholder="Enter water bill"
                           autoComplete="water"
                           {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === "" ? "" : Number(value));
+                          }}
                         />
                       </FormControl>
                       <FormMessage className="text-xs" />
@@ -212,6 +223,10 @@ export default function AddUtilities({
                           placeholder="Enter gas bill"
                           autoComplete="gas"
                           {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === "" ? "" : Number(value));
+                          }}
                         />
                       </FormControl>
                       <FormMessage className="text-xs" />
@@ -231,6 +246,10 @@ export default function AddUtilities({
                           placeholder="Enter cook bill"
                           autoComplete="cook"
                           {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === "" ? "" : Number(value));
+                          }}
                         />
                       </FormControl>
                       <FormMessage className="text-xs" />
@@ -250,6 +269,10 @@ export default function AddUtilities({
                           placeholder="Enter other utilities bill"
                           autoComplete="otherUtils"
                           {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(value === "" ? "" : Number(value));
+                          }}
                         />
                       </FormControl>
                       <FormMessage className="text-xs" />
@@ -258,18 +281,37 @@ export default function AddUtilities({
                 />
               </div>
               <div className="mt-4 flex gap-4">
+                {isMonthlyUtilsDataEmpty ? (
+                  <Button
+                    type="button"
+                    variant={"outline"}
+                    className="w-1/2 hover:border-destructive/20 hover:bg-destructive/10 hover:text-destructive focus-visible:border-destructive/20 focus-visible:bg-destructive/10 focus-visible:ring-destructive"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      form.reset({
+                        // @ts-expect-error
+                        electricity: "",
+                        // @ts-expect-error
+                        internet: "",
+                        // @ts-expect-error
+                        water: "",
+                        // @ts-expect-error
+                        gas: "",
+                        // @ts-expect-error
+                        cook: "",
+                        // @ts-expect-error
+                        otherUtils: "",
+                      });
+                    }}
+                  >
+                    Clear all
+                  </Button>
+                ) : null}
                 <Button
-                  type="button"
-                  variant={"outline"}
-                  className="w-1/2 hover:border-destructive/20 hover:bg-destructive/10 hover:text-destructive focus-visible:border-destructive/20 focus-visible:bg-destructive/10 focus-visible:ring-destructive"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    form.reset();
-                  }}
+                  disabled={isLoading}
+                  type="submit"
+                  className={`${isMonthlyUtilsDataEmpty ? "w-1/2" : "w-full"}`}
                 >
-                  Clear all
-                </Button>
-                <Button disabled={isLoading} type="submit" className="w-1/2">
                   {isLoading && (
                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                   )}
