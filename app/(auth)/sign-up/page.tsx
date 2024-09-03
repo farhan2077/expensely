@@ -17,7 +17,7 @@ function SignupPage() {
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">
             Join{" "}
-            <Link href={"/"} className="text-primary">
+            <Link href={"/"} className="text-primary" translate="no">
               {APP_NAME}
             </Link>
           </h1>

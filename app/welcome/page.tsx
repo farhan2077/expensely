@@ -56,7 +56,7 @@ async function Page() {
           <div className="flex items-center">
             <h1 className="text-3xl font-semibold tracking-tight">
               Welcome to{" "}
-              <Link href={"/"} className="text-primary">
+              <Link href={"/"} className="text-primary" translate="no">
                 {APP_NAME}
               </Link>
             </h1>

@@ -1,4 +1,4 @@
-export const APP_NAME: string = "Expensely";
+export const APP_NAME: string = "Expensely"; // use `translate="no"` in the html element whenever this is used
 export const BASE_URL: string = "https://expensely-alpha.vercel.app"; // dont't include `/` at the end
 
 export const SEO_TITLE: string = APP_NAME;

@@ -17,7 +17,10 @@ export default async function Page() {
           <AnimatedElement delay={false} direction="up">
             <div className="flex items-center">
               <Icons.logo className="mr-2 h-7 w-7" />
-              <h1 className="text-3xl font-semibold tracking-tight">
+              <h1
+                className="text-3xl font-semibold tracking-tight"
+                translate="no"
+              >
                 {APP_NAME}
               </h1>
             </div>

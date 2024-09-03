@@ -31,11 +31,15 @@ export default async function AuthLayout({
           className="relative z-20 flex items-center text-lg font-medium text-background"
         >
           <Icons.logo className="mr-2 h-5 w-5" />
-          <h1 className="text-xl font-semibold tracking-tight">{APP_NAME}</h1>
+          <h1 className="text-xl font-semibold tracking-tight" translate="no">
+            {APP_NAME}
+          </h1>
         </Link>
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">
-            <p className="text-muted">Manage shared expenses with {APP_NAME}</p>
+            <p className="text-muted" translate="no">
+              Manage shared expenses with {APP_NAME}
+            </p>
           </blockquote>
         </div>
       </div>

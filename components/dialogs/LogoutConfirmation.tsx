@@ -63,7 +63,10 @@ export function LogoutConfirmation({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-center">Are you sure?</DialogTitle>
-          <DialogDescription className="text-pretty py-2 text-center">
+          <DialogDescription
+            className="text-pretty py-2 text-center"
+            translate="no"
+          >
             Logging out will require you to log back in to use {APP_NAME}
           </DialogDescription>
         </DialogHeader>
