@@ -32,7 +32,6 @@ import {
   type DailyActivityRow,
 } from "@/components/tables/daily-activities/columns";
 import { DataTable } from "@/components/tables/daily-activities/data-table";
-import { Separator } from "@/components/ui/separator";
 
 import { isEmpty, isEqual } from "@/libs/utils";
 
@@ -333,7 +332,10 @@ async function Page({ params, searchParams }: PageProps) {
                 />
               </div>
               <hr className="block text-muted-foreground lg:hidden" />
-              <Separator orientation="vertical" />
+              <div
+                aria-hidden="true"
+                className="hidden border-l border-muted-foreground/20 lg:block"
+              ></div>
               <div className="flex lg:gap-12">
                 <Stat
                   title="My groceries"
