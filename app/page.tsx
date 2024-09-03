@@ -1,9 +1,12 @@
+import { Suspense } from "react";
+
 import Link from "next/link";
 
 import { APP_NAME } from "@/config";
 
 import AnimatedElement from "@/components/AnimatedElement";
 import { Icons } from "@/components/icons";
+import LastCommitDate from "@/components/LastCommitDate";
 import { Button } from "@/components/ui/button";
 
 export default async function Page() {
@@ -32,9 +35,16 @@ export default async function Page() {
         </div>
       </div>
       <AnimatedElement delay={true} direction="down">
-        <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-xs text-muted-foreground">
-          Currently under active development
-        </p>
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-xs text-muted-foreground">
+          {/* <p>Currently under active development</p> */}
+          <Suspense
+            fallback={
+              <div className="h-4 w-[200px] animate-pulse rounded bg-muted"></div>
+            }
+          >
+            <LastCommitDate />
+          </Suspense>
+        </div>
       </AnimatedElement>
     </main>
   );
