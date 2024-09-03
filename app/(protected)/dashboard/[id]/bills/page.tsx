@@ -5,8 +5,8 @@ import {
   Bolt,
   ChefHat,
   Droplet,
-  Flashlight,
   Info,
+  Lightbulb,
   PillBottle,
   Wifi,
 } from "lucide-react";
@@ -68,7 +68,7 @@ function MonthlyUtilitiesDetails({
         <BillInfoCard
           title="Electricity"
           value={monthlyUtilitiesData.electricity}
-          icon={Flashlight}
+          icon={Lightbulb}
         />
         <BillInfoCard
           title="Internet"

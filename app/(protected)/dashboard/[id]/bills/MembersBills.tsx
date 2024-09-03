@@ -1,7 +1,15 @@
 import { notFound } from "next/navigation";
 
 import { endOfMonth, format, startOfMonth, subMonths } from "date-fns";
-import { CheckCircle2, PlusCircleIcon } from "lucide-react";
+import {
+  Building2,
+  CheckCircle2,
+  CirclePlus,
+  HandCoins,
+  // Siren,
+  Soup,
+  Zap,
+} from "lucide-react";
 
 import { getDailyActivities } from "@/app/actions/daily-activity";
 import {
@@ -99,7 +107,7 @@ function MembersBillsDetailsCard({
 
   return (
     <Card
-      className={cn("group", {
+      className={cn({
         "border-destructive": hasPaidLess || hasPaidMore,
       })}
     >
@@ -117,18 +125,27 @@ function MembersBillsDetailsCard({
           totalToPay={totalToPay}
         />
       </CardHeader>
-      <CardContent className="-mt-2 ">
+      <CardContent className="-mt-2">
         <div className="grid gap-2">
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Rent</span>
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Building2 className="h-4 w-4" />
+              <span>Rent</span>
+            </div>
             <span className="tabular-nums">{rent}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Utilities</span>
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Zap className="h-4 w-4" />
+              <span>Utilities</span>
+            </div>
             <span className="tabular-nums">{utility}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Due (prev month)</span>
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Soup className="h-4 w-4" />
+              <span>Due meal bills</span>
+            </div>
             <span
               className={cn("font-medium tabular-nums", {
                 "text-destructive": hasPrevDue,
@@ -138,21 +155,45 @@ function MembersBillsDetailsCard({
               {hasPrevDue ? `+${prevDue}` : prevDue}
             </span>
           </div>
+          {/* NEW SECTION */}
+          {/* // TODO: need to add previous month's due for monthly data  */}
+          {/* <div className="flex justify-between text-sm">
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Siren className="h-4 w-4" />
+              <span>Due monthly bills</span>
+            </div>
+            <span
+              className={cn("font-medium tabular-nums", {
+                "text-destructive": hasPrevDue,
+                "text-green-600": !hasPrevDue,
+              })}
+            >
+              {hasPrevDue ? `+${prevDue}` : prevDue}
+            </span>
+          </div> */}
+          {/* NEW SECTION */}
           <hr className="my-0.5" />
+          <div className="flex justify-between text-sm">
+            <div className="flex items-center gap-1.5">
+              <HandCoins className="h-4 w-4" />
+              <span className="font-semibold">Total</span>
+            </div>
+            <span className="font-semibold">{totalToPay}</span>
+          </div>
           <div
             className={cn("flex justify-between text-sm", {
               "text-destructive": hasPaidLess || hasPaidMore,
             })}
           >
-            <div className="flex items-center gap-1">
-              <span className="font-semibold">Total</span>
+            <div className="flex items-center gap-1.5">
               {hasPaidLess || hasPaidMore ? (
-                <PlusCircleIcon className="h-5 w-5 rotate-45 fill-destructive text-background" />
+                <CirclePlus className="-mx-0.5 h-5 w-5 rotate-45 fill-destructive text-background" />
               ) : (
-                <CheckCircle2 className="h-5 w-5 fill-green-500 text-background" />
+                <CheckCircle2 className="-mx-0.5 h-5 w-5 fill-green-500 text-background" />
               )}
+              <span>Paid</span>
             </div>
-            <span className="font-semibold">{totalToPay}</span>
+            <span>{paid}</span>
           </div>
         </div>
       </CardContent>
@@ -174,7 +215,7 @@ function MembersBillsDetails({
         header={`Group members' bills`}
         description={`Track each members' payment for ${currentMonth}`}
       >
-        <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {membersBillsArray.map((member) => {
             return (
               <MembersBillsDetailsCard
