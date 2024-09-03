@@ -122,7 +122,7 @@ function EditMonthlyActivity({
                       autoComplete="rent"
                       inputMode="numeric" // display numeric keyboard on mobile
                       {...field}
-                      value={field.value || ""} // avoid errors of uncontrolled vs controlled
+                      value={field.value}
                       pattern="[0-9]*" // to receive only numbers without showing does weird arrows in the input
                       onChange={
                         (e) =>
@@ -147,7 +147,7 @@ function EditMonthlyActivity({
                       autoComplete="paid"
                       inputMode="numeric" // display numeric keyboard on mobile
                       {...field}
-                      value={field.value || ""} // avoid errors of uncontrolled vs controlled
+                      value={field.value}
                       pattern="[0-9]*" // to receive only numbers without showing does weird arrows in the input
                       onChange={
                         (e) =>
