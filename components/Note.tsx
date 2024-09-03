@@ -19,6 +19,7 @@ export default function Note({ currentGroupId }: { currentGroupId: string }) {
   const [typingTimeout, setTypingTimeout] = useState<ReturnType<
     typeof setTimeout
   > | null>(null);
+  const [clonedValue, setClonedValue] = useState("");
 
   useEffect(() => {
     if (isOpen) {
@@ -31,6 +32,10 @@ export default function Note({ currentGroupId }: { currentGroupId: string }) {
       });
     }
   }, [isOpen, textId]);
+
+  const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setClonedValue(e.target.value);
+  };
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -73,15 +78,25 @@ export default function Note({ currentGroupId }: { currentGroupId: string }) {
       </PopoverTrigger>
       {isOpen && (
         <PopoverContent className="w-72 bg-muted">
-          <textarea
-            id="note-textarea"
-            ref={textareaRef}
-            rows={5}
-            className="custom__no_resize w-full rounded-sm border-border bg-muted text-sm focus-visible:outline-none focus-visible:ring-0"
-            onChange={handleChange}
-            value={text}
-            placeholder="Type anything"
-          />
+          <div
+            className="grid text-sm
+            after:invisible after:whitespace-pre-wrap after:border after:px-3.5 after:pt-2.5 after:text-inherit after:content-[attr(data-cloned-val)_'_'] after:[grid-area:1/1/2/2]
+            [&>textarea]:resize-none [&>textarea]:overflow-hidden [&>textarea]:text-inherit [&>textarea]:[grid-area:1/1/2/2]"
+            data-cloned-val={clonedValue}
+          >
+            <textarea
+              className="w-full appearance-none border-border bg-muted text-sm focus-visible:outline-none focus-visible:ring-0"
+              name="note-textarea"
+              id="note-textarea"
+              rows={4}
+              ref={textareaRef}
+              onInput={handleInput}
+              onChange={handleChange}
+              value={text}
+              placeholder="Type anything..."
+              required
+            />
+          </div>
           <div className="flex items-center gap-1">
             <Info className="h-3 w-3 text-foreground/50" />
             <span className="select-none text-xs text-foreground/50">
