@@ -39,8 +39,8 @@ const ScrollAreaNoFocus: React.FC<ScrollAreaNoFocusProps> = ({
   return (
     <div
       ref={scrollContainerRef}
-      className={`${maxHeight} -mx-4 overflow-y-auto px-4`}
-      // why -mx-4 and px-4?
+      className={`${maxHeight} -mx-4 -my-1 overflow-y-auto px-4 py-1`}
+      // why -mx-4 and px-4, -my-1 and py-1?
       // <ScrollAreaNoFocus /> was cutting the input field ring due to overflow-hidden
       // scrollbar was on top of the input fields
       style={{ scrollbarWidth: "thin" }}
