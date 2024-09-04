@@ -7,6 +7,7 @@ import { getUsersGroups } from "@/app/actions/group";
 import { getUserInfo } from "@/app/actions/user";
 
 import Header from "@/app/(protected)/dashboard/[id]/Header";
+import Tabbar from "@/app/(protected)/dashboard/[id]/Tabbar";
 
 import { isEmpty } from "@/libs/utils";
 
@@ -21,7 +22,7 @@ export default async function Layout({
     redirect("/sign-in");
   }
 
-  if (!userInfo.data || !usersGroupsData.success) {
+  if (!userInfo.data || !usersGroupsData.success || !usersGroupsData.data) {
     notFound();
   }
 
@@ -31,13 +32,16 @@ export default async function Layout({
 
   return (
     <>
-      <nav className="mb-6">
+      <nav className="mb-4">
         <Header
           userInfoData={userInfo.data}
           usersGroups={usersGroupsData.data}
         />
       </nav>
       <main className="mx-6 mb-10">{children}</main>
+      <div className="block sm:hidden">
+        <Tabbar usersGroupsData={usersGroupsData.data} />
+      </div>
     </>
   );
 }

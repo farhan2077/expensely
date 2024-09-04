@@ -227,7 +227,21 @@ export async function joinGroupAction(
   };
 }
 
-export async function getUsersGroups(): Promise<Response> {
+export type UsersWithGroup = {
+  id: string;
+  type: "admin" | "editor" | "member";
+  isActive: boolean;
+  userId: string;
+  groupId: string;
+  group: {
+    id: string;
+    name: string;
+    code: number;
+    ownerId: string;
+  };
+};
+
+export async function getUsersGroups(): Promise<Response<UsersWithGroup[]>> {
   const { user } = await validateSession();
   if (!user) {
     return {

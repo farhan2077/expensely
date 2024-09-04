@@ -9,6 +9,8 @@ import { usePathname } from "next/navigation";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { PanelRightOpen } from "lucide-react";
 
+import { type UsersWithGroup } from "@/app/actions/group";
+
 import AvatarDropdownMenu from "@/app/(protected)/dashboard/[id]/_components/AvatarDropdownMenu";
 import GroupPicker from "@/app/(protected)/dashboard/[id]/_components/GroupPicker";
 import AddJoinGroupButton from "@/app/(protected)/dashboard/[id]/AddJoinGroupButton";
@@ -35,7 +37,7 @@ function Header({
   usersGroups,
 }: {
   userInfoData: SafeUser;
-  usersGroups: any;
+  usersGroups: UsersWithGroup[];
 }) {
   const pathname = usePathname();
 
