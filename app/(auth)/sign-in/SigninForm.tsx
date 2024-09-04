@@ -40,14 +40,14 @@ export function SigninForm() {
   useEffect(() => {
     async function handleSuccessfulSignIn() {
       try {
-        const { data: groups } = await getUsersGroups();
+        const { data: group } = await getUsersGroups();
 
-        if (groups.length === 0) {
+        if (!group) {
           router.push("/welcome");
           return;
         }
 
-        const targetGroupId = groups[0].groupId;
+        const targetGroupId = group[0].groupId;
         const OVERVIEW_LINK = `/dashboard/${targetGroupId}` as Route;
         router.push(OVERVIEW_LINK);
       } catch (error) {

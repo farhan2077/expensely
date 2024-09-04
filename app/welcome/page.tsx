@@ -23,12 +23,11 @@ export const metadata: Metadata = {
 async function Page() {
   const { user } = await validateSession();
   const userInfo = await getUserInfo();
+  const result = await getUsersGroups();
 
-  if (!user || !userInfo.success || !userInfo.data || !userInfo.data.email) {
+  if (!user || !userInfo.success || !userInfo.data || !result.data) {
     redirect("/sign-in");
   }
-
-  const result = await getUsersGroups();
 
   if (!isEmpty(result.data)) {
     redirect(`/dashboard/${result.data[0].groupId}`);
