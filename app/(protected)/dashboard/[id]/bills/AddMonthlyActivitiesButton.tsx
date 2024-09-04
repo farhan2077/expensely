@@ -22,6 +22,7 @@ export default function AddMonthlyActivitiesButton({
         onClick={() => {
           setOpenModal(true);
         }}
+        className="mb-4"
       >
         <Plus className="mr-2 size-4" />
         Add members&apos; bills

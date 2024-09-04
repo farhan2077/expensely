@@ -39,7 +39,7 @@ export default async function Layout({
         />
       </nav>
       <main className="mx-6 mb-10">{children}</main>
-      <div className="block sm:hidden">
+      <div className="mt-[5.5rem] block sm:hidden">
         <Tabbar usersGroupsData={usersGroupsData.data} />
       </div>
     </>

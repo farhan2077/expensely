@@ -141,6 +141,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           })}
         </TableBody>
       </Table>
+      <div className="-my-[4.5rem] py-20"></div>
     </>
   );
 }

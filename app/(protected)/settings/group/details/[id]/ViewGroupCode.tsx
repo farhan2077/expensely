@@ -19,7 +19,9 @@ export function ViewGroupCode({ groupCode }: { groupCode: number }) {
 
   return (
     <div className="inline">
-      Others can join by using code&nbsp;
+      <span className="hidden sm:inline">Others can join by using code</span>
+      <span className="inline sm:hidden">Join using code</span>
+      &nbsp;
       <span
         className={`cursor-copy select-none rounded px-1 py-0.5 font-medium ${isCopied ? "bg-primary/10 text-primary" : "bg-secondary text-muted-foreground"}`}
         onClick={() => handleCopy()}
