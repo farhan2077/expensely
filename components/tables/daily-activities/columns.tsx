@@ -34,7 +34,7 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
             "text-primary": isFriday(date),
           })}
         >
-          <span className="block lg:hidden">{format(date, "P")}</span>
+          <span className="block lg:hidden">{format(date, "dd MMM")}</span>
           <span className="hidden lg:block">{format(date, "ccc, PPP")}</span>
         </p>
       );

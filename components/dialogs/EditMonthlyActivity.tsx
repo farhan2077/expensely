@@ -143,6 +143,7 @@ function EditMonthlyActivity({
                   <FormLabel>Paid</FormLabel>
                   <FormControl>
                     <Input
+                      autoFocus
                       placeholder="Enter paid amount" // your defaultValue must be undefined
                       autoComplete="paid"
                       inputMode="numeric" // display numeric keyboard on mobile
