@@ -76,7 +76,7 @@ export default function RootLayout({
       ) : null}
       <body
         className={cn(
-          "min-h-dvh bg-background font-sans antialiased",
+          "min-h-dvh scroll-smooth bg-background font-sans antialiased motion-reduce:scroll-auto",
           fontSans.variable
         )}
       >
