@@ -77,7 +77,7 @@ export default function Note({ currentGroupId }: { currentGroupId: string }) {
         </Button>
       </PopoverTrigger>
       {isOpen && (
-        <PopoverContent className="w-72 bg-muted">
+        <PopoverContent className="w-72 bg-background p-2">
           <div
             className="grid text-sm
             after:invisible after:whitespace-pre-wrap after:border after:px-3.5 after:pt-2.5 after:text-inherit after:content-[attr(data-cloned-val)_'_'] after:[grid-area:1/1/2/2]
@@ -85,7 +85,7 @@ export default function Note({ currentGroupId }: { currentGroupId: string }) {
             data-cloned-val={clonedValue}
           >
             <textarea
-              className="w-full appearance-none border-border bg-muted text-sm focus-visible:outline-none focus-visible:ring-0"
+              className="w-full appearance-none rounded border border-neutral-200 bg-background p-2 text-sm focus-visible:outline-none focus-visible:ring-0 dark:border-neutral-800"
               name="note-textarea"
               id="note-textarea"
               rows={4}
@@ -97,7 +97,7 @@ export default function Note({ currentGroupId }: { currentGroupId: string }) {
               required
             />
           </div>
-          <div className="flex items-center gap-1">
+          <div className="mt-2 flex items-center gap-1">
             <Info className="h-3 w-3 text-foreground/50" />
             <span className="select-none text-xs text-foreground/50">
               Notes are autosaved locally
