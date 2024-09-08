@@ -49,81 +49,78 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
       const totalMeals = users.reduce((sum, user) => sum + user.meal, 0);
 
       return (
-        <div className="flex max-w-5xl flex-wrap items-center gap-2">
-          {users
-            // .sort(function (a, b) {
-            //   const nameA = a.user.name.toLowerCase(),
-            //     nameB = b.user.name.toLowerCase();
+        <>
+          <div className="hidden max-w-5xl flex-wrap items-center gap-2 sm:flex">
+            {users
+              // .sort(function (a, b) {
+              //   const nameA = a.user.name.toLowerCase(),
+              //     nameB = b.user.name.toLowerCase();
 
-            //   if (nameA < nameB)
-            //     // sort string ascending
-            //     return -1;
-            //   if (nameA > nameB) return 1;
-            //   return 0; // default return value (no sorting)
-            // })
-            .map((user) => {
-              return (
-                <div
-                  key={user.id}
-                  className="hidden items-center gap-2 sm:flex"
-                >
-                  {user.grocery === 0 ? (
-                    <div className="flex items-center rounded bg-slate-200 ring-2 ring-slate-200 dark:bg-slate-800 dark:ring-slate-800">
-                      <span className="rounded bg-background px-2 py-1 lowercase first-letter:capitalize">
-                        {getFirstName(user.user.name)}
-                      </span>
-                      <span
-                        className={cn(
-                          "bg-slate-200 px-2 py-1 tabular-nums dark:bg-slate-800",
-                          {
-                            "font-semibold": user.meal !== 0,
-                          }
-                        )}
-                      >
-                        {user.meal}
-                      </span>
-                    </div>
-                  ) : (
-                    <TooltipProvider delayDuration={50} key={user.id}>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <div className="flex items-center overflow-hidden rounded ring-2 ring-primary">
-                            <span className="bg-background px-2 py-1 lowercase first-letter:capitalize">
-                              {getFirstName(user.user.name)}
-                            </span>
-                            <span
-                              className={cn(
-                                "bg-slate-200 px-2 py-1 tabular-nums dark:bg-slate-800",
-                                {
-                                  "font-semibold": user.meal !== 0,
-                                }
-                              )}
-                            >
-                              {user.meal}
-                            </span>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent className="mb-1">
-                          <p>
-                            Grocery cost:{" "}
-                            <span className="font-semibold">
-                              {user.grocery}
-                            </span>{" "}
-                            BDT
-                          </p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  )}
-                </div>
-              );
-            })}
-          {/* <p className="duration-50 text-sm opacity-0 transition-opacity group-hover:opacity-100"> */}
-          <p className="custom__meal-cell flex items-center text-sm">
-            <span className="hidden md:block">Total meals&nbsp;</span>
-            <span className="font-semibold">{totalMeals}</span>
+              //   if (nameA < nameB)
+              //     // sort string ascending
+              //     return -1;
+              //   if (nameA > nameB) return 1;
+              //   return 0; // default return value (no sorting)
+              // })
+              .map((user) => {
+                return (
+                  <div key={user.id} className="flex items-center gap-2">
+                    {user.grocery === 0 ? (
+                      <div className="flex items-center rounded bg-slate-200 ring-2 ring-slate-200 dark:bg-slate-800 dark:ring-slate-800">
+                        <span className="rounded bg-background px-2 py-1 lowercase first-letter:capitalize">
+                          {getFirstName(user.user.name)}
+                        </span>
+                        <span
+                          className={cn(
+                            "bg-slate-200 px-2 py-1 tabular-nums dark:bg-slate-800",
+                            {
+                              "font-semibold": user.meal !== 0,
+                            }
+                          )}
+                        >
+                          {user.meal}
+                        </span>
+                      </div>
+                    ) : (
+                      <TooltipProvider delayDuration={50} key={user.id}>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <div className="flex items-center overflow-hidden rounded ring-2 ring-primary">
+                              <span className="bg-background px-2 py-1 lowercase first-letter:capitalize">
+                                {getFirstName(user.user.name)}
+                              </span>
+                              <span
+                                className={cn(
+                                  "bg-slate-200 px-2 py-1 tabular-nums dark:bg-slate-800",
+                                  {
+                                    "font-semibold": user.meal !== 0,
+                                  }
+                                )}
+                              >
+                                {user.meal}
+                              </span>
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent className="mb-1">
+                            <p>
+                              Grocery cost:{" "}
+                              <span className="font-semibold">
+                                {user.grocery}
+                              </span>{" "}
+                              BDT
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    )}
+                  </div>
+                );
+              })}
+          </div>
+          <p className="flex items-center text-sm font-semibold sm:hidden">
+            {totalMeals}
           </p>
-        </div>
+        </>
       );
     },
   },

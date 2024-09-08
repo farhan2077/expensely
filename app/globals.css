@@ -91,22 +91,6 @@ input[type="number"] {
 }
 
 /* -------------- */
-/* custom utility */
-/* -------------- */
-@layer utilities {
-  @media (hover: hover) {
-    .custom__meal-cell {
-      @apply opacity-0 transition-opacity duration-75 group-hover:opacity-100; /* or any Tailwind CSS utility class */
-    }
-  }
-  @media (hover: none) {
-    .custom__meal-cell {
-      @apply block opacity-100; /* Fallback for devices that don't support hover */
-    }
-  }
-}
-
-/* -------------- */
 /* custom classes */
 /* -------------- */
 .custom__animate-spin-infinite {
