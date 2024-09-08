@@ -46,7 +46,7 @@ export function SigninForm() {
             router.push(`/welcome`);
           }
 
-          router.push(`/dashboard/${result.data[0].groupId}`);
+          router.push(`/dashboard/${result.data[0].groupId}` as Route);
         }
       } catch (error) {
         toast.error("Could not fetch room data");
