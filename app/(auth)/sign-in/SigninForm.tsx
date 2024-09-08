@@ -35,30 +35,26 @@ export function SigninForm() {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [passwordFieldType, setPasswordFieldType] = useState("password");
-  const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
     async function handleSuccessfulSignIn() {
       try {
-        const { data: group } = await getUsersGroups();
+        const result = await getUsersGroups();
 
-        if (!group) {
-          router.push("/welcome");
-          return;
+        if (result.success && result.data) {
+          if (result.data.length === 0) {
+            router.push(`/welcome`);
+          }
+
+          router.push(`/dashboard/${result.data[0].groupId}`);
         }
-
-        const targetGroupId = group[0].groupId;
-        const OVERVIEW_LINK = `/dashboard/${targetGroupId}` as Route;
-        router.push(OVERVIEW_LINK);
       } catch (error) {
         toast.error("Could not fetch room data");
       }
     }
 
-    if (isSignedIn) {
-      handleSuccessfulSignIn();
-    }
-  }, [isSignedIn, router]);
+    handleSuccessfulSignIn();
+  }, [router]);
 
   function togglePasswordFieldType() {
     setPasswordFieldType((prevType) =>
@@ -91,7 +87,6 @@ export function SigninForm() {
 
       toast.success(message);
       form.reset();
-      setIsSignedIn(true);
     } catch (error) {
       setIsLoading(false);
       handleError(error);

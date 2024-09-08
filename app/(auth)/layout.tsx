@@ -14,14 +14,12 @@ export default async function AuthLayout({
 }: Readonly<{ children: ReactNode }>) {
   const result = await getUsersGroups();
 
-  if (result.success) {
-    if (!result.data) {
+  if (result.success && result.data) {
+    if (result.data.length === 0) {
       redirect(`/welcome`);
     }
 
-    if (result.data?.length !== 0) {
-      redirect(`/dashboard/${result.data[0].groupId}`);
-    }
+    redirect(`/dashboard/${result.data[0].groupId}`);
   }
 
   return (
