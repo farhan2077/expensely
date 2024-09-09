@@ -117,9 +117,7 @@ export const columns: ColumnDef<DailyActivityRow>[] = [
                 );
               })}
           </div>
-          <p className="flex items-center text-sm font-semibold sm:hidden">
-            {totalMeals}
-          </p>
+          <p className="flex items-center text-sm sm:hidden">{totalMeals}</p>
         </>
       );
     },
