@@ -25,6 +25,7 @@ export default function Note({ currentGroupId }: { currentGroupId: string }) {
     if (isOpen) {
       const storedText = localStorage.getItem(textId);
       setText(storedText || "");
+      setClonedValue(storedText || "");
 
       // `requestAnimationFrame` ensures that the function is called after the browser has finished updating the DOM
       requestAnimationFrame(() => {
@@ -85,7 +86,7 @@ export default function Note({ currentGroupId }: { currentGroupId: string }) {
             data-cloned-val={clonedValue}
           >
             <textarea
-              className="w-full appearance-none rounded border border-neutral-200 bg-background p-2 text-sm focus-visible:outline-none focus-visible:ring-0 dark:border-neutral-800"
+              className="w-full appearance-none rounded border border-neutral-200 bg-background px-2 pt-1.5 text-sm focus-visible:outline-none focus-visible:ring-0 dark:border-neutral-800"
               name="note-textarea"
               id="note-textarea"
               rows={4}
@@ -100,7 +101,7 @@ export default function Note({ currentGroupId }: { currentGroupId: string }) {
           <div className="mt-2 flex items-center gap-1">
             <Info className="h-3 w-3 text-foreground/50" />
             <span className="select-none text-xs text-foreground/50">
-              Notes are autosaved locally
+              Anything you type is autosaved locally
             </span>
           </div>
         </PopoverContent>
