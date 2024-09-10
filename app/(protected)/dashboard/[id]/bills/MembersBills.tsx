@@ -80,7 +80,6 @@ function calcMembersBills(
 }
 
 function MembersBillsDetailsCard({
-  // eslint-disable-next-line no-unused-vars
   id,
   name,
   rent,
@@ -89,7 +88,9 @@ function MembersBillsDetailsCard({
   lastMonthGroceryCost,
   lastMonthTotalMeal,
   lastMonthAvgMealRate,
-}: MembersBillsDetailsCardT) {
+  isAdmin,
+  isEditor,
+}: MembersBillsDetailsCardT & { isAdmin: boolean; isEditor: boolean }) {
   const lastMonthMealBill = Math.ceil(
     lastMonthTotalMeal * lastMonthAvgMealRate
   );
@@ -117,13 +118,15 @@ function MembersBillsDetailsCard({
             {getFirstName(name)}
           </p>
         </CardTitle>
-        <EditMonthlyActivityButton
-          id={id}
-          name={name}
-          prevRent={rent}
-          prevPaid={paid}
-          totalToPay={totalToPay}
-        />
+        {isAdmin || isEditor ? (
+          <EditMonthlyActivityButton
+            id={id}
+            name={name}
+            prevRent={rent}
+            prevPaid={paid}
+            totalToPay={totalToPay}
+          />
+        ) : null}
       </CardHeader>
       <CardContent className="-mt-2">
         <div className="grid gap-2">
@@ -204,9 +207,13 @@ function MembersBillsDetailsCard({
 function MembersBillsDetails({
   membersBillsArray,
   currentMonth,
+  isAdmin,
+  isEditor,
 }: {
   membersBillsArray: MembersBillsDetailsCardT[];
   currentMonth: string;
+  isAdmin: boolean;
+  isEditor: boolean;
 }) {
   return (
     <>
@@ -228,6 +235,8 @@ function MembersBillsDetails({
                 lastMonthGroceryCost={member.lastMonthGroceryCost}
                 lastMonthTotalMeal={member.lastMonthTotalMeal}
                 lastMonthAvgMealRate={member.lastMonthAvgMealRate}
+                isAdmin={isAdmin}
+                isEditor={isEditor}
               />
             );
           })}
@@ -326,6 +335,8 @@ export default async function MembersBills({
         <MembersBillsDetails
           membersBillsArray={membersBillsArray}
           currentMonth={currentMonth}
+          isAdmin={isAdmin}
+          isEditor={isEditor}
         />
       )}
     </>
