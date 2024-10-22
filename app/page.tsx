@@ -39,14 +39,14 @@ export default async function Page() {
       </div>
       <AnimatedElement delay={true} direction="down">
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-xs text-muted-foreground">
-          {/* <p>Currently under active development</p> */}
-          <Suspense
+          <p>Currently under active development</p>
+          {/* <Suspense
             fallback={
               <div className="h-4 w-[200px] animate-pulse rounded bg-muted"></div>
             }
           >
             <LastCommitDate />
-          </Suspense>
+          </Suspense> */}
         </div>
       </AnimatedElement>
     </main>
