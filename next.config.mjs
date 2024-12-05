@@ -29,9 +29,6 @@ const nextConfig = {
         __SENTRY_EXCLUDE_REPLAY_WORKER__: true,
       })
     );
-    if (isServer) {
-      config.devtool = "source-map";
-    }
 
     // Important: return the modified config
     return config;
