@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
+import { Caveat as FontHandwritten, Inter as FontSans } from "next/font/google";
 import Script from "next/script";
 
 import { Toaster } from "sonner";
@@ -19,6 +19,12 @@ import "./globals.css";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
+  preload: true,
+});
+
+const fontHandwritten = FontHandwritten({
+  subsets: ["latin"],
+  variable: "--font-handwritten",
   preload: true,
 });
 
@@ -77,7 +83,8 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-dvh scroll-smooth bg-background font-sans antialiased motion-reduce:scroll-auto",
-          fontSans.variable
+          fontSans.variable,
+          fontHandwritten.variable
         )}
       >
         <ThemeProvider

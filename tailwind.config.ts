@@ -22,6 +22,7 @@ const config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        handwritten: ["var(--font-handwritten)", "Caveat"],
       },
       colors: {
         border: "hsl(var(--border))",
